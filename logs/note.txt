@@ -1,0 +1,3 @@
+Training logs will be put here.
+
+Will include tensorboard log data.

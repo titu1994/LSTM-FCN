@@ -1,0 +1,4 @@
+keras
+scipy
+numpy
+tensorflow-gpu

@@ -1,0 +1,1 @@
+Will contain utility scripts for data set loading, convertion, and static constants and so on.
