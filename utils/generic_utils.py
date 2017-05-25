@@ -20,7 +20,7 @@ def load_dataset_at(index) -> (np.array, np.array):
 
     # extract labels Y and normalize to [0 - (MAX - 1)] range
     labels = df[[0]]
-    labels = labels - 1
+    labels = labels - labels.min()
 
     # drop labels column from train set X
     df.drop(df.columns[0], axis=1, inplace=True)
@@ -43,7 +43,7 @@ def load_dataset_at(index) -> (np.array, np.array):
 
     # extract labels Y and normalize to [0 - (MAX - 1)] range
     labels = df[[0]]
-    labels = labels - 1
+    labels = labels - labels.min()
 
     # drop labels column from train set X
     df.drop(df.columns[0], axis=1, inplace=True)
@@ -66,18 +66,22 @@ def calculate_dataset_metrics(X_train):
 if __name__ == "__main__":
     word_list = []
     seq_len_list = []
+    classes = []
 
     for index in range(17):
         x, y, x_test, y_test = load_dataset_at(index)
         nb_words, seq_len = calculate_dataset_metrics(x)
         print("-" * 80)
         print("Dataset : ", index + 1)
-        print("Train :: X shape : ", x.shape, "Y shape : ", y.shape)
-        print("Test :: X shape : ", x_test.shape, "Y shape : ", y_test.shape)
+        print("Train :: X shape : ", x.shape, "Y shape : ", y.shape, "Nb classes : ", len(np.unique(y)))
+        print("Test :: X shape : ", x_test.shape, "Y shape : ", y_test.shape, "Nb classes : ", len(np.unique(y)))
+        print("Classes : ", np.unique(y))
         print()
 
         word_list.append(nb_words)
         seq_len_list.append(seq_len)
+        classes.append(len(np.unique(y)))
 
     print("Word List : ", word_list)
     print("Sequence length list : ", seq_len_list)
+    print("Max number of classes : ", classes)

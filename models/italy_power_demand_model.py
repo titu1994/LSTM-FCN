@@ -1,7 +1,7 @@
 from keras.models import Model
 from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Embedding, Conv1D, Flatten
 
-from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST
+from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model
 
 DATASET_INDEX = 16
@@ -9,6 +9,7 @@ OUTPUT_DIM = 300
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
+NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
 def generate_model():
     ip = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='int32')
@@ -26,7 +27,7 @@ def generate_model():
     x = PReLU()(x)
     x = Dropout(0.5)(x)
 
-    out = Dense(1, activation='sigmoid')(x)
+    out = Dense(NB_CLASS, activation='softmax')(x)
 
     model = Model(ip, out)
     model.summary()
