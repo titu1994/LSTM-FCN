@@ -1,4 +1,5 @@
-keras
+keras>=2.0.4
 scipy
 numpy
-tensorflow-gpu
+pandas
+tensorflow-gpu>=1.1.0
