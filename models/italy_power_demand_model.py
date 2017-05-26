@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Embedding, Conv1D, Flatten
+from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Embedding, Conv1D, Flatten, Concatenate, GlobalMaxPool1D
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model
@@ -12,6 +12,7 @@ MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
 def generate_model():
+
     ip = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='int32')
 
     embedding = Embedding(input_dim=MAX_NB_WORDS, output_dim=OUTPUT_DIM,
@@ -21,11 +22,11 @@ def generate_model():
 
     x = Dense(1024, activation='linear')(x)
     x = PReLU()(x)
-    x = Dropout(0.5)(x)
+    x = Dropout(0.2)(x)
 
     x = Dense(1024, activation='linear')(x)
     x = PReLU()(x)
-    x = Dropout(0.5)(x)
+    x = Dropout(0.2)(x)
 
     out = Dense(NB_CLASS, activation='softmax')(x)
 
@@ -37,6 +38,6 @@ def generate_model():
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='italy_power_demand', epochs=50, batch_size=16,
+    train_model(model, DATASET_INDEX, dataset_prefix='italy_power_demand', epochs=51, batch_size=16,
                 test_data_subset=1029)
 

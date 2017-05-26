@@ -15,7 +15,7 @@ TRAIN_FILES = ['../data\\Adiac_train__4_true.csv', # 0
                '../data\\ECGFiveDays_train__4_true.csv',  # 13
                '../data\\FaceFour_train__4_true.csv',  # 14
                '../data\\FacesUCR_train__4_true.csv',  # 15
-               '../data\\ItalyPowerDemand_train__12_true.csv']  # 16
+               '../data\\ItalyPowerDemand_train__4_true.csv']  # 16
 
 TEST_FILES = ['../data\\Adiac_test__4_true.csv', # 0
               '../data\\ArrowHead_test__4_true.csv', # 1
@@ -33,7 +33,7 @@ TEST_FILES = ['../data\\Adiac_test__4_true.csv', # 0
               '../data\\ECGFiveDays_test__4_true.csv', # 13
               '../data\\FaceFour_test__4_true.csv', # 14
               '../data\\FacesUCR_test__4_true.csv', # 15
-              '../data\\ItalyPowerDemand_test__12_true.csv'] # 16
+              '../data\\ItalyPowerDemand_test__4_true.csv'] # 16
 
 MAX_NB_WORDS_LIST = [4095, 4095, 4095, 4093, 4093, 4095, 4095, 4095, 4095, 4095, 4095, 4095, 4093, 4095, 4095, 4095, 4095]
 
