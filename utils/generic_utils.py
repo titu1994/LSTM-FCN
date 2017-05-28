@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import os
 
 from utils.constants import TRAIN_FILES, TEST_FILES
 
@@ -7,7 +8,12 @@ def load_dataset_at(index) -> (np.array, np.array):
     assert index < len(TRAIN_FILES), "Index invalid. Could not load dataset at %d" % index
     print("Loading train / test dataset : ", TRAIN_FILES[index], TEST_FILES[index])
 
-    df = pd.read_csv(TRAIN_FILES[index], header=None, encoding='latin-1')
+    if os.path.exists(TRAIN_FILES[index]):
+        df = pd.read_csv(TRAIN_FILES[index], header=None, encoding='latin-1')
+    elif os.path.exists(TRAIN_FILES[index][1:]):
+        df = pd.read_csv(TRAIN_FILES[index][1:], header=None, encoding='latin-1')
+    else:
+        raise FileNotFoundError('File %s not found!' % (TRAIN_FILES[index]))
 
     # remove all columns which are completely empty
     df.dropna(axis=1, how='all', inplace=True)
@@ -30,7 +36,12 @@ def load_dataset_at(index) -> (np.array, np.array):
 
     print("Finished loading train dataset..")
 
-    df = pd.read_csv(TEST_FILES[index], header=None, encoding='latin-1')
+    if os.path.exists(TEST_FILES[index]):
+        df = pd.read_csv(TEST_FILES[index], header=None, encoding='latin-1')
+    elif os.path.exists(TEST_FILES[index][1:]):
+        df = pd.read_csv(TEST_FILES[index][1:], header=None, encoding='latin-1')
+    else:
+        raise FileNotFoundError('File %s not found!' % (TEST_FILES[index]))
 
     # remove all columns which are completely empty
     df.dropna(axis=1, how='all', inplace=True)
@@ -58,7 +69,7 @@ def load_dataset_at(index) -> (np.array, np.array):
 
 def calculate_dataset_metrics(X_train):
     max_sequence_length = X_train.shape[-1]
-    max_nb_words = np.amax(X_train)
+    max_nb_words = np.amax(X_train) + 1
 
     return max_nb_words, max_sequence_length
 
@@ -68,7 +79,7 @@ if __name__ == "__main__":
     seq_len_list = []
     classes = []
 
-    for index in range(17):
+    for index in range(16, 17):
         x, y, x_test, y_test = load_dataset_at(index)
         nb_words, seq_len = calculate_dataset_metrics(x)
         print("-" * 80)
