@@ -1,11 +1,12 @@
 from keras.models import Model
-from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Embedding, Conv1D, Flatten, Concatenate, GlobalMaxPool1D
+from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Embedding, Conv1D, Flatten, Concatenate, \
+                         GlobalMaxPool1D, BatchNormalization
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model
 
 DATASET_INDEX = 16
-OUTPUT_DIM = 500
+OUTPUT_DIM = 1000
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
@@ -18,14 +19,18 @@ def generate_model():
     embedding = Embedding(input_dim=MAX_NB_WORDS, output_dim=OUTPUT_DIM,
                           mask_zero=True, input_length=MAX_SEQUENCE_LENGTH)(ip)
 
-    x = LSTM(128, dropout=0.2, recurrent_dropout=0.2)(embedding)
+    x = LSTM(512, dropout=0.2, recurrent_dropout=0.2)(embedding)
+
+    x = BatchNormalization()(x)
 
     x = Dense(1024, activation='linear')(x)
     x = PReLU()(x)
+
     x = Dropout(0.8)(x)
 
     x = Dense(1024, activation='linear')(x)
     x = PReLU()(x)
+
     x = Dropout(0.8)(x)
 
     out = Dense(NB_CLASS, activation='softmax')(x)
@@ -38,9 +43,9 @@ def generate_model():
 if __name__ == "__main__":
     model = generate_model()
 
-    # train_model(model, DATASET_INDEX, dataset_prefix='italy_power_demand', epochs=101, batch_size=16,
-    #             test_data_subset=1029)
+    #train_model(model, DATASET_INDEX, dataset_prefix='italy_power_demand', epochs=101, batch_size=16,
+    #            test_data_subset=1029)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='italy_power_demand', batch_size=16,
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='italy_power_demand', batch_size=128,
                    test_data_subset=1029)
 

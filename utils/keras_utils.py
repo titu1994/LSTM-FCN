@@ -21,6 +21,10 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
         os.makedirs(logs_dir)
 
     X_train, y_train, X_test, y_test = load_dataset_at(dataset_id)
+    sequence_length = X_train.shape[1]
+
+    if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
+        print("Original sequence length was :", sequence_length, "New sequence Length : ", MAX_SEQUENCE_LENGTH_LIST[dataset_id])
 
     X_train = pad_sequences(X_train, maxlen=MAX_SEQUENCE_LENGTH_LIST[dataset_id], padding='post', truncating='post')
     X_test = pad_sequences(X_test, maxlen=MAX_SEQUENCE_LENGTH_LIST[dataset_id], padding='post', truncating='post')
@@ -45,6 +49,7 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
     callback_list = [model_checkpoint, reduce_lr, tensorboard]
 
     optm = Adam(lr=1e-3)
+
     model.compile(optimizer=optm, loss='categorical_crossentropy', metrics=['accuracy'])
 
     if test_data_subset is not None:
@@ -53,13 +58,6 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
 
     model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, callbacks=callback_list,
               class_weight=class_weight, verbose=2, validation_data=(X_test, y_test))
-
-    model.load_weights("./weights/%s_weights.h5" % dataset_prefix)
-
-    print("\nEvaluating : ")
-    scores = model.evaluate(X_test, y_test, batch_size=batch_size)
-    print()
-    print("Final Scores : ", scores)
 
 
 def evaluate_model(model:Model, dataset_id, dataset_prefix, batch_size=128, test_data_subset=None):

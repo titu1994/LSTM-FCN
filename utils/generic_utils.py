@@ -18,6 +18,11 @@ def load_dataset_at(index) -> (np.array, np.array):
     # remove all columns which are completely empty
     df.dropna(axis=1, how='all', inplace=True)
 
+    data_idx = df.columns[1:]
+    min_val = min(df.loc[:, data_idx].min())
+    if min_val == 0:
+        df.loc[:, data_idx] += 1
+
     # fill all missing columns with 0
     df.fillna(0, inplace=True)
 
@@ -45,6 +50,11 @@ def load_dataset_at(index) -> (np.array, np.array):
 
     # remove all columns which are completely empty
     df.dropna(axis=1, how='all', inplace=True)
+
+    data_idx = df.columns[1:]
+    min_val = min(df.loc[:, data_idx].min())
+    if min_val == 0:
+        df.loc[:, data_idx] += 1
 
     # fill all missing columns with 0
     df.fillna(0, inplace=True)
