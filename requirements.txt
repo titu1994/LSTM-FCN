@@ -2,4 +2,5 @@ keras>=2.0.4
 scipy>=0.19.0
 numpy>=1.13.0
 pandas>=0.19.2
+scikit-learn==0.18.1
 tensorflow-gpu>=1.1.0
