@@ -14,10 +14,6 @@ from utils.constants import MAX_SEQUENCE_LENGTH_LIST
 
 
 def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=128, val_subset=None):
-    logs_dir = "./logs/%s/" % (dataset_prefix)
-
-    if not os.path.exists(logs_dir):
-        os.makedirs(logs_dir)
 
     X_train, y_train, X_test, y_test = load_dataset_at(dataset_id)
     sequence_length = X_train.shape[1]
@@ -42,10 +38,9 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
 
     model_checkpoint = ModelCheckpoint("./weights/%s_weights.h5" % dataset_prefix, verbose=1,
                                        monitor='val_acc', save_best_only=True, save_weights_only=True)
-    tensorboard = TensorBoard(logs_dir, embeddings_freq=5, histogram_freq=5)
     reduce_lr = ReduceLROnPlateau(monitor='val_acc', patience=5, mode='max',
                                   factor=0.79370052598, cooldown=5, min_lr=1e-6, verbose=2) # cube root of 2
-    callback_list = [model_checkpoint, reduce_lr, tensorboard]
+    callback_list = [model_checkpoint, reduce_lr]
 
     optm = Adam(lr=1e-3)
 
