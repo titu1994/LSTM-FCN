@@ -13,7 +13,7 @@ from utils.generic_utils import load_dataset_at
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST
 
 
-def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=128, test_data_subset=None):
+def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=128, val_subset=None):
     logs_dir = "./logs/%s/" % (dataset_prefix)
 
     if not os.path.exists(logs_dir):
@@ -51,9 +51,9 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
 
     model.compile(optimizer=optm, loss='categorical_crossentropy', metrics=['accuracy'])
 
-    if test_data_subset is not None:
-        X_test = X_test[:test_data_subset]
-        y_test = y_test[:test_data_subset]
+    if val_subset is not None:
+        X_test = X_test[:val_subset]
+        y_test = y_test[:val_subset]
 
     model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, callbacks=callback_list,
               class_weight=class_weight, verbose=1, validation_data=(X_test, y_test))
