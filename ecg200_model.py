@@ -6,7 +6,7 @@ from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLAS
 from utils.keras_utils import train_model, evaluate_model
 
 DATASET_INDEX = 12
-OUTPUT_DIM = 1000
+OUTPUT_DIM = 2000
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
@@ -43,7 +43,7 @@ def generate_model():
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='ecg200', epochs=101, batch_size=128,
+    train_model(model, DATASET_INDEX, dataset_prefix='ecg200', epochs=60, batch_size=128,
                 test_data_subset=100)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='ecg200', batch_size=128,

@@ -1,7 +1,6 @@
 import os
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
-from sklearn.utils.class_weight import compute_class_weight
 
 from keras.models import Model
 from keras.optimizers import Adam, Adadelta
