@@ -18,7 +18,7 @@ def generate_model():
     ip = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='int32')
 
     embedding = Embedding(input_dim=MAX_NB_WORDS, output_dim=OUTPUT_DIM, weights=[load_embeddings('ecg200')],
-                          mask_zero=True, input_length=MAX_SEQUENCE_LENGTH, trainable=False)(ip)
+                          mask_zero=True, input_length=MAX_SEQUENCE_LENGTH, trainable=True)(ip)
 
     x = LSTM(512, dropout=0.2, recurrent_dropout=0.2)(embedding)
 
