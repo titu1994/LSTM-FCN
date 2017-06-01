@@ -4,6 +4,7 @@ import os
 
 from utils.constants import TRAIN_FILES, TEST_FILES
 
+
 def load_dataset_at(index) -> (np.array, np.array):
     assert index < len(TRAIN_FILES), "Index invalid. Could not load dataset at %d" % index
     print("Loading train / test dataset : ", TRAIN_FILES[index], TEST_FILES[index])

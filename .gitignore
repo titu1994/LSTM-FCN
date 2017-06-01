@@ -1,2 +1,4 @@
 data/*
 weights/*
+embeddings/*.txt
+embeddings/*.npy
