@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import h5py
 
 from gensim.models import Word2Vec
 from utils.generic_utils import load_dataset_at
@@ -100,10 +101,20 @@ def __load_embeddings(dataset_prefix, txt_path, npy_path, verbose=False):
         return embedding_matrix
 
 
-if __name__ == "__main__":
-    create_vectors(dataset_id=2, embedding_size=300, dataset_prefix='beef')
+def extract_embeddings(dataset_prefix, weights_path):
+    f = h5py.File(weights_path)
+    g = f['embedding_1']
+    embedding_layer_name = str(g.attrs['weight_names'], encoding='utf8')
+    weights = g[embedding_layer_name][:]
 
-    load_embeddings(dataset_prefix='beef')
+    print("Embedding extracted and saved")
+    np.save('./embeddings/%s_vectors.npy' % (dataset_prefix), weights)
+
+
+if __name__ == "__main__":
+    create_vectors(dataset_id=17, embedding_size=300, dataset_prefix='sony_aibo')
+
+    load_embeddings(dataset_prefix='sony_aibo')
 
 
 
