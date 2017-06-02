@@ -3,6 +3,4 @@ scipy
 numpy
 pandas
 scikit-learn
-gensim
-word2vec
 tensorflow-gpu>=1.1.0

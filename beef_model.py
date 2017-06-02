@@ -4,7 +4,6 @@ from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Embedding, Conv1D, F
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model
-from utils.embedding_utils import load_embeddings
 
 DATASET_INDEX = 2
 OUTPUT_DIM = 300
@@ -17,8 +16,8 @@ def generate_model():
 
     ip = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='int32')
 
-    embedding = Embedding(input_dim=MAX_NB_WORDS, output_dim=OUTPUT_DIM, weights=[load_embeddings('beef')],
-                          mask_zero=True, input_length=MAX_SEQUENCE_LENGTH, trainable=True)(ip)
+    embedding = Embedding(input_dim=MAX_NB_WORDS, output_dim=OUTPUT_DIM,
+                          mask_zero=True, input_length=MAX_SEQUENCE_LENGTH)(ip)
 
     x = LSTM(128, dropout=0.2, recurrent_dropout=0.2)(embedding)
 

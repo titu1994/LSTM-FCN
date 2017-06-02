@@ -90,7 +90,7 @@ if __name__ == "__main__":
     seq_len_list = []
     classes = []
 
-    for index in range(17, 18):
+    for index in range(18, 19):
         x, y, x_test, y_test = load_dataset_at(index)
         nb_words, seq_len = calculate_dataset_metrics(x)
         print("-" * 80)

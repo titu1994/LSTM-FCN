@@ -19,7 +19,8 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
     sequence_length = X_train.shape[1]
 
     if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
-        print("Original sequence length was :", sequence_length, "New sequence Length : ", MAX_SEQUENCE_LENGTH_LIST[dataset_id])
+        print("Original sequence length was :", sequence_length, "New sequence Length will be : ", MAX_SEQUENCE_LENGTH_LIST[dataset_id])
+        input('Press enter to acknowledge this and continue : ')
 
     X_train = pad_sequences(X_train, maxlen=MAX_SEQUENCE_LENGTH_LIST[dataset_id], padding='post', truncating='post')
     X_test = pad_sequences(X_test, maxlen=MAX_SEQUENCE_LENGTH_LIST[dataset_id], padding='post', truncating='post')

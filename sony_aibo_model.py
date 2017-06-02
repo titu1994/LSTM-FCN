@@ -5,7 +5,7 @@ from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Embedding, Conv1D, F
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model
 
-DATASET_INDEX = 12
+DATASET_INDEX = 17
 OUTPUT_DIM = 1000
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
@@ -38,16 +38,13 @@ def generate_model():
     model = Model(ip, out)
     model.summary()
 
-    model.load_weights('./weights/ecg200_weights.h5')
-
     return model
 
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='ecg200', epochs=101, batch_size=128,
-                val_subset=100)
+    #train_model(model, DATASET_INDEX, dataset_prefix='sony_aibo', epochs=101, batch_size=16,
+    #            val_subset=601)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='ecg200', batch_size=128,
-                   test_data_subset=100)
-
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='sony_aibo', batch_size=128,
+                test_data_subset=601)

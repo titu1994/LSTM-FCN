@@ -16,7 +16,8 @@ TRAIN_FILES = ['../data\\Adiac_train__4_true.csv', # 0
                '../data\\FaceFour_train__4_true.csv',  # 14
                '../data\\FacesUCR_train__4_true.csv',  # 15
                '../data\\ItalyPowerDemand_train__4_2_true.csv', # 16
-               '../data\\SonyAIBORobotSurface_train__4_2_true.csv',# 17
+               '../data\\SonyAIBORobotSurface_train__4_2_true.csv', # 17
+               '../data\\SonyAIBORobotSurfaceII_train__4_2_true.csv', # 18
                ]
 
 TEST_FILES = ['../data\\Adiac_test__4_true.csv', # 0
@@ -36,7 +37,8 @@ TEST_FILES = ['../data\\Adiac_test__4_true.csv', # 0
               '../data\\FaceFour_test__4_true.csv', # 14
               '../data\\FacesUCR_test__4_true.csv', # 15
               '../data\\ItalyPowerDemand_test__4_2_true.csv', # 16
-              '../data\\SonyAIBORobotSurface_test__4_2_true.csv',# 17
+              '../data\\SonyAIBORobotSurface_test__4_2_true.csv', # 17
+              '../data\\SonyAIBORobotSurfaceII_test__4_2_true.csv', # 18
               ]
 
 MAX_NB_WORDS_LIST = [4097, # 0
@@ -57,6 +59,7 @@ MAX_NB_WORDS_LIST = [4097, # 0
                      4097, # 15
                      17, # 16
                      17, # 17
+                     17, # 18
                      ]
 
 MAX_SEQUENCE_LENGTH_LIST = [167, # 0
@@ -77,6 +80,7 @@ MAX_SEQUENCE_LENGTH_LIST = [167, # 0
                             122, # 15
                             14, # 16
                             61, # 17
+                            56, #18
                             ]
 
 NB_CLASSES_LIST = [37, # 0
@@ -97,4 +101,5 @@ NB_CLASSES_LIST = [37, # 0
                    14, # 15
                    2, # 16
                    2, # 17
+                   2, # 18
                    ]
