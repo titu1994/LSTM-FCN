@@ -8,9 +8,9 @@ TRAIN_FILES = ['../data\\Adiac_train__4_true.csv', # 0
                '../data\\CBF_train__4_true.csv',  # 6
                '../data\\Coffee_train__4_true.csv',  # 7
                '../data\\DiatomSizeReduction_train__4_true.csv',  # 8
-               '../data\\DistalPhalanxOutlineAgeGroup_train__4_true.csv',  # 9
-               '../data\\DistalPhalanxOutlineCorrect_train__4_true.csv',  # 10
-               '../data\\DistalPhalanxTW_train__4_true.csv',  # 11
+               '../data\\DistalPhalanxOutlineAgeGroup_train__4_2_true.csv',  # 9
+               '../data\\DistalPhalanxOutlineCorrect_train__4_2_true.csv',  # 10
+               '../data\\DistalPhalanxTW_train__4_2_true.csv',  # 11
                '../data\\ECG200_train__4_2_true.csv',  # 12
                '../data\\ECGFiveDays_train__4_true.csv',  # 13
                '../data\\FaceFour_train__4_true.csv',  # 14
@@ -18,7 +18,6 @@ TRAIN_FILES = ['../data\\Adiac_train__4_true.csv', # 0
                '../data\\ItalyPowerDemand_train__4_2_true.csv', # 16
                '../data\\SonyAIBORobotSurface_train__4_2_true.csv', # 17
                '../data\\SonyAIBORobotSurfaceII_train__4_2_true.csv', # 18
-               '../data\\DistalPhalanxOutlineAgeGroup_train__4_2_true.csv', # 19
                ]
 
 TEST_FILES = ['../data\\Adiac_test__4_true.csv', # 0
@@ -30,9 +29,9 @@ TEST_FILES = ['../data\\Adiac_test__4_true.csv', # 0
               '../data\\CBF_test__4_true.csv', # 6
               '../data\\Coffee_test__4_true.csv', # 7
               '../data\\DiatomSizeReduction_test__4_true.csv', # 8
-              '../data\\DistalPhalanxOutlineAgeGroup_test__4_true.csv', # 9
-              '../data\\DistalPhalanxOutlineCorrect_test__4_true.csv', # 10
-              '../data\\DistalPhalanxTW_test__4_true.csv', # 11
+              '../data\\DistalPhalanxOutlineAgeGroup_test__4_2_true.csv', # 9
+              '../data\\DistalPhalanxOutlineCorrect_train__4_2_true.csv', # 10
+              '../data\\DistalPhalanxTW_test__4_2_true.csv', # 11
               '../data\\ECG200_test__4_2_true.csv', # 12
               '../data\\ECGFiveDays_test__4_true.csv', # 13
               '../data\\FaceFour_test__4_true.csv', # 14
@@ -40,7 +39,6 @@ TEST_FILES = ['../data\\Adiac_test__4_true.csv', # 0
               '../data\\ItalyPowerDemand_test__4_2_true.csv', # 16
               '../data\\SonyAIBORobotSurface_test__4_2_true.csv', # 17
               '../data\\SonyAIBORobotSurfaceII_test__4_2_true.csv', # 18
-              '../data\\DistalPhalanxOutlineAgeGroup_test__4_2_true.csv', # 19
               ]
 
 MAX_NB_WORDS_LIST = [4097, # 0
@@ -52,9 +50,9 @@ MAX_NB_WORDS_LIST = [4097, # 0
                      4097, # 6
                      4097, # 7
                      4097, # 8
-                     4097, # 9
-                     4097, # 10
-                     4097, # 11
+                     17, # 9
+                     17, # 10
+                     17, # 11
                      17, # 12
                      4097, # 13
                      4097, # 14
@@ -62,7 +60,6 @@ MAX_NB_WORDS_LIST = [4097, # 0
                      17, # 16
                      17, # 17
                      17, # 18
-                     17, # 19
                      ]
 
 MAX_SEQUENCE_LENGTH_LIST = [167, # 0
@@ -84,7 +81,6 @@ MAX_SEQUENCE_LENGTH_LIST = [167, # 0
                             14, # 16
                             61, # 17
                             56, # 18
-                            71, # 19
                             ]
 
 NB_CLASSES_LIST = [37, # 0
@@ -106,5 +102,4 @@ NB_CLASSES_LIST = [37, # 0
                    2, # 16
                    2, # 17
                    2, # 18
-                   3, # 19
                    ]

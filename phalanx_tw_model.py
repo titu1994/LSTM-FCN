@@ -5,7 +5,7 @@ from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Embedding, Conv1D, F
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model
 
-DATASET_INDEX = 9
+DATASET_INDEX = 11
 OUTPUT_DIM = 1000
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
@@ -36,15 +36,16 @@ def generate_model():
     model = Model(ip, out)
     model.summary()
 
+
     return model
 
 if __name__ == "__main__":
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='phalanx_age_group', epochs=101, batch_size=32,
+    #train_model(model, DATASET_INDEX, dataset_prefix='phalanx_tw', epochs=101, batch_size=64,
     #            val_subset=139)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='phalanx_age_group', batch_size=128,
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='phalanx_tw', batch_size=128,
                   test_data_subset=139)
 
 

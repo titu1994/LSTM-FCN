@@ -43,7 +43,7 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
                                   factor=0.79370052598, cooldown=5, min_lr=1e-6, verbose=2) # cube root of 2
     callback_list = [model_checkpoint, reduce_lr]
 
-    optm = Adam(lr=1e-4)
+    optm = Adam(lr=1e-3)
 
     model.compile(optimizer=optm, loss='categorical_crossentropy', metrics=['accuracy'])
 
