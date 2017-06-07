@@ -30,7 +30,7 @@ TEST_FILES = ['../data\\Adiac_test__4_true.csv', # 0
               '../data\\Coffee_test__4_true.csv', # 7
               '../data\\DiatomSizeReduction_test__4_true.csv', # 8
               '../data\\DistalPhalanxOutlineAgeGroup_test__4_2_true.csv', # 9
-              '../data\\DistalPhalanxOutlineCorrect_train__4_2_true.csv', # 10
+              '../data\\DistalPhalanxOutlineCorrect_test__4_2_true.csv', # 10
               '../data\\DistalPhalanxTW_test__4_2_true.csv', # 11
               '../data\\ECG200_test__4_2_true.csv', # 12
               '../data\\ECGFiveDays_test__4_true.csv', # 13
