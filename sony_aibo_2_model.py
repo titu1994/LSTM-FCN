@@ -1,6 +1,5 @@
 from keras.models import Model
-from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Embedding, Conv1D, Flatten, Concatenate, \
-                         GlobalMaxPool1D, BatchNormalization
+from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Embedding, BatchNormalization
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model
