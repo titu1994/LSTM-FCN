@@ -18,6 +18,9 @@ TRAIN_FILES = ['../data\\Adiac_train__4_true.csv', # 0
                '../data\\ItalyPowerDemand_train__4_2_true.csv', # 16
                '../data\\SonyAIBORobotSurface_train__4_2_true.csv', # 17
                '../data\\SonyAIBORobotSurfaceII_train__4_2_true.csv', # 18
+               '../data\\MiddlePhalanxOutlineAgeGroup_train__4_2_true.csv', # 19
+               '../data\\MiddlePhalanxOutlineCorrect_train__4_2_true.csv', # 20
+               '../data\\MiddlePhalanxTW_train__4_2_true.csv', # 21
                ]
 
 TEST_FILES = ['../data\\Adiac_test__4_true.csv', # 0
@@ -39,6 +42,9 @@ TEST_FILES = ['../data\\Adiac_test__4_true.csv', # 0
               '../data\\ItalyPowerDemand_test__4_2_true.csv', # 16
               '../data\\SonyAIBORobotSurface_test__4_2_true.csv', # 17
               '../data\\SonyAIBORobotSurfaceII_test__4_2_true.csv', # 18
+              '../data\\MiddlePhalanxOutlineAgeGroup_test__4_2_true.csv', # 19
+              '../data\\MiddlePhalanxOutlineCorrect_test__4_2_true.csv', # 20
+              '../data\\MiddlePhalanxTW_test__4_2_true.csv', # 21
               ]
 
 MAX_NB_WORDS_LIST = [4097, # 0
@@ -60,6 +66,9 @@ MAX_NB_WORDS_LIST = [4097, # 0
                      17, # 16
                      17, # 17
                      17, # 18
+                     17, # 19
+                     17, # 20
+                     17, # 21
                      ]
 
 MAX_SEQUENCE_LENGTH_LIST = [167, # 0
@@ -81,6 +90,9 @@ MAX_SEQUENCE_LENGTH_LIST = [167, # 0
                             14, # 16
                             61, # 17
                             56, # 18
+                            71, # 19
+                            71, # 20
+                            71, # 21
                             ]
 
 NB_CLASSES_LIST = [37, # 0
@@ -102,4 +114,7 @@ NB_CLASSES_LIST = [37, # 0
                    2, # 16
                    2, # 17
                    2, # 18
+                   3, # 19
+                   2, # 20
+                   6, # 21
                    ]
