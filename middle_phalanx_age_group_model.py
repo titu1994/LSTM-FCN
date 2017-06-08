@@ -41,8 +41,8 @@ def generate_model():
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='middle_phalanx_age_group', epochs=101, batch_size=128,
-                val_subset=154)
+    #train_model(model, DATASET_INDEX, dataset_prefix='middle_phalanx_age_group', epochs=25, batch_size=128,
+    #            val_subset=154)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='middle_phalanx_age_group', batch_size=128,
                   test_data_subset=154)
