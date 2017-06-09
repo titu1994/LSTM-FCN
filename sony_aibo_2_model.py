@@ -42,7 +42,7 @@ def generate_model():
 if __name__ == "__main__":
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='sony_aibo_2', epochs=101, batch_size=16,
+    #train_model(model, DATASET_INDEX, dataset_prefix='sony_aibo_2', epochs=50, batch_size=16,
     #            val_subset=953)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='sony_aibo_2', batch_size=128,

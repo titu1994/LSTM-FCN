@@ -40,7 +40,7 @@ def generate_model():
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='middle_phalanx_outline', epochs=101, batch_size=128,
+    train_model(model, DATASET_INDEX, dataset_prefix='middle_phalanx_outline', epochs=100, batch_size=128,
                 val_subset=291)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='middle_phalanx_outline', batch_size=128,

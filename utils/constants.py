@@ -21,6 +21,11 @@ TRAIN_FILES = ['../data\\Adiac_train__4_true.csv', # 0
                '../data\\MiddlePhalanxOutlineAgeGroup_train__4_2_true.csv', # 19
                '../data\\MiddlePhalanxOutlineCorrect_train__4_2_true.csv', # 20
                '../data\\MiddlePhalanxTW_train__4_2_true.csv', # 21
+               '../data\\ProximalPhalanxOutlineAgeGroup_train__4_2_true.csv', # 22
+               '../data\\ProximalPhalanxOutlineCorrect_train__4_2_true.csv', # 23
+               '../data\\ProximalPhalanxTW_train__4_2_true.csv', # 24
+               '../data\\MoteStrain_train__4_2_true.csv', # 25
+               '../data\\MedicalImages_train__4_2_true.csv', # 26
                ]
 
 TEST_FILES = ['../data\\Adiac_test__4_true.csv', # 0
@@ -45,6 +50,11 @@ TEST_FILES = ['../data\\Adiac_test__4_true.csv', # 0
               '../data\\MiddlePhalanxOutlineAgeGroup_test__4_2_true.csv', # 19
               '../data\\MiddlePhalanxOutlineCorrect_test__4_2_true.csv', # 20
               '../data\\MiddlePhalanxTW_test__4_2_true.csv', # 21
+              '../data\\ProximalPhalanxOutlineAgeGroup_test__4_2_true.csv', # 22
+              '../data\\ProximalPhalanxOutlineCorrect_test__4_2_true.csv', # 23
+              '../data\\ProximalPhalanxTW_test__4_2_true.csv', # 24
+              '../data\\MoteStrain_test__4_2_true.csv', # 25
+              '../data\\MedicalImages_test__4_2_true.csv', # 26
               ]
 
 MAX_NB_WORDS_LIST = [4097, # 0
@@ -69,6 +79,11 @@ MAX_NB_WORDS_LIST = [4097, # 0
                      17, # 19
                      17, # 20
                      17, # 21
+                     17, # 22
+                     17, # 23
+                     17, # 24
+                     17, # 25
+                     17, # 26
                      ]
 
 MAX_SEQUENCE_LENGTH_LIST = [167, # 0
@@ -93,6 +108,11 @@ MAX_SEQUENCE_LENGTH_LIST = [167, # 0
                             71, # 19
                             71, # 20
                             71, # 21
+                            71, # 22
+                            71, # 23
+                            71, # 24
+                            75, # 25
+                            90, # 26
                             ]
 
 NB_CLASSES_LIST = [37, # 0
@@ -117,4 +137,9 @@ NB_CLASSES_LIST = [37, # 0
                    3, # 19
                    2, # 20
                    6, # 21
+                   3, # 22
+                   2, # 23
+                   6, # 24
+                   2, # 25
+                   10, # 26
                    ]
