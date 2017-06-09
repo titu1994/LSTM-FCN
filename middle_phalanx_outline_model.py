@@ -40,8 +40,10 @@ def generate_model():
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='middle_phalanx_outline', epochs=100, batch_size=128,
-                val_subset=291)
+    # Use a high learning rate here, Adam with 5e-3 rather than 1e-3
+
+    #train_model(model, DATASET_INDEX, dataset_prefix='middle_phalanx_outline', epochs=100, batch_size=128,
+    #            val_subset=291)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='middle_phalanx_outline', batch_size=128,
                   test_data_subset=291)

@@ -42,6 +42,8 @@ def generate_model():
 if __name__ == "__main__":
     model = generate_model()
 
+    # use Large model here (2000 embedding space, 1024 LSTM cells)
+
     #train_model(model, DATASET_INDEX, dataset_prefix='sony_aibo_2', epochs=50, batch_size=16,
     #            val_subset=953)
 
