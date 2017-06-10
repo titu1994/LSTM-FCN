@@ -6,3 +6,4 @@ Difficult Datasets :
 2) Sony AIBO 1 - restart multiple times
 3) Distal phalanx age group - restart multiple times.
 4) Mote Strain - many restarts. Fine tune to 91%.
+5) Proximal phalanx - multiple restarts, multiple finetuning attempts.
