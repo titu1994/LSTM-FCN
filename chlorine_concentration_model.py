@@ -5,7 +5,7 @@ from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLAS
 from utils.keras_utils import train_model, evaluate_model
 
 DATASET_INDEX = 2
-OUTPUT_DIM = 300
+OUTPUT_DIM = 1000
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
@@ -18,7 +18,7 @@ def generate_model():
     embedding = Embedding(input_dim=MAX_NB_WORDS, output_dim=OUTPUT_DIM,
                           mask_zero=True, input_length=MAX_SEQUENCE_LENGTH)(ip)
 
-    x = LSTM(128, dropout=0.2, recurrent_dropout=0.2)(embedding)
+    x = LSTM(512, dropout=0.2, recurrent_dropout=0.2)(embedding)
 
     x = BatchNormalization()(x)
 
@@ -42,9 +42,10 @@ def generate_model():
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='beef', epochs=101, batch_size=128,
-                val_subset=30)
+    train_model(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', epochs=100, batch_size=128,
+                val_subset=3840)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='beef', batch_size=128,
-                   test_data_subset=30)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', batch_size=128,
+                  test_data_subset=3840)
+
 

@@ -1,11 +1,11 @@
 
-TRAIN_FILES = ['../data\\Adiac_train__4_true.csv', # 0
-               '../data\\ArrowHead_train__4_true.csv',  # 1
-               '../data\\Beef_train__4_2_true.csv',  # 2
-               '../data\\BeetleFly_train__4_true.csv',  # 3
-               '../data\\BirdChicken_train__4_true.csv',  # 4
-               '../data\\Car_train__4_true.csv',  # 5
-               '../data\\CBF_train__4_true.csv',  # 6
+TRAIN_FILES = ['../data\\Adiac_train__4_2_true.csv', # 0
+               '../data\\ArrowHead_train__4_2_true.csv',  # 1
+               '../data\\ChlorineConcentration_train__4_2_true.csv',  # 2
+               '../data\\InsectWingbeatSound_train__4_2_true.csv',  # 3
+               '../data\\Lighting7_train__4_2_true.csv',  # 4
+               '../data\\Wine_train__4_2_true.csv',  # 5
+               '../data\\WordsSynonyms_train__4_2_true.csv',  # 6
                '../data\\Coffee_train__4_true.csv',  # 7
                '../data\\DiatomSizeReduction_train__4_true.csv',  # 8
                '../data\\DistalPhalanxOutlineAgeGroup_train__4_2_true.csv',  # 9
@@ -28,13 +28,13 @@ TRAIN_FILES = ['../data\\Adiac_train__4_true.csv', # 0
                '../data\\MedicalImages_train__4_2_true.csv', # 26
                ]
 
-TEST_FILES = ['../data\\Adiac_test__4_true.csv', # 0
-              '../data\\ArrowHead_test__4_true.csv', # 1
-              '../data\\Beef_test__4_2_true.csv', # 2
-              '../data\\BeetleFly_test__4_true.csv', # 3
-              '../data\\BirdChicken_test__4_true.csv', # 4
-              '../data\\Car_test__4_true.csv', # 5
-              '../data\\CBF_test__4_true.csv', # 6
+TEST_FILES = ['../data\\Adiac_test__4_2_true.csv', # 0
+              '../data\\ArrowHead_test__4_2_true.csv', # 1
+              '../data\\ChlorineConcentration_test__4_2_true.csv', # 2
+              '../data\\InsectWingbeatSound_test__4_2_true.csv', # 3
+              '../data\\Lighting7_test__4_2_true.csv', # 4
+              '../data\\Wine_test__4_2_true.csv', # 5
+              '../data\\WordsSynonyms_test__4_2_true.csv', # 6
               '../data\\Coffee_test__4_true.csv', # 7
               '../data\\DiatomSizeReduction_test__4_true.csv', # 8
               '../data\\DistalPhalanxOutlineAgeGroup_test__4_2_true.csv', # 9
@@ -57,13 +57,13 @@ TEST_FILES = ['../data\\Adiac_test__4_true.csv', # 0
               '../data\\MedicalImages_test__4_2_true.csv', # 26
               ]
 
-MAX_NB_WORDS_LIST = [4097, # 0
-                     4096, # 1
+MAX_NB_WORDS_LIST = [17, # 0
+                     17, # 1
                      17, # 2
-                     4095, # 3
-                     4095, # 4
-                     4097, # 5
-                     4097, # 6
+                     17, # 3
+                     17, # 4
+                     17, # 5
+                     17, # 6
                      4097, # 7
                      4097, # 8
                      17, # 9
@@ -88,11 +88,11 @@ MAX_NB_WORDS_LIST = [4097, # 0
 
 MAX_SEQUENCE_LENGTH_LIST = [167, # 0
                             242, # 1
-                            160, # 2
-                            503, # 3
-                            503, # 4
-                            568, # 5
-                            119, # 6
+                            157, # 2
+                            247, # 3
+                            310, # 4
+                            225, # 5
+                            261, # 6
                             277, # 7
                             336, # 8
                             71, # 9
@@ -117,11 +117,11 @@ MAX_SEQUENCE_LENGTH_LIST = [167, # 0
 
 NB_CLASSES_LIST = [37, # 0
                    3, # 1
-                   5, # 2
-                   2, # 3
-                   2, # 4
-                   4, # 5
-                   3, # 6
+                   3, # 2
+                   11, # 3
+                   7, # 4
+                   2, # 5
+                   25, # 6
                    2, # 7
                    4, # 8
                    3, # 9
