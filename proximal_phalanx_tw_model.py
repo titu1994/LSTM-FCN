@@ -40,8 +40,8 @@ def generate_model():
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='proximal_phalanx_tw', epochs=25, batch_size=128,
-                val_subset=205)
+    #train_model(model, DATASET_INDEX, dataset_prefix='proximal_phalanx_tw', epochs=100, batch_size=128,
+    #            val_subset=205)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='proximal_phalanx_tw', batch_size=128,
                   test_data_subset=205)
