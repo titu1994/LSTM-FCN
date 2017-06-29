@@ -42,7 +42,7 @@ def generate_model():
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='adiac', epochs=100, batch_size=128,
+    train_model(model, DATASET_INDEX, dataset_prefix='adiac', epochs=100, batch_size=512,
                 val_subset=391)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='adiac', batch_size=128,
