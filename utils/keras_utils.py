@@ -74,3 +74,16 @@ def evaluate_model(model:Model, dataset_id, dataset_prefix, batch_size=128, test
     scores = model.evaluate(X_test, y_test, batch_size=batch_size)
     print()
     print("Final Scores : ", scores)
+
+
+def set_trainable(layer, value):
+   layer.trainable = value
+
+   # case: container
+   if hasattr(layer, 'layers'):
+       for l in layer.layers:
+           set_trainable(l, value)
+
+   # case: wrapper (which is a case not covered by the PR)
+   if hasattr(layer, 'layer'):
+        set_trainable(layer.layer, value)
