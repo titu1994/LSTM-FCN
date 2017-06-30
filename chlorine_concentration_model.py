@@ -1,8 +1,9 @@
 from keras.models import Model
 from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Embedding, BatchNormalization, Bidirectional
+from keras.layers import multiply
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
-from utils.keras_utils import train_model, evaluate_model, set_trainable
+from utils.keras_utils import train_model, evaluate_model, set_trainable, MaskedPermute
 
 DATASET_INDEX = 2
 OUTPUT_DIM = 1000
@@ -18,6 +19,8 @@ def generate_model():
 
     embedding = Embedding(input_dim=MAX_NB_WORDS, output_dim=OUTPUT_DIM,
                           mask_zero=True, input_length=MAX_SEQUENCE_LENGTH)(ip)
+
+    embedding = attention_block(embedding)
 
     x = Bidirectional(LSTM(256, dropout=0.2, recurrent_dropout=0.2, trainable=TRAINABLE))(embedding)
 
@@ -43,6 +46,17 @@ def generate_model():
     model.summary()
 
     return model
+
+
+def attention_block(inputs):
+    # input shape: (batch_size, time_step, input_dim)
+    # input shape: (batch_size, max_sequence_length, lstm_output_dim)
+    x = MaskedPermute((2, 1))(inputs) # (batch_size, lstm_output_dim, max_sequence_length)
+    x = Dense(MAX_SEQUENCE_LENGTH, activation='softmax', name='attention_dense')(x)
+    x = MaskedPermute((2, 1), name='attention_vector')(x) # (batch_size, max_sequence_length, lstm_output_dim)
+    x = multiply([inputs, x])
+    return x
+
 
 if __name__ == "__main__":
     model = generate_model()

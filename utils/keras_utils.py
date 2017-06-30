@@ -3,7 +3,8 @@ import numpy as np
 from sklearn.preprocessing import LabelEncoder
 
 from keras.models import Model
-from keras.optimizers import Adam, Adadelta
+from keras.layers import Permute
+from keras.optimizers import Adam
 from keras.utils import to_categorical
 from keras.preprocessing.sequence import pad_sequences
 from keras.callbacks import ModelCheckpoint, TensorBoard, ReduceLROnPlateau
@@ -87,3 +88,10 @@ def set_trainable(layer, value):
    # case: wrapper (which is a case not covered by the PR)
    if hasattr(layer, 'layer'):
         set_trainable(layer.layer, value)
+
+
+class MaskedPermute(Permute):
+
+    def __init__(self, dims, **kwargs):
+        super(MaskedPermute, self).__init__(dims, **kwargs)
+        self.supports_masking = True
