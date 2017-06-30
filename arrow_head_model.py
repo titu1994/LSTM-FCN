@@ -6,7 +6,7 @@ from utils.keras_utils import train_model, evaluate_model, set_trainable
 
 DATASET_INDEX = 1
 OUTPUT_DIM = 1000
-TRAINABLE = False
+TRAINABLE = True
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
