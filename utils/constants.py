@@ -1,9 +1,9 @@
 
-TRAIN_FILES = ['../data\\Adiac_train__4_2_true.csv', # 0
+TRAIN_FILES = ['../data\\Adiac_TRAIN', # 0
                '../data\\ArrowHead_TRAIN',  # 1
-               '../data\\ChlorineConcentration_train__4_2_true.csv',  # 2
-               '../data\\InsectWingbeatSound_train__4_2_true.csv',  # 3
-               '../data\\Lighting7_train__4_2_true.csv',  # 4
+               '../data\\ChlorineConcentration_TRAIN',  # 2
+               '../data\\InsectWingbeatSound_TRAIN',  # 3
+               '../data\\Lighting7_TRAIN',  # 4
                '../data\\Wine_train1__4_2_true.csv',  # 5
                '../data\\WordsSynonyms_train__4_2_true.csv',  # 6
                '../data\\Coffee_train__4_true.csv',  # 7
@@ -28,11 +28,11 @@ TRAIN_FILES = ['../data\\Adiac_train__4_2_true.csv', # 0
                '../data\\MedicalImages_train__4_2_true.csv', # 26
                ]
 
-TEST_FILES = ['../data\\Adiac_test__4_2_true.csv', # 0
+TEST_FILES = ['../data\\Adiac_TEST', # 0
               '../data\\ArrowHead_TEST', # 1
-              '../data\\ChlorineConcentration_test__4_2_true.csv', # 2
-              '../data\\InsectWingbeatSound_test__4_2_true.csv', # 3
-              '../data\\Lighting7_test__4_2_true.csv', # 4
+              '../data\\ChlorineConcentration_TEST', # 2
+              '../data\\InsectWingbeatSound_TEST', # 3
+              '../data\\Lighting7_TEST', # 4
               '../data\\Wine_test__12_2_true.csv', # 5
               '../data\\WordsSynonyms_test__4_2_true.csv', # 6
               '../data\\Coffee_test__4_true.csv', # 7
@@ -86,11 +86,11 @@ MAX_NB_WORDS_LIST = [17, # 0
                      17, # 26
                      ]
 
-MAX_SEQUENCE_LENGTH_LIST = [167, # 0
+MAX_SEQUENCE_LENGTH_LIST = [176, # 0
                             251, # 1
-                            157, # 2
-                            247, # 3
-                            310, # 4
+                            166, # 2
+                            256, # 3
+                            319, # 4
                             225, # 5
                             261, # 6
                             277, # 7
