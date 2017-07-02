@@ -7,24 +7,25 @@ from keras.layers import Permute
 from keras.optimizers import Adam
 from keras.utils import to_categorical
 from keras.preprocessing.sequence import pad_sequences
-from keras.callbacks import ModelCheckpoint, TensorBoard, ReduceLROnPlateau
+from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
+from keras import backend as K
 
-from utils.generic_utils import load_dataset_at
-
+from utils.generic_utils import load_dataset_at, calculate_dataset_metrics
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST
 
 
 def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=128, val_subset=None):
 
-    X_train, y_train, X_test, y_test = load_dataset_at(dataset_id)
-    sequence_length = X_train.shape[1]
+    X_train, y_train, X_test, y_test, is_timeseries = load_dataset_at(dataset_id)
+    max_nb_words, sequence_length = calculate_dataset_metrics(X_train)
 
     if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
         print("Original sequence length was :", sequence_length, "New sequence Length will be : ", MAX_SEQUENCE_LENGTH_LIST[dataset_id])
         input('Press enter to acknowledge this and continue : ')
 
-    X_train = pad_sequences(X_train, maxlen=MAX_SEQUENCE_LENGTH_LIST[dataset_id], padding='post', truncating='post')
-    X_test = pad_sequences(X_test, maxlen=MAX_SEQUENCE_LENGTH_LIST[dataset_id], padding='post', truncating='post')
+    if not is_timeseries:
+        X_train = pad_sequences(X_train, maxlen=MAX_SEQUENCE_LENGTH_LIST[dataset_id], padding='post', truncating='post')
+        X_test = pad_sequences(X_test, maxlen=MAX_SEQUENCE_LENGTH_LIST[dataset_id], padding='post', truncating='post')
 
     classes = np.unique(y_train)
     le = LabelEncoder()
@@ -57,9 +58,10 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
 
 
 def evaluate_model(model:Model, dataset_id, dataset_prefix, batch_size=128, test_data_subset=None):
-    X_train, y_train, X_test, y_test = load_dataset_at(dataset_id)
+    X_train, y_train, X_test, y_test, is_timeseries = load_dataset_at(dataset_id)
 
-    X_test = pad_sequences(X_test, maxlen=MAX_SEQUENCE_LENGTH_LIST[dataset_id], padding='post', truncating='post')
+    if not is_timeseries:
+        X_test = pad_sequences(X_test, maxlen=MAX_SEQUENCE_LENGTH_LIST[dataset_id], padding='post', truncating='post')
     y_test = to_categorical(y_test, len(np.unique(y_test)))
 
     optm = Adam(lr=1e-3)
@@ -88,6 +90,67 @@ def set_trainable(layer, value):
    # case: wrapper (which is a case not covered by the PR)
    if hasattr(layer, 'layer'):
         set_trainable(layer.layer, value)
+
+
+def build_function(model, layer_name=None):
+    inp = model.input
+    if layer_name is None:
+        outputs = [layer.output for layer in model.layers] # all layer outputs
+    else:
+        outputs = [layer.output for layer in model.layers if layer.name == layer_name]
+
+    funcs = [K.function([inp] + [K.learning_phase()], [out]) for out in outputs]  # evaluation functions
+    return funcs
+
+
+def get_activations(model, inputs, eval_functions, layer_name=None):
+    # Documentation is available online on Github at the address below.
+    # From: https://github.com/philipperemy/keras-attention-mechanism/blob/master/attention_utils.py
+    # From: https://github.com/philipperemy/keras-visualize-activations
+    print('----- activations -----')
+    activations = []
+    layer_outputs = [func([inputs, 1.])[0] for func in eval_functions]
+    for layer_activations in layer_outputs:
+        activations.append(layer_activations)
+    return activations
+
+
+def visualise_attention(model:Model, dataset_index, dataset_prefix, layer_name):
+    _, _, X_test, _, is_timeseries = load_dataset_at(dataset_index)
+
+    model.load_weights("./weights/%s_weights.h5" % dataset_prefix)
+
+    eval_functions = build_function(model, layer_name)
+    attention_vectors = []
+
+    for i in range(X_test.shape[0]):
+        print(X_test[i, :, :][np.newaxis, ...].shape)
+        attention_vector = np.mean(get_activations(model,
+                                                   X_test[i, :, :][np.newaxis, ...],
+                                                   eval_functions,
+                                                   layer_name=layer_name)[0], axis=1).squeeze()
+
+        print('attention =', attention_vector)
+        assert (np.sum(attention_vector) - 1.0) < 1e-5
+        attention_vectors.append(attention_vector)
+
+    attention_vectors = np.array(attention_vectors)
+    print(attention_vectors.shape)
+    attention_vector_final = np.mean(attention_vectors, axis=0)
+
+    # plot part.
+    import matplotlib.pyplot as plt
+    import pandas as pd
+
+    df = pd.DataFrame({'attention (%)': attention_vector_final},
+                      index=range(attention_vector_final.shape[0]))
+    print(df.info())
+
+    df['attention (%)'].plot(kind='bar',
+            title='Attention Mechanism as '
+            'a function of input'
+            ' dimensions.')
+    plt.show()
 
 
 class MaskablePermute(Permute):

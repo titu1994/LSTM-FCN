@@ -1,6 +1,6 @@
 
 TRAIN_FILES = ['../data\\Adiac_train__4_2_true.csv', # 0
-               '../data\\ArrowHead_train__4_2_true.csv',  # 1
+               '../data\\ArrowHead_TRAIN',  # 1
                '../data\\ChlorineConcentration_train__4_2_true.csv',  # 2
                '../data\\InsectWingbeatSound_train__4_2_true.csv',  # 3
                '../data\\Lighting7_train__4_2_true.csv',  # 4
@@ -29,7 +29,7 @@ TRAIN_FILES = ['../data\\Adiac_train__4_2_true.csv', # 0
                ]
 
 TEST_FILES = ['../data\\Adiac_test__4_2_true.csv', # 0
-              '../data\\ArrowHead_test__4_2_true.csv', # 1
+              '../data\\ArrowHead_TEST', # 1
               '../data\\ChlorineConcentration_test__4_2_true.csv', # 2
               '../data\\InsectWingbeatSound_test__4_2_true.csv', # 3
               '../data\\Lighting7_test__4_2_true.csv', # 4
@@ -87,7 +87,7 @@ MAX_NB_WORDS_LIST = [17, # 0
                      ]
 
 MAX_SEQUENCE_LENGTH_LIST = [167, # 0
-                            242, # 1
+                            251, # 1
                             157, # 2
                             247, # 3
                             310, # 4
