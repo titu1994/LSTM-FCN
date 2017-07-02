@@ -1,4 +1,4 @@
-tensorflow-gpu>=1.1.0
+tensorflow-gpu>=1.2.0
 keras
 scipy
 numpy
