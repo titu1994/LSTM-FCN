@@ -1,6 +1,7 @@
+tensorflow-gpu>=1.1.0
 keras
 scipy
 numpy
 pandas
 scikit-learn
-tensorflow-gpu>=1.1.0
+phased_lstm_keras

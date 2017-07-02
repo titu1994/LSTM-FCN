@@ -90,8 +90,8 @@ def set_trainable(layer, value):
         set_trainable(layer.layer, value)
 
 
-class MaskedPermute(Permute):
+class MaskablePermute(Permute):
 
     def __init__(self, dims, **kwargs):
-        super(MaskedPermute, self).__init__(dims, **kwargs)
+        super(MaskablePermute, self).__init__(dims, **kwargs)
         self.supports_masking = True

@@ -4,7 +4,7 @@ TRAIN_FILES = ['../data\\Adiac_train__4_2_true.csv', # 0
                '../data\\ChlorineConcentration_train__4_2_true.csv',  # 2
                '../data\\InsectWingbeatSound_train__4_2_true.csv',  # 3
                '../data\\Lighting7_train__4_2_true.csv',  # 4
-               '../data\\Wine_train__4_2_true.csv',  # 5
+               '../data\\Wine_train1__4_2_true.csv',  # 5
                '../data\\WordsSynonyms_train__4_2_true.csv',  # 6
                '../data\\Coffee_train__4_true.csv',  # 7
                '../data\\DiatomSizeReduction_train__4_true.csv',  # 8
@@ -33,7 +33,7 @@ TEST_FILES = ['../data\\Adiac_test__4_2_true.csv', # 0
               '../data\\ChlorineConcentration_test__4_2_true.csv', # 2
               '../data\\InsectWingbeatSound_test__4_2_true.csv', # 3
               '../data\\Lighting7_test__4_2_true.csv', # 4
-              '../data\\Wine_test__4_2_true.csv', # 5
+              '../data\\Wine_test__12_2_true.csv', # 5
               '../data\\WordsSynonyms_test__4_2_true.csv', # 6
               '../data\\Coffee_test__4_true.csv', # 7
               '../data\\DiatomSizeReduction_test__4_true.csv', # 8
@@ -62,7 +62,7 @@ MAX_NB_WORDS_LIST = [17, # 0
                      17, # 2
                      17, # 3
                      17, # 4
-                     17, # 5
+                     257, # 5
                      17, # 6
                      4097, # 7
                      4097, # 8
