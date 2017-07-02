@@ -48,12 +48,6 @@ def attention_block(inputs):
     # input shape: (batch_size, max_sequence_length, lstm_output_dim)
     x = Dense(MAX_SEQUENCE_LENGTH, activation='softmax', name='attention_dense')(inputs)
     x = multiply([inputs, x])
-    x = Dense(MAX_SEQUENCE_LENGTH, activation='softmax', name='attention_dense')(inputs)
-    x = multiply([inputs, x])
-    # x = Dense(MAX_SEQUENCE_LENGTH, activation='softmax', name='attention_dense')(inputs)
-    # x = multiply([inputs, x])
-    # x = Dense(MAX_SEQUENCE_LENGTH, activation='softmax', name='attention_dense')(inputs)
-    # x = multiply([inputs, x])
     return x
 
 
