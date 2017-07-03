@@ -16,18 +16,26 @@ from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
 from keras.wrappers.scikit_learn import KerasClassifier
 from keras import backend as K
 
-from utils.generic_utils import load_dataset_at, calculate_dataset_metrics
+from utils.generic_utils import load_dataset_at, calculate_dataset_metrics, cutoff_choice, cutoff_sequence
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST
 
 
-def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=128, val_subset=None):
-
+def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=128, val_subset=None,
+                cutoff=None):
     X_train, y_train, X_test, y_test, is_timeseries = load_dataset_at(dataset_id)
     max_nb_words, sequence_length = calculate_dataset_metrics(X_train)
 
     if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
-        print("Original sequence length was :", sequence_length, "New sequence Length will be : ", MAX_SEQUENCE_LENGTH_LIST[dataset_id])
-        input('Press enter to acknowledge this and continue : ')
+        if cutoff is None:
+            choice = cutoff_choice(dataset_id, sequence_length)
+        else:
+            assert cutoff in ['pre', 'post'], 'Cutoff parameter value must be either "pre" or "post"'
+            choice = cutoff
+
+        if choice not in ['pre', 'post']:
+            return
+        else:
+            X_train, X_test = cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length)
 
     if not is_timeseries:
         X_train = pad_sequences(X_train, maxlen=MAX_SEQUENCE_LENGTH_LIST[dataset_id], padding='post', truncating='post')
@@ -63,8 +71,22 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
               class_weight=class_weight, verbose=1, validation_data=(X_test, y_test))
 
 
-def evaluate_model(model:Model, dataset_id, dataset_prefix, batch_size=128, test_data_subset=None):
-    X_train, y_train, X_test, y_test, is_timeseries = load_dataset_at(dataset_id)
+def evaluate_model(model:Model, dataset_id, dataset_prefix, batch_size=128, test_data_subset=None,
+                   cutoff=None):
+    _, _, X_test, y_test, is_timeseries = load_dataset_at(dataset_id)
+    max_nb_words, sequence_length = calculate_dataset_metrics(X_test)
+
+    if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
+        if cutoff is None:
+            choice = cutoff_choice(dataset_id, sequence_length)
+        else:
+            assert cutoff in ['pre', 'post'], 'Cutoff parameter value must be either "pre" or "post"'
+            choice = cutoff
+
+        if choice not in ['pre', 'post']:
+            return
+        else:
+            _, X_test = cutoff_sequence(None, X_test, choice, dataset_id, sequence_length)
 
     if not is_timeseries:
         X_test = pad_sequences(X_test, maxlen=MAX_SEQUENCE_LENGTH_LIST[dataset_id], padding='post', truncating='post')
@@ -85,9 +107,23 @@ def evaluate_model(model:Model, dataset_id, dataset_prefix, batch_size=128, test
     print("Final Accuracy : ", accuracy)
 
 
-def hyperparameter_search_over_model(model_gen, dataset_id, param_grid):
+def hyperparameter_search_over_model(model_gen, dataset_id, param_grid, cutoff=None):
 
     X_train, y_train, _, _, is_timeseries = load_dataset_at(dataset_id)
+    max_nb_words, sequence_length = calculate_dataset_metrics(X_train)
+
+    if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
+        if cutoff is None:
+            choice = cutoff_choice(dataset_id, sequence_length)
+        else:
+            assert cutoff in ['pre', 'post'], 'Cutoff parameter value must be either "pre" or "post"'
+            choice = cutoff
+
+        if choice not in ['pre', 'post']:
+            return
+        else:
+            X_train, _ = cutoff_sequence(X_train, None, choice, dataset_id, sequence_length)
+
     if not is_timeseries:
         print("Model hyper parameters can only be searched for time series models")
         return
@@ -155,8 +191,22 @@ def get_activations(model, inputs, eval_functions, layer_name=None, verbose=Fals
     return activations
 
 
-def visualise_attention(model:Model, dataset_index, dataset_prefix, layer_name, print_attention=False):
-    _, _, X_test, _, is_timeseries = load_dataset_at(dataset_index)
+def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cutoff=None,
+                        print_attention=False):
+    _, _, X_test, _, is_timeseries = load_dataset_at(dataset_id)
+    max_nb_words, sequence_length = calculate_dataset_metrics(X_test)
+
+    if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
+        if cutoff is None:
+            choice = cutoff_choice(dataset_id, sequence_length)
+        else:
+            assert cutoff in ['pre', 'post'], 'Cutoff parameter value must be either "pre" or "post"'
+            choice = cutoff
+
+        if choice not in ['pre', 'post']:
+            return
+        else:
+            _, X_test = cutoff_sequence(None, X_test, choice, dataset_id, sequence_length)
 
     model.load_weights("./weights/%s_weights.h5" % dataset_prefix)
 
@@ -164,7 +214,7 @@ def visualise_attention(model:Model, dataset_index, dataset_prefix, layer_name, 
     attention_vectors = []
 
     for i in range(X_test.shape[0]):
-        print(X_test[i, :, :][np.newaxis, ...].shape)
+        if print_attention: print(X_test[i, :, :][np.newaxis, ...].shape)
         attention_vector = np.mean(get_activations(model,
                                                    X_test[i, :, :][np.newaxis, ...],
                                                    eval_functions,

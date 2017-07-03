@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import os
 
-from utils.constants import TRAIN_FILES, TEST_FILES
+from utils.constants import TRAIN_FILES, TEST_FILES, MAX_SEQUENCE_LENGTH_LIST
 
 
 def load_dataset_at(index) -> (np.array, np.array):
@@ -155,28 +155,59 @@ def plot_dataset(dataset_index, seed=None, limit=None):
 
     plt.show()
 
+
+def cutoff_choice(dataset_id, sequence_length):
+    print("Original sequence length was :", sequence_length, "New sequence Length will be : ",
+          MAX_SEQUENCE_LENGTH_LIST[dataset_id])
+    choice = input('Options : \n'
+                   '`pre` - cut the sequence from the beginning\n'
+                   '`post`- cut the sequence from the end\n'
+                   '`anything else` - stop execution\n'
+                   'Choice = ')
+
+    choice = str(choice).lower()
+    return choice
+
+
+def cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length):
+    assert MAX_SEQUENCE_LENGTH_LIST[dataset_id] < sequence_length, "If sequence is to be cut, max sequence" \
+                                                                   "length must be less than original sequence length."
+    cutoff = sequence_length - MAX_SEQUENCE_LENGTH_LIST[dataset_id]
+    if choice == 'pre':
+        if X_train is not None:
+            X_train = X_train[:, :, cutoff:]
+        if X_test is not None:
+            X_test = X_test[:, :, cutoff:]
+    else:
+        if X_train is not None:
+            X_train = X_train[:, :, :cutoff]
+        if X_test is not None:
+            X_test = X_test[:, :, :cutoff]
+    print("New sequence length :", MAX_SEQUENCE_LENGTH_LIST[dataset_id])
+    return X_train, X_test
+
 if __name__ == "__main__":
-    word_list = []
-    seq_len_list = []
-    classes = []
+    # word_list = []
+    # seq_len_list = []
+    # classes = []
+    #
+    # for index in range(10, 11):
+    #     x, y, x_test, y_test, is_timeseries = load_dataset_at(index)
+    #     nb_words, seq_len = calculate_dataset_metrics(x)
+    #     print("-" * 80)
+    #     print("Dataset : ", index + 1)
+    #     print("Train :: X shape : ", x.shape, "Y shape : ", y.shape, "Nb classes : ", len(np.unique(y)))
+    #     print("Test :: X shape : ", x_test.shape, "Y shape : ", y_test.shape, "Nb classes : ", len(np.unique(y)))
+    #     print("Classes : ", np.unique(y))
+    #     print()
+    #
+    #     word_list.append(nb_words)
+    #     seq_len_list.append(seq_len)
+    #     classes.append(len(np.unique(y)))
+    #
+    # print("Word List : ", word_list)
+    # print("Sequence length list : ", seq_len_list)
+    # print("Max number of classes : ", classes)
 
-    for index in range(10, 11):
-        x, y, x_test, y_test, is_timeseries = load_dataset_at(index)
-        nb_words, seq_len = calculate_dataset_metrics(x)
-        print("-" * 80)
-        print("Dataset : ", index + 1)
-        print("Train :: X shape : ", x.shape, "Y shape : ", y.shape, "Nb classes : ", len(np.unique(y)))
-        print("Test :: X shape : ", x_test.shape, "Y shape : ", y_test.shape, "Nb classes : ", len(np.unique(y)))
-        print("Classes : ", np.unique(y))
-        print()
-
-        word_list.append(nb_words)
-        seq_len_list.append(seq_len)
-        classes.append(len(np.unique(y)))
-
-    print("Word List : ", word_list)
-    print("Sequence length list : ", seq_len_list)
-    print("Max number of classes : ", classes)
-
-    #print()
-    #plot_dataset(dataset_index=10, seed=1, limit=20)
+    print()
+    plot_dataset(dataset_index=4, seed=1, limit=None)
