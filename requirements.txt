@@ -3,6 +3,7 @@ keras
 scipy
 numpy
 pandas
-scikit-learn
+scikit-learn>-0.18.2
+h5py
 matplotlib
 phased_lstm_keras

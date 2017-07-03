@@ -3,14 +3,16 @@ from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multi
 from keras import backend as K
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
-from utils.keras_utils import train_model, evaluate_model, visualise_attention
+from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention
 
 DATASET_INDEX = 10
-TRAINABLE = True
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
+
+ATTENTION_CONCAT_AXIS = 1 # 1 = temporal, -1 = spatial
+TRAINABLE = True
 
 
 def generate_model():
@@ -18,7 +20,7 @@ def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH,))
 
     a = attention_block(ip, id=1)
-    x = concatenate([ip, a], axis=1)
+    x = concatenate([ip, a], axis=ATTENTION_CONCAT_AXIS)
 
     x = Bidirectional(LSTM(512, trainable=TRAINABLE))(x)
 
@@ -33,6 +35,10 @@ def generate_model():
     out = Dense(NB_CLASS, activation='softmax')(x)
 
     model = Model(ip, out)
+
+    for layer in model.layers[:-4]:
+        set_trainable(layer, TRAINABLE)
+
     model.summary()
 
     return model
@@ -56,4 +62,4 @@ if __name__ == "__main__":
     evaluate_model(model, DATASET_INDEX, dataset_prefix='phalanx_outline_timesequence', batch_size=128,
                   test_data_subset=276)
 
-    #visualise_attention(model, DATASET_INDEX, 'phalanx_outline_timesequence', layer_name='attention_dense_1')
+    visualise_attention(model, DATASET_INDEX, 'phalanx_outline_timesequence', layer_name='attention_dense_1')

@@ -58,8 +58,8 @@ def attention_block(inputs, id):
 if __name__ == "_ _main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', epochs=100, batch_size=32,
-                val_subset=3840)
+    #train_model(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', epochs=100, batch_size=32,
+    #            val_subset=3840)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', batch_size=128,
                   test_data_subset=3840)
