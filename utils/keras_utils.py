@@ -143,11 +143,11 @@ def build_function(model, layer_name=None):
     return funcs
 
 
-def get_activations(model, inputs, eval_functions, layer_name=None):
+def get_activations(model, inputs, eval_functions, layer_name=None, verbose=False):
     # Documentation is available online on Github at the address below.
     # From: https://github.com/philipperemy/keras-attention-mechanism/blob/master/attention_utils.py
     # From: https://github.com/philipperemy/keras-visualize-activations
-    print('----- activations -----')
+    if verbose: print('----- activations -----')
     activations = []
     layer_outputs = [func([inputs, 1.])[0] for func in eval_functions]
     for layer_activations in layer_outputs:
@@ -168,14 +168,14 @@ def visualise_attention(model:Model, dataset_index, dataset_prefix, layer_name, 
         attention_vector = np.mean(get_activations(model,
                                                    X_test[i, :, :][np.newaxis, ...],
                                                    eval_functions,
-                                                   layer_name=layer_name)[0], axis=1).squeeze()
+                                                   layer_name=layer_name,
+                                                   verbose=print_attention)[0], axis=1).squeeze()
 
         if print_attention: print('attention =', attention_vector)
         assert (np.sum(attention_vector) - 1.0) < 1e-5
         attention_vectors.append(attention_vector)
 
     attention_vectors = np.array(attention_vectors)
-    print(attention_vectors.shape)
     attention_vector_final = np.mean(attention_vectors, axis=0)
 
     # plot part.
