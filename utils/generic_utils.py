@@ -108,16 +108,30 @@ def calculate_dataset_metrics(X_train):
     return max_nb_words, max_sequence_length
 
 
-def plot_dataset(dataset_index, seed=None, limit=None):
+def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None):
     import matplotlib.pylab as plt
     np.random.seed(seed)
 
-    X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_index)
+    X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id)
 
     if not is_timeseries:
         print("Can plot time series input data only!\n"
               "Continuing without plot!")
         return
+
+    max_nb_words, sequence_length = calculate_dataset_metrics(X_train)
+
+    if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
+        if cutoff is None:
+            choice = cutoff_choice(dataset_id, sequence_length)
+        else:
+            assert cutoff in ['pre', 'post'], 'Cutoff parameter value must be either "pre" or "post"'
+            choice = cutoff
+
+        if choice not in ['pre', 'post']:
+            return
+        else:
+            X_train, X_test = cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length)
 
     if limit is None:
         train_size = X_train.shape[0]
@@ -186,6 +200,7 @@ def cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length):
     print("New sequence length :", MAX_SEQUENCE_LENGTH_LIST[dataset_id])
     return X_train, X_test
 
+
 if __name__ == "__main__":
     # word_list = []
     # seq_len_list = []
@@ -210,4 +225,4 @@ if __name__ == "__main__":
     # print("Max number of classes : ", classes)
 
     print()
-    plot_dataset(dataset_index=4, seed=1, limit=None)
+    plot_dataset(dataset_id=4, seed=1, limit=None, cutoff='pre')
