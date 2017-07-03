@@ -155,7 +155,7 @@ def get_activations(model, inputs, eval_functions, layer_name=None):
     return activations
 
 
-def visualise_attention(model:Model, dataset_index, dataset_prefix, layer_name):
+def visualise_attention(model:Model, dataset_index, dataset_prefix, layer_name, print_attention=False):
     _, _, X_test, _, is_timeseries = load_dataset_at(dataset_index)
 
     model.load_weights("./weights/%s_weights.h5" % dataset_prefix)
@@ -170,7 +170,7 @@ def visualise_attention(model:Model, dataset_index, dataset_prefix, layer_name):
                                                    eval_functions,
                                                    layer_name=layer_name)[0], axis=1).squeeze()
 
-        print('attention =', attention_vector)
+        if print_attention: print('attention =', attention_vector)
         assert (np.sum(attention_vector) - 1.0) < 1e-5
         attention_vectors.append(attention_vector)
 
