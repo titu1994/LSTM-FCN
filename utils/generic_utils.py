@@ -178,5 +178,5 @@ if __name__ == "__main__":
     print("Sequence length list : ", seq_len_list)
     print("Max number of classes : ", classes)
 
-    print()
-    plot_dataset(dataset_index=10, seed=1, limit=20)
+    #print()
+    #plot_dataset(dataset_index=10, seed=1, limit=20)
