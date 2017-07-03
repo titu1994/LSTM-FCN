@@ -46,6 +46,8 @@ def load_dataset_at(index) -> (np.array, np.array):
 
     if is_timeseries:
         X_train = X_train[:, np.newaxis, :]
+        # scale the values
+        #X_train = (X_train - X_train.min(axis=0)) / (X_train.max(axis=0) - X_train.min(axis=0))
 
     print("Finished loading train dataset..")
 
@@ -84,6 +86,8 @@ def load_dataset_at(index) -> (np.array, np.array):
 
     if is_timeseries:
         X_test = X_test[:, np.newaxis, :]
+        # scale the values
+        #X_test = (X_test - X_test.min(axis=0)) / (X_test.max(axis=0) - X_test.min(axis=0))
 
     print("Finished loading test dataset..")
 
@@ -104,25 +108,67 @@ def calculate_dataset_metrics(X_train):
     return max_nb_words, max_sequence_length
 
 
+def plot_dataset(dataset_index, seed=None):
+    import matplotlib.pylab as plt
+    np.random.seed(seed)
+
+    X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_index)
+
+    if not is_timeseries:
+        print("Can plot time series input data only!\n"
+              "Continuing without plot!")
+        return
+
+    train_idx = np.random.randint(0, X_train.shape[0], size=10)
+    X_train = X_train[train_idx, 0, :]
+
+    test_idx = np.random.randint(0, X_test.shape[0], size=10)
+    X_test = X_test[test_idx, 0, :]
+
+    print(X_train.shape)
+
+    X_train = X_train.transpose((1, 0))
+    X_test = X_test.transpose((1, 0))
+
+    train_df = pd.DataFrame(X_train,
+                            index=range(X_train.shape[0]),
+                            columns=range(X_train.shape[1]))
+
+    test_df = pd.DataFrame(X_test,
+                           index=range(X_test.shape[0]),
+                           columns=range(X_test.shape[1]))
+
+    train_df.plot(title='Train dataset',
+                  subplots=False,
+                  legend=None)
+
+    test_df.plot(title='Test dataset',
+                 subplots=False,
+                 legend=None)
+
+    plt.show()
+
 if __name__ == "__main__":
-    word_list = []
-    seq_len_list = []
-    classes = []
+    # word_list = []
+    # seq_len_list = []
+    # classes = []
+    #
+    # for index in range(4, 5):
+    #     x, y, x_test, y_test, is_timeseries = load_dataset_at(index)
+    #     nb_words, seq_len = calculate_dataset_metrics(x)
+    #     print("-" * 80)
+    #     print("Dataset : ", index + 1)
+    #     print("Train :: X shape : ", x.shape, "Y shape : ", y.shape, "Nb classes : ", len(np.unique(y)))
+    #     print("Test :: X shape : ", x_test.shape, "Y shape : ", y_test.shape, "Nb classes : ", len(np.unique(y)))
+    #     print("Classes : ", np.unique(y))
+    #     print()
+    #
+    #     word_list.append(nb_words)
+    #     seq_len_list.append(seq_len)
+    #     classes.append(len(np.unique(y)))
+    #
+    # print("Word List : ", word_list)
+    # print("Sequence length list : ", seq_len_list)
+    # print("Max number of classes : ", classes)
 
-    for index in range(4, 5):
-        x, y, x_test, y_test, is_timeseries = load_dataset_at(index)
-        nb_words, seq_len = calculate_dataset_metrics(x)
-        print("-" * 80)
-        print("Dataset : ", index + 1)
-        print("Train :: X shape : ", x.shape, "Y shape : ", y.shape, "Nb classes : ", len(np.unique(y)))
-        print("Test :: X shape : ", x_test.shape, "Y shape : ", y_test.shape, "Nb classes : ", len(np.unique(y)))
-        print("Classes : ", np.unique(y))
-        print()
-
-        word_list.append(nb_words)
-        seq_len_list.append(seq_len)
-        classes.append(len(np.unique(y)))
-
-    print("Word List : ", word_list)
-    print("Sequence length list : ", seq_len_list)
-    print("Max number of classes : ", classes)
+    plot_dataset(dataset_index=1, seed=1)
