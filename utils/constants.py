@@ -9,7 +9,7 @@ TRAIN_FILES = ['../data\\Adiac_TRAIN', # 0
                '../data\\Coffee_train__4_true.csv',  # 7
                '../data\\DiatomSizeReduction_train__4_true.csv',  # 8
                '../data\\DistalPhalanxOutlineAgeGroup_train__4_2_true.csv',  # 9
-               '../data\\DistalPhalanxOutlineCorrect_train__4_2_true.csv',  # 10
+               '../data\\DistalPhalanxOutlineCorrect_TEST',  # 10
                '../data\\DistalPhalanxTW_train__4_2_true.csv',  # 11
                '../data\\ECG200_train__4_2_true.csv',  # 12
                '../data\\ECGFiveDays_train__4_true.csv',  # 13
@@ -38,7 +38,7 @@ TEST_FILES = ['../data\\Adiac_TEST', # 0
               '../data\\Coffee_test__4_true.csv', # 7
               '../data\\DiatomSizeReduction_test__4_true.csv', # 8
               '../data\\DistalPhalanxOutlineAgeGroup_test__4_2_true.csv', # 9
-              '../data\\DistalPhalanxOutlineCorrect_test__4_2_true.csv', # 10
+              '../data\\DistalPhalanxOutlineCorrect_TRAIN', # 10 (inverted dataset)
               '../data\\DistalPhalanxTW_test__4_2_true.csv', # 11
               '../data\\ECG200_test__4_2_true.csv', # 12
               '../data\\ECGFiveDays_test__4_true.csv', # 13
@@ -96,7 +96,7 @@ MAX_SEQUENCE_LENGTH_LIST = [176, # 0
                             277, # 7
                             336, # 8
                             71, # 9
-                            71, # 10
+                            80, # 10
                             71, # 11
                             70, # 12
                             127, # 13

@@ -17,18 +17,18 @@ def generate_model():
 
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
-    x = attention_block(ip)
-    x = concatenate([ip, x], axis=-1)
+    a = attention_block(ip, id=1)
+    x = concatenate([ip, a], axis=-1)
 
-    x = Bidirectional(LSTM(512, trainable=TRAINABLE))(x)
+    x = Bidirectional(LSTM(128, trainable=TRAINABLE))(x)
     #x = PhasedLSTM(512)(x)
 
-    x = Dense(1024, activation='linear')(x)
-    x = PReLU()(x)
-    x = Dropout(0.2)(x)
+    # x = Dense(1024, activation='linear')(x)
+    # x = PReLU()(x)
+    # x = Dropout(0.2)(x)
 
-    x = Dense(1024, activation='linear')(x)
-    x = PReLU()(x)
+    # x = Dense(1024, activation='linear')(x)
+    # x = PReLU()(x)
     x = Dropout(0.2)(x)
 
     out = Dense(NB_CLASS, activation='softmax')(x)
@@ -43,10 +43,11 @@ def generate_model():
     return model
 
 
-def attention_block(inputs):
+def attention_block(inputs, id):
     # input shape: (batch_size, time_step, input_dim)
     # input shape: (batch_size, max_sequence_length, lstm_output_dim)
-    x = Dense(MAX_SEQUENCE_LENGTH, activation='softmax', name='attention_dense')(inputs)
+    input_dim = K.int_shape(inputs)[-1]
+    x = Dense(input_dim, activation='softmax', name='attention_dense_%d' % id)(inputs)
     x = multiply([inputs, x])
     return x
 
@@ -56,7 +57,7 @@ def gridsearch_model_gen(lstm_cells=512, dense_neurons=1024, dropout=0.2):
 
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
-    x = attention_block(ip)
+    x = attention_block(ip, 1)
     x = concatenate([ip, x], axis=-1)
 
     x = Bidirectional(LSTM(lstm_cells, trainable=TRAINABLE))(x)
@@ -78,22 +79,22 @@ def gridsearch_model_gen(lstm_cells=512, dense_neurons=1024, dropout=0.2):
 
 
 if __name__ == "__main__":
-    #model = generate_model()
+    model = generate_model()
 
-    # train_model(model, DATASET_INDEX, dataset_prefix='arrow_head', epochs=100, batch_size=128,
-    #             val_subset=175)
-    #
-    # evaluate_model(model, DATASET_INDEX, dataset_prefix='arrow_head', batch_size=128,
-    #               test_data_subset=175)
+    train_model(model, DATASET_INDEX, dataset_prefix='arrow_head', epochs=150, batch_size=128,
+                val_subset=175)
+
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='arrow_head', batch_size=128,
+                  test_data_subset=175)
 
     #visualise_attention(model, DATASET_INDEX, dataset_prefix='arrow_head', layer_name='attention_dense')
 
-    hyperparameter_search_over_model(gridsearch_model_gen, DATASET_INDEX,
-                                     param_grid={
-                                         'lstm_cells':[32, 64, 128, 256, 384, 512, 1024],
-                                         'dense_neurons': [128, 256, 512, 1024, 2048, 4096],
-                                         'dropout': [0.2, 0.5, 0.8],
-                                     })
+    # hyperparameter_search_over_model(gridsearch_model_gen, DATASET_INDEX,
+    #                                  param_grid={
+    #                                      'lstm_cells':[32, 64, 128, 256, 384, 512, 1024],
+    #                                      'dense_neurons': [128, 256, 512, 1024, 2048, 4096],
+    #                                      'dropout': [0.2, 0.5, 0.8],
+    #                                  })
 
 
 
