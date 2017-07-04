@@ -6,15 +6,15 @@ TRAIN_FILES = ['../data\\Adiac_TRAIN', # 0
                '../data\\Lighting7_TRAIN',  # 4
                '../data\\Wine_TRAIN',  # 5
                '../data\\WordsSynonyms_TRAIN',  # 6
-               '../data\\Coffee_train__4_true.csv',  # 7
-               '../data\\DiatomSizeReduction_train__4_true.csv',  # 8
+               '../data\\50words_TRAIN',  # 7
+               '../data\\Beef_TRAIN',  # 8
                '../data\\DistalPhalanxOutlineAgeGroup_train__4_2_true.csv',  # 9
                '../data\\DistalPhalanxOutlineCorrect_TEST',  # 10
                '../data\\DistalPhalanxTW_train__4_2_true.csv',  # 11
                '../data\\ECG200_train__4_2_true.csv',  # 12
                '../data\\ECGFiveDays_train__4_true.csv',  # 13
-               '../data\\FaceFour_train__4_true.csv',  # 14
-               '../data\\FacesUCR_train__4_true.csv',  # 15
+               '../data\\BeetleFly_TRAIN',  # 14
+               '../data\\BirdChicken_TRAIN',  # 15
                '../data\\ItalyPowerDemand_train__4_2_true.csv', # 16
                '../data\\SonyAIBORobotSurface_train__4_2_true.csv', # 17
                '../data\\SonyAIBORobotSurfaceII_train__4_2_true.csv', # 18
@@ -35,15 +35,15 @@ TEST_FILES = ['../data\\Adiac_TEST', # 0
               '../data\\Lighting7_TEST', # 4
               '../data\\Wine_TEST', # 5
               '../data\\WordsSynonyms_TEST', # 6
-              '../data\\Coffee_test__4_true.csv', # 7
-              '../data\\DiatomSizeReduction_test__4_true.csv', # 8
+              '../data\\50words_TEST', # 7
+              '../data\\Beef_TEST', # 8
               '../data\\DistalPhalanxOutlineAgeGroup_test__4_2_true.csv', # 9
               '../data\\DistalPhalanxOutlineCorrect_TRAIN', # 10 (inverted dataset)
               '../data\\DistalPhalanxTW_test__4_2_true.csv', # 11
               '../data\\ECG200_test__4_2_true.csv', # 12
               '../data\\ECGFiveDays_test__4_true.csv', # 13
-              '../data\\FaceFour_test__4_true.csv', # 14
-              '../data\\FacesUCR_test__4_true.csv', # 15
+              '../data\\BeetleFly_TEST', # 14
+              '../data\\BirdChicken_TEST', # 15
               '../data\\ItalyPowerDemand_test__4_2_true.csv', # 16
               '../data\\SonyAIBORobotSurface_test__4_2_true.csv', # 17
               '../data\\SonyAIBORobotSurfaceII_test__4_2_true.csv', # 18
@@ -93,15 +93,15 @@ MAX_SEQUENCE_LENGTH_LIST = [176, # 0
                             257, # 4
                             234, # 5
                             270, # 6
-                            277, # 7
-                            336, # 8
+                            270, # 7
+                            470, # 8
                             71, # 9
                             80, # 10
                             71, # 11
                             70, # 12
                             127, # 13
-                            341, # 14
-                            122, # 15
+                            512, # 14
+                            512, # 15
                             14, # 16
                             61, # 17
                             56, # 18
@@ -122,15 +122,15 @@ NB_CLASSES_LIST = [37, # 0
                    7, # 4
                    2, # 5
                    25, # 6
-                   2, # 7
-                   4, # 8
+                   50, # 7
+                   5, # 8
                    3, # 9
                    2, # 10
                    6, # 11
                    2, # 12
                    2, # 13
-                   4, # 14
-                   14, # 15
+                   2, # 14
+                   2, # 15
                    2, # 16
                    2, # 17
                    2, # 18

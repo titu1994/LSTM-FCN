@@ -57,10 +57,8 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='insect_wingbeat_sound', epochs=250, batch_size=64,
-                val_subset=1980)
+    #train_model(model, DATASET_INDEX, dataset_prefix='insect_wingbeat_sound', epochs=250, batch_size=64)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='insect_wingbeat_sound', batch_size=64,
-                   test_data_subset=1980)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='insect_wingbeat_sound', batch_size=64)
 
     visualise_attention(model, DATASET_INDEX, dataset_prefix='insect_wingbeat_sound', layer_name='attention_dense_1')

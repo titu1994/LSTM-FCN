@@ -53,10 +53,15 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
     y_train = to_categorical(y_train, len(np.unique(y_train)))
     y_test = to_categorical(y_test, len(np.unique(y_test)))
 
+    if is_timeseries:
+        factor = 1. / np.cbrt(2)
+    else:
+        factor = 1. / np.sqrt(2)
+
     model_checkpoint = ModelCheckpoint("./weights/%s_weights.h5" % dataset_prefix, verbose=1,
                                        monitor='val_acc', save_best_only=True, save_weights_only=True)
     reduce_lr = ReduceLROnPlateau(monitor='val_acc', patience=5, mode='max',
-                                  factor=0.70710678118, cooldown=5, min_lr=1e-6, verbose=2) # cube root of 2
+                                  factor=factor, cooldown=5, min_lr=1e-6, verbose=2) # cube root of 2
     callback_list = [model_checkpoint, reduce_lr]
 
     optm = Adam(lr=1e-3)

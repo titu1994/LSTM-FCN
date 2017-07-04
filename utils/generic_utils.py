@@ -206,7 +206,7 @@ if __name__ == "__main__":
     # seq_len_list = []
     # classes = []
     #
-    # for index in range(10, 11):
+    # for index in range(6, 9):
     #     x, y, x_test, y_test, is_timeseries = load_dataset_at(index)
     #     nb_words, seq_len = calculate_dataset_metrics(x)
     #     print("-" * 80)
@@ -224,5 +224,5 @@ if __name__ == "__main__":
     # print("Sequence length list : ", seq_len_list)
     # print("Max number of classes : ", classes)
 
-    print()
-    plot_dataset(dataset_id=6, seed=1, limit=20, cutoff=None)
+    #print()
+    plot_dataset(dataset_id=7, seed=1, limit=None, cutoff=None)

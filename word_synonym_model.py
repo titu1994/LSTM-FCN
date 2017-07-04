@@ -26,11 +26,11 @@ def generate_model():
 
     x = Dense(1024, activation='linear')(x)
     x = PReLU()(x)
-    x = Dropout(0.9)(x)
+    x = Dropout(0.2)(x)
 
     x = Dense(1024, activation='linear')(x)
     x = PReLU()(x)
-    x = Dropout(0.9)(x)
+    x = Dropout(0.2)(x)
 
     out = Dense(NB_CLASS, activation='softmax')(x)
 

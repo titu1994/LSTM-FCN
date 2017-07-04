@@ -81,11 +81,9 @@ def gridsearch_model_gen(lstm_cells=512, dense_neurons=1024, dropout=0.2):
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='arrow_head', epochs=150, batch_size=128,
-                val_subset=175)
+    #train_model(model, DATASET_INDEX, dataset_prefix='arrow_head', epochs=150, batch_size=128)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='arrow_head', batch_size=128,
-                  test_data_subset=175)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='arrow_head', batch_size=128)
 
     #visualise_attention(model, DATASET_INDEX, dataset_prefix='arrow_head', layer_name='attention_dense')
 
