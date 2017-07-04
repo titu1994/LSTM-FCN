@@ -24,13 +24,13 @@ def generate_model():
     x = Bidirectional(LSTM(128, trainable=TRAINABLE))(x)
     #x = PhasedLSTM(512)(x)
 
-    x = Dense(1024, activation='linear')(x)
+    x = Dense(8096, activation='linear')(x)
     x = PReLU()(x)
-    x = Dropout(0.2)(x)
+    x = Dropout(0.01)(x)
 
-    x = Dense(1024, activation='linear')(x)
+    x = Dense(8096, activation='linear')(x)
     x = PReLU()(x)
-    x = Dropout(0.2)(x)
+    x = Dropout(0.01)(x)
 
     out = Dense(NB_CLASS, activation='softmax')(x)
 
