@@ -225,4 +225,4 @@ if __name__ == "__main__":
     # print("Max number of classes : ", classes)
 
     #print()
-    plot_dataset(dataset_id=3, seed=1, limit=None, cutoff=None)
+    plot_dataset(dataset_id=14, seed=1, limit=None, cutoff=None)

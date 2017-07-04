@@ -4,7 +4,7 @@ from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multi
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, visualise_attention, set_trainable
 
-DATASET_INDEX = 8
+DATASET_INDEX = 14
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
@@ -20,7 +20,7 @@ def generate_model():
     a = attention_block(ip, id=1)
     x = concatenate([ip, a], axis=ATTENTION_CONCAT_AXIS)
 
-    x = Bidirectional(LSTM(16, trainable=TRAINABLE))(x)
+    x = Bidirectional(LSTM(8, trainable=TRAINABLE))(x)
     #x = PhasedLSTM(512)(x)
 
     x = Dense(1024, activation='linear')(x)
@@ -54,10 +54,10 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='beef', epochs=250, batch_size=30)
+    #train_model(model, DATASET_INDEX, dataset_prefix='beetle_fly', epochs=100, batch_size=32)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='beef', batch_size=128)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='beetle_fly', batch_size=128)
 
-    visualise_attention(model, DATASET_INDEX, dataset_prefix='beef', layer_name='attention_dense_1')
+    visualise_attention(model, DATASET_INDEX, dataset_prefix='beetle_fly', layer_name='attention_dense_1')
 
 
