@@ -150,8 +150,6 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
     test_idx = np.random.randint(0, X_test.shape[0], size=test_size)
     X_test = X_test[test_idx, 0, :]
 
-    print(X_train.shape)
-
     X_train = X_train.transpose((1, 0))
     X_test = X_test.transpose((1, 0))
 
