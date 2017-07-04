@@ -55,8 +55,8 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='lighting7', epochs=150, batch_size=128,
-                val_subset=73, cutoff='pre')
+    #train_model(model, DATASET_INDEX, dataset_prefix='lighting7', epochs=150, batch_size=128,
+    #            cutoff='pre')
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='lighting7', batch_size=64,
                   test_data_subset=73, cutoff='pre')

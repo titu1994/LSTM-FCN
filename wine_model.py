@@ -57,10 +57,10 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='wine', epochs=500, batch_size=32,
-                val_subset=54)
+    #train_model(model, DATASET_INDEX, dataset_prefix='wine', epochs=500, batch_size=32)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='wine', batch_size=32,
-                   test_data_subset=54)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='wine', batch_size=32)
+
+    visualise_attention(model, DATASET_INDEX, dataset_prefix='wine', layer_name='attention_dense_1')
 
 
