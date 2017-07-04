@@ -1,39 +1,37 @@
 from keras.models import Model
-from keras.layers import Input, PReLU, Dense, Dropout, LSTM, Embedding, BatchNormalization, Bidirectional, multiply
+from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multiply, concatenate
+from phased_lstm_keras.PhasedLSTM import PhasedLSTM
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
-from utils.keras_utils import train_model, evaluate_model, set_trainable, MaskablePermute
+from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention
 
 DATASET_INDEX = 5
-OUTPUT_DIM = 1000
-TRAINABLE = True
+
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
+ATTENTION_CONCAT_AXIS = 1 # 1 = temporal, -1 = spatial
+TRAINABLE = True
 
 def generate_model():
-    ip = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='int32')
 
-    embedding = Embedding(input_dim=MAX_NB_WORDS, output_dim=OUTPUT_DIM,
-                          mask_zero=True, input_length=MAX_SEQUENCE_LENGTH)(ip)
+    ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
-    embedding = attention_block(embedding)
+    x = attention_block(ip, id=1)
+    x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
 
-    x = Bidirectional(LSTM(256, dropout=0.2, recurrent_dropout=0.2, trainable=TRAINABLE))(embedding)
+    x = Bidirectional(LSTM(128, trainable=TRAINABLE))(x)
+    #x = PhasedLSTM(128)(x)
 
-    x = BatchNormalization()(x)
-
-    x = Dense(1024, activation='linear')(x)
+    x = Dense(8192, activation='linear')(x)
     x = PReLU()(x)
+    x = Dropout(0.01)(x)
 
-    x = BatchNormalization()(x)
-
-    x = Dense(1024, activation='linear')(x)
+    x = Dense(8192, activation='linear')(x)
     x = PReLU()(x)
-
-    x = Dropout(0.2)(x)
+    x = Dropout(0.01)(x)
 
     out = Dense(NB_CLASS, activation='softmax')(x)
 
@@ -46,12 +44,11 @@ def generate_model():
 
     return model
 
-def attention_block(inputs):
+
+def attention_block(inputs, id):
     # input shape: (batch_size, time_step, input_dim)
     # input shape: (batch_size, max_sequence_length, lstm_output_dim)
-    x = MaskablePermute((2, 1))(inputs) # (batch_size, lstm_output_dim, max_sequence_length)
-    x = Dense(MAX_SEQUENCE_LENGTH, activation='softmax', name='attention_dense')(x)
-    x = MaskablePermute((2, 1), name='attention_vector')(x) # (batch_size, max_sequence_length, lstm_output_dim)
+    x = Dense(MAX_SEQUENCE_LENGTH, activation='softmax', name='attention_dense_%d' % id)(inputs)
     x = multiply([inputs, x])
     return x
 
@@ -60,10 +57,10 @@ def attention_block(inputs):
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='wine', epochs=100, batch_size=128,
+    train_model(model, DATASET_INDEX, dataset_prefix='wine', epochs=500, batch_size=32,
                 val_subset=54)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='wine', batch_size=128,
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='wine', batch_size=32,
                    test_data_subset=54)
 
 
