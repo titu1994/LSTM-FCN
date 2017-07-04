@@ -5,7 +5,7 @@ import os
 from utils.constants import TRAIN_FILES, TEST_FILES, MAX_SEQUENCE_LENGTH_LIST
 
 
-def load_dataset_at(index) -> (np.array, np.array):
+def load_dataset_at(index, normalize_timeseries=False) -> (np.array, np.array):
     assert index < len(TRAIN_FILES), "Index invalid. Could not load dataset at %d" % index
     print("Loading train / test dataset : ", TRAIN_FILES[index], TEST_FILES[index])
 
@@ -47,7 +47,8 @@ def load_dataset_at(index) -> (np.array, np.array):
     if is_timeseries:
         X_train = X_train[:, np.newaxis, :]
         # scale the values
-        #X_train = (X_train - X_train.min(axis=0)) / (X_train.max(axis=0) - X_train.min(axis=0))
+        if normalize_timeseries:
+            X_train = (X_train - X_train.min(axis=0)) / (X_train.max(axis=0) - X_train.min(axis=0))
 
     print("Finished loading train dataset..")
 
@@ -87,7 +88,8 @@ def load_dataset_at(index) -> (np.array, np.array):
     if is_timeseries:
         X_test = X_test[:, np.newaxis, :]
         # scale the values
-        #X_test = (X_test - X_test.min(axis=0)) / (X_test.max(axis=0) - X_test.min(axis=0))
+        if normalize_timeseries:
+            X_test = (X_test - X_test.min(axis=0)) / (X_test.max(axis=0) - X_test.min(axis=0))
 
     print("Finished loading test dataset..")
 
@@ -108,11 +110,13 @@ def calculate_dataset_metrics(X_train):
     return max_nb_words, max_sequence_length
 
 
-def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None):
+def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
+                 normalize_timeseries=False):
     import matplotlib.pylab as plt
     np.random.seed(seed)
 
-    X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id)
+    X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
+                                                           normalize_timeseries=normalize_timeseries)
 
     if not is_timeseries:
         print("Can plot time series input data only!\n"
@@ -225,4 +229,4 @@ if __name__ == "__main__":
     # print("Max number of classes : ", classes)
 
     #print()
-    plot_dataset(dataset_id=14, seed=1, limit=None, cutoff=None)
+    plot_dataset(dataset_id=15, seed=1, limit=None, cutoff=None, normalize_timeseries=False)

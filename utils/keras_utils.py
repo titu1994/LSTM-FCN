@@ -21,8 +21,9 @@ from utils.constants import MAX_SEQUENCE_LENGTH_LIST
 
 
 def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=128, val_subset=None,
-                cutoff=None):
-    X_train, y_train, X_test, y_test, is_timeseries = load_dataset_at(dataset_id)
+                cutoff=None, normalize_timeseries=False):
+    X_train, y_train, X_test, y_test, is_timeseries = load_dataset_at(dataset_id,
+                                                                      normalize_timeseries=normalize_timeseries)
     max_nb_words, sequence_length = calculate_dataset_metrics(X_train)
 
     if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
@@ -77,8 +78,9 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
 
 
 def evaluate_model(model:Model, dataset_id, dataset_prefix, batch_size=128, test_data_subset=None,
-                   cutoff=None):
-    _, _, X_test, y_test, is_timeseries = load_dataset_at(dataset_id)
+                   cutoff=None, normalize_timeseries=False):
+    _, _, X_test, y_test, is_timeseries = load_dataset_at(dataset_id,
+                                                          normalize_timeseries=normalize_timeseries)
     max_nb_words, sequence_length = calculate_dataset_metrics(X_test)
 
     if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
@@ -112,9 +114,11 @@ def evaluate_model(model:Model, dataset_id, dataset_prefix, batch_size=128, test
     print("Final Accuracy : ", accuracy)
 
 
-def hyperparameter_search_over_model(model_gen, dataset_id, param_grid, cutoff=None):
+def hyperparameter_search_over_model(model_gen, dataset_id, param_grid, cutoff=None,
+                                     normalize_timeseries=False):
 
-    X_train, y_train, _, _, is_timeseries = load_dataset_at(dataset_id)
+    X_train, y_train, _, _, is_timeseries = load_dataset_at(dataset_id,
+                                                            normalize_timeseries=normalize_timeseries)
     max_nb_words, sequence_length = calculate_dataset_metrics(X_train)
 
     if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
@@ -194,8 +198,9 @@ def get_activations(model, inputs, eval_functions, verbose=False):
 
 
 def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cutoff=None,
-                        print_attention=False):
-    _, _, X_test, _, is_timeseries = load_dataset_at(dataset_id)
+                        normalize_timeseries=False, print_attention=False):
+    _, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
+                                                     normalize_timeseries=normalize_timeseries)
     max_nb_words, sequence_length = calculate_dataset_metrics(X_test)
 
     if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
