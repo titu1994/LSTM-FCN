@@ -1,11 +1,10 @@
 from keras.models import Model
 from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multiply, concatenate
-from keras import backend as K
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
-from utils.keras_utils import train_model, evaluate_model, visualise_attention,set_trainable
+from utils.keras_utils import train_model, evaluate_model, visualise_attention, set_trainable
 
-DATASET_INDEX = 2
+DATASET_INDEX = 8
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
@@ -21,7 +20,7 @@ def generate_model():
     a = attention_block(ip, id=1)
     x = concatenate([ip, a], axis=ATTENTION_CONCAT_AXIS)
 
-    x = Bidirectional(LSTM(512, trainable=TRAINABLE))(x)
+    x = Bidirectional(LSTM(128, trainable=TRAINABLE))(x)
     #x = PhasedLSTM(512)(x)
 
     x = Dense(1024, activation='linear')(x)
@@ -41,16 +40,13 @@ def generate_model():
 
     model.summary()
 
-    model.load_weights('weights/chlorine_concentration_weights - 512 8833 temporal.h5')
-
     return model
 
 
 def attention_block(inputs, id):
     # input shape: (batch_size, time_step, input_dim)
     # input shape: (batch_size, max_sequence_length, lstm_output_dim)
-    input_dim = K.int_shape(inputs)[-1]
-    x = Dense(input_dim, activation='softmax', name='attention_dense_%d' % id)(inputs)
+    x = Dense(MAX_SEQUENCE_LENGTH, activation='softmax', name='attention_dense_%d' % id)(inputs)
     x = multiply([inputs, x])
     return x
 
@@ -58,11 +54,10 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', epochs=100, batch_size=32))
+    #train_model(model, DATASET_INDEX, dataset_prefix='beef', epochs=250, batch_size=128)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', batch_size=128,
-                  test_data_subset=3840)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='beef', batch_size=128)
 
-    visualise_attention(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', layer_name='attention_dense_1')
+    visualise_attention(model, DATASET_INDEX, dataset_prefix='beef', layer_name='attention_dense_1')
 
 
