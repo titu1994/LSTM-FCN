@@ -4,8 +4,8 @@ TRAIN_FILES = ['../data\\Adiac_TRAIN', # 0
                '../data\\ChlorineConcentration_TRAIN',  # 2
                '../data\\InsectWingbeatSound_TRAIN',  # 3
                '../data\\Lighting7_TRAIN',  # 4
-               '../data\\Wine_train1__4_2_true.csv',  # 5
-               '../data\\WordsSynonyms_train__4_2_true.csv',  # 6
+               '../data\\Wine_TRAIN',  # 5
+               '../data\\WordsSynonyms_TRAIN',  # 6
                '../data\\Coffee_train__4_true.csv',  # 7
                '../data\\DiatomSizeReduction_train__4_true.csv',  # 8
                '../data\\DistalPhalanxOutlineAgeGroup_train__4_2_true.csv',  # 9
@@ -33,8 +33,8 @@ TEST_FILES = ['../data\\Adiac_TEST', # 0
               '../data\\ChlorineConcentration_TEST', # 2
               '../data\\InsectWingbeatSound_TEST', # 3
               '../data\\Lighting7_TEST', # 4
-              '../data\\Wine_test__12_2_true.csv', # 5
-              '../data\\WordsSynonyms_test__4_2_true.csv', # 6
+              '../data\\Wine_TEST', # 5
+              '../data\\WordsSynonyms_TEST', # 6
               '../data\\Coffee_test__4_true.csv', # 7
               '../data\\DiatomSizeReduction_test__4_true.csv', # 8
               '../data\\DistalPhalanxOutlineAgeGroup_test__4_2_true.csv', # 9
@@ -91,8 +91,8 @@ MAX_SEQUENCE_LENGTH_LIST = [176, # 0
                             166, # 2
                             256, # 3
                             257, # 4
-                            225, # 5
-                            261, # 6
+                            234, # 5
+                            270, # 6
                             277, # 7
                             336, # 8
                             71, # 9
