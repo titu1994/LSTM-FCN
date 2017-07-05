@@ -199,7 +199,7 @@ def get_activations(model, inputs, eval_functions, verbose=False):
 
 
 def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cutoff=None,
-                        normalize_timeseries=False, print_attention=False, visualize_sequence=False):
+                        normalize_timeseries=False, print_attention=False, visualize_sequence=True):
     X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
                                                      normalize_timeseries=normalize_timeseries)
     _, sequence_length = calculate_dataset_metrics(X_train)
