@@ -5,9 +5,9 @@ import os
 from utils.constants import TRAIN_FILES, TEST_FILES, MAX_SEQUENCE_LENGTH_LIST
 
 
-def load_dataset_at(index, normalize_timeseries=False) -> (np.array, np.array):
+def load_dataset_at(index, normalize_timeseries=False, verbose=True) -> (np.array, np.array):
     assert index < len(TRAIN_FILES), "Index invalid. Could not load dataset at %d" % index
-    print("Loading train / test dataset : ", TRAIN_FILES[index], TEST_FILES[index])
+    if verbose: print("Loading train / test dataset : ", TRAIN_FILES[index], TEST_FILES[index])
 
     if os.path.exists(TRAIN_FILES[index]):
         df = pd.read_csv(TRAIN_FILES[index], header=None, encoding='latin-1')
@@ -50,7 +50,7 @@ def load_dataset_at(index, normalize_timeseries=False) -> (np.array, np.array):
         if normalize_timeseries:
             X_train = (X_train - X_train.mean()) / (X_train.std())
 
-    print("Finished loading train dataset..")
+    if verbose: print("Finished loading train dataset..")
 
     if os.path.exists(TEST_FILES[index]):
         df = pd.read_csv(TEST_FILES[index], header=None, encoding='latin-1')
@@ -91,7 +91,7 @@ def load_dataset_at(index, normalize_timeseries=False) -> (np.array, np.array):
         if normalize_timeseries:
             X_test = (X_test - X_test.mean()) / (X_test.std())
 
-    print("Finished loading test dataset..")
+    if verbose: print("Finished loading test dataset..")
 
     return X_train, y_train, X_test, y_test, is_timeseries
 
@@ -111,31 +111,35 @@ def calculate_dataset_metrics(X_train):
 
 
 def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
-                 normalize_timeseries=False):
+                 normalize_timeseries=False, pass_data=None):
     import matplotlib.pylab as plt
     np.random.seed(seed)
 
-    X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
-                                                           normalize_timeseries=normalize_timeseries)
+    if pass_data is None:
+        X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
+                                                               normalize_timeseries=normalize_timeseries)
 
-    if not is_timeseries:
-        print("Can plot time series input data only!\n"
-              "Continuing without plot!")
-        return
-
-    max_nb_words, sequence_length = calculate_dataset_metrics(X_train)
-
-    if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
-        if cutoff is None:
-            choice = cutoff_choice(dataset_id, sequence_length)
-        else:
-            assert cutoff in ['pre', 'post'], 'Cutoff parameter value must be either "pre" or "post"'
-            choice = cutoff
-
-        if choice not in ['pre', 'post']:
+        if not is_timeseries:
+            print("Can plot time series input data only!\n"
+                  "Continuing without plot!")
             return
-        else:
-            X_train, X_test = cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length)
+
+        max_nb_words, sequence_length = calculate_dataset_metrics(X_train)
+
+        if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
+            if cutoff is None:
+                choice = cutoff_choice(dataset_id, sequence_length)
+            else:
+                assert cutoff in ['pre', 'post'], 'Cutoff parameter value must be either "pre" or "post"'
+                choice = cutoff
+
+            if choice not in ['pre', 'post']:
+                return
+            else:
+                X_train, X_test = cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length)
+
+    else:
+        X_train, X_test = pass_data
 
     if limit is None:
         train_size = X_train.shape[0]

@@ -16,7 +16,8 @@ from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
 from keras.wrappers.scikit_learn import KerasClassifier
 from keras import backend as K
 
-from utils.generic_utils import load_dataset_at, calculate_dataset_metrics, cutoff_choice, cutoff_sequence
+from utils.generic_utils import load_dataset_at, calculate_dataset_metrics, cutoff_choice, \
+                                cutoff_sequence, plot_dataset
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST
 
 
@@ -198,8 +199,8 @@ def get_activations(model, inputs, eval_functions, verbose=False):
 
 
 def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cutoff=None,
-                        normalize_timeseries=False, print_attention=False):
-    X_train, _, _, _, is_timeseries = load_dataset_at(dataset_id,
+                        normalize_timeseries=False, print_attention=False, visualize_sequence=False):
+    X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
                                                      normalize_timeseries=normalize_timeseries)
     _, sequence_length = calculate_dataset_metrics(X_train)
 
@@ -213,7 +214,7 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
         if choice not in ['pre', 'post']:
             return
         else:
-            X_train , _ = cutoff_sequence(X_train, _, choice, dataset_id, sequence_length)
+            X_train , X_test = cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length)
 
     model.load_weights("./weights/%s_weights.h5" % dataset_prefix)
 
@@ -234,19 +235,33 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
     attention_vectors = np.array(attention_vectors)
     attention_vector_final = np.mean(attention_vectors, axis=0)
 
-    # plot part.
-    import matplotlib.pyplot as plt
-    import pandas as pd
+    if visualize_sequence:
+        # plot input sequence part that is paid attention too in detail
+        attention_vector_final = attention_vector_final.reshape((1, attention_vector_final.shape[0]))
 
-    train_df = pd.DataFrame({'attention (%)': attention_vector_final},
-                      index=range(attention_vector_final.shape[0]))
+        for i in range(X_train.shape[0]):
+            X_train[i, :, :] = attention_vector_final * X_train[i, :, :]
 
-    train_df.plot(kind='bar',
-            title='Attention Mechanism (Train) as '
-            'a function of input'
-            ' dimensions.')
+        for i in range(X_test.shape[0]):
+            X_test[i, :, :] = attention_vector_final * X_test[i, :, :]
 
-    plt.show()
+        plot_dataset(dataset_id, seed=1, limit=None, cutoff=cutoff,
+                     normalize_timeseries=normalize_timeseries, pass_data=(X_train, X_test))
+
+    else:
+        # plot only attention chart
+        import matplotlib.pyplot as plt
+        import pandas as pd
+
+        train_df = pd.DataFrame({'attention (%)': attention_vector_final},
+                          index=range(attention_vector_final.shape[0]))
+
+        train_df.plot(kind='bar',
+                title='Attention Mechanism (Train) as '
+                'a function of input'
+                ' dimensions.')
+
+        plt.show()
 
 
 class MaskablePermute(Permute):

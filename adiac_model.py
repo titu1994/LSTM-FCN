@@ -80,4 +80,5 @@ if __name__ == "__main__":
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='adiac', batch_size=128)
 
-    visualise_attention(model, DATASET_INDEX, dataset_prefix='adiac', layer_name='attention_dense_1')
+    visualise_attention(model, DATASET_INDEX, dataset_prefix='adiac', layer_name='attention_dense_1',
+                        visualize_sequence=True)
