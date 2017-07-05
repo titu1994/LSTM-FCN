@@ -179,8 +179,8 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
         rows = 2
         cols = 2
     else:
-        rows = 1
-        cols = 2
+        rows = 2
+        cols = 1
 
     fig, axs = plt.subplots(rows, cols)
 
