@@ -61,6 +61,6 @@ if __name__ == "__main__":
                    normalize_timeseries=True)
 
     visualise_attention(model, DATASET_INDEX, dataset_prefix='bird_chicken', layer_name='attention_dense_1',
-                        normalize_timeseries=True)
+                        normalize_timeseries=True, visualize_sequence=True)
 
 

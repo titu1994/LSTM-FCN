@@ -136,7 +136,7 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
             if choice not in ['pre', 'post']:
                 return
             else:
-                X_train, X_test = cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length)
+                X_train_attention, X_test_attention = cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length)
 
     else:
         X_train, X_test = pass_data
@@ -172,6 +172,24 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
     test_df.plot(title='Test dataset',
                  subplots=False,
                  legend=None)
+
+    if pass_data is not None and X_train_attention is not None:
+        train_attention_df = pd.DataFrame(X_train_attention,
+                            index=range(X_train_attention.shape[0]),
+                            columns=range(X_train_attention.shape[1]))
+
+        train_attention_df.plot(title='Train Attention Sequence',
+                      subplots=False,
+                      legend=None)
+
+    if pass_data is not None and X_test_attention is not None:
+        test_df = pd.DataFrame(X_test_attention,
+                               index=range(X_test_attention.shape[0]),
+                               columns=range(X_test_attention.shape[1]))
+
+        test_df.plot(title='Test Attention Sequence',
+                     subplots=False,
+                     legend=None)
 
     plt.show()
 
