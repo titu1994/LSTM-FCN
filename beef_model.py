@@ -22,7 +22,7 @@ def generate_model():
     x = attention_block(ip, id=1)
     x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
 
-    x = LSTM(512)(x)
+    x = LSTM(128)(x)
 
     y = Permute((2, 1))(ip)
     y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
@@ -75,10 +75,10 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='beef', epochs=300, batch_size=128)
+    #train_model(model, DATASET_INDEX, dataset_prefix='beef', epochs=1000, batch_size=128)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='beef', batch_size=128)
 
-    visualise_attention(model, DATASET_INDEX, dataset_prefix='beef', layer_name='attention_dense_1',visualize_sequence=True)
+    # visualise_attention(model, DATASET_INDEX, dataset_prefix='beef', layer_name='attention_dense_1',visualize_sequence=True)
 
 

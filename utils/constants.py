@@ -11,7 +11,7 @@ TRAIN_FILES = ['../data\\Adiac_TRAIN', # 0
                '../data\\DistalPhalanxOutlineAgeGroup_train__4_2_true.csv',  # 9
                '../data\\DistalPhalanxOutlineCorrect_TEST',  # 10
                '../data\\DistalPhalanxTW_train__4_2_true.csv',  # 11
-               '../data\\ECG200_train__4_2_true.csv',  # 12
+               '../data\\ECG200_TRAIN.csv',  # 12
                '../data\\ECGFiveDays_train__4_true.csv',  # 13
                '../data\\BeetleFly_TRAIN',  # 14
                '../data\\BirdChicken_TRAIN',  # 15
@@ -51,7 +51,7 @@ TEST_FILES = ['../data\\Adiac_TEST', # 0
               '../data\\DistalPhalanxOutlineAgeGroup_test__4_2_true.csv', # 9
               '../data\\DistalPhalanxOutlineCorrect_TRAIN', # 10 (inverted dataset)
               '../data\\DistalPhalanxTW_test__4_2_true.csv', # 11
-              '../data\\ECG200_test__4_2_true.csv', # 12
+              '../data\\ECG200_TEST.csv', # 12
               '../data\\ECGFiveDays_test__4_true.csv', # 13
               '../data\\BeetleFly_TEST', # 14
               '../data\\BirdChicken_TEST', # 15
@@ -123,7 +123,7 @@ MAX_SEQUENCE_LENGTH_LIST = [176, # 0
                             251, # 1
                             166, # 2
                             256, # 3
-                            257, # 4
+                            319, # 4
                             234, # 5
                             270, # 6
                             270, # 7
@@ -131,7 +131,7 @@ MAX_SEQUENCE_LENGTH_LIST = [176, # 0
                             71, # 9
                             80, # 10
                             71, # 11
-                            70, # 12
+                            96, # 12
                             127, # 13
                             512, # 14
                             512, # 15
