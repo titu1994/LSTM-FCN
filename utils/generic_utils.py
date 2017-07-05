@@ -35,14 +35,14 @@ def load_dataset_at(index, normalize_timeseries=False, verbose=True) -> (np.arra
         df[df.columns] = df[df.columns].astype(np.int32)
 
     # extract labels Y and normalize to [0 - (MAX - 1)] range
-    labels = df[[0]]
-    labels = labels - labels.min()
+    y_train = df[[0]].values
+    nb_classes = len(np.unique(y_train))
+    y_train = (y_train - y_train.min()) / (y_train.max() - y_train.min()) * (nb_classes - 1)
 
     # drop labels column from train set X
     df.drop(df.columns[0], axis=1, inplace=True)
 
     X_train = df.values
-    y_train = labels.values
 
     if is_timeseries:
         X_train = X_train[:, np.newaxis, :]
@@ -76,14 +76,14 @@ def load_dataset_at(index, normalize_timeseries=False, verbose=True) -> (np.arra
         df[df.columns] = df[df.columns].astype(np.int32)
 
     # extract labels Y and normalize to [0 - (MAX - 1)] range
-    labels = df[[0]]
-    labels = labels - labels.min()
+    y_test = df[[0]].values
+    nb_classes = len(np.unique(y_test))
+    y_test = (y_test - y_test.min()) / (y_test.max() - y_test.min()) * (nb_classes - 1)
 
     # drop labels column from train set X
     df.drop(df.columns[0], axis=1, inplace=True)
 
     X_test = df.values
-    y_test = labels.values
 
     if is_timeseries:
         X_test = X_test[:, np.newaxis, :]
