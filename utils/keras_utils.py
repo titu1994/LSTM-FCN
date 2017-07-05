@@ -62,7 +62,7 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
     model_checkpoint = ModelCheckpoint("./weights/%s_weights.h5" % dataset_prefix, verbose=1,
                                        monitor='val_acc', save_best_only=True, save_weights_only=True)
     reduce_lr = ReduceLROnPlateau(monitor='val_acc', patience=50, mode='max',
-                                  factor=factor, cooldown=0, min_lr=1e-6, verbose=2) # cube root of 2
+                                  factor=factor, cooldown=0, min_lr=1e-4, verbose=2)
     callback_list = [model_checkpoint, reduce_lr]
 
     optm = Adam(lr=1e-3)
@@ -74,7 +74,7 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
         y_test = y_test[:val_subset]
 
     model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, callbacks=callback_list,
-              class_weight=class_weight, verbose=1, validation_data=(X_test, y_test))
+              class_weight=class_weight, verbose=2, validation_data=(X_test, y_test))
 
 
 def evaluate_model(model:Model, dataset_id, dataset_prefix, batch_size=128, test_data_subset=None,

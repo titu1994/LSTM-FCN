@@ -20,7 +20,7 @@ def generate_model():
     x = attention_block(ip, id=1)
     x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
 
-    x = Bidirectional(LSTM(128, trainable=TRAINABLE))(x)
+    x = LSTM(128)(x)
 
     y = Permute((2, 1))(ip)
     y = Conv1D(128, 9, padding='same')(y)
@@ -31,7 +31,7 @@ def generate_model():
     y = BatchNormalization()(y)
     y = PReLU()(y)
 
-    y = Conv1D(256, 3, padding='same')(y)
+    y = Conv1D(128, 3, padding='same')(y)
     y = BatchNormalization()(y)
     y = PReLU()(y)
 
@@ -48,8 +48,8 @@ def generate_model():
 
     model.summary()
 
-    from keras.utils.vis_utils import plot_model
-    plot_model(model, 'utils/modelv3.png', show_shapes=True)
+    # from keras.utils.vis_utils import plot_model
+    # plot_model(model, 'utils/modelv3.png', show_shapes=True)
 
     return model
 
