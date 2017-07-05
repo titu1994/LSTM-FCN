@@ -26,6 +26,17 @@ TRAIN_FILES = ['../data\\Adiac_TRAIN', # 0
                '../data\\ProximalPhalanxTW_train__4_2_true.csv', # 24
                '../data\\MoteStrain_train__4_2_true.csv', # 25
                '../data\\MedicalImages_train__4_2_true.csv', # 26
+               '../data\\Strawberry_TEST',  # 27
+               '../data\\ToeSegmentation1_TRAIN',  # 28
+               '../data\\Coffee_TRAIN',  # 29
+               '../data\\Cricket_X_TRAIN',  # 30
+               '../data\\Cricket_Y_TRAIN',  # 31
+               '../data\\Cricket_Z_TRAIN',  # 32
+               '../data\\uWaveGestureLibrary_X_TRAIN',  # 33
+               '../data\\uWaveGestureLibrary_Y_TRAIN',  # 34
+               '../data\\uWaveGestureLibrary_Z_TRAIN',  # 35
+               '../data\\ToeSegmentation2_TRAIN',  # 36
+               '../data\\DiatomSizeReduction_TRAIN',  # 37
                ]
 
 TEST_FILES = ['../data\\Adiac_TEST', # 0
@@ -55,6 +66,17 @@ TEST_FILES = ['../data\\Adiac_TEST', # 0
               '../data\\ProximalPhalanxTW_test__4_2_true.csv', # 24
               '../data\\MoteStrain_test__4_2_true.csv', # 25
               '../data\\MedicalImages_test__4_2_true.csv', # 26
+              '../data\\Strawberry_TRAIN',  # 27
+              '../data\\ToeSegmentation1_TEST',  # 28
+              '../data\\Coffee_TEST',  # 29
+              '../data\\Cricket_X_TEST',  # 30
+              '../data\\Cricket_Y_TEST',  # 31
+              '../data\\Cricket_Z_TEST',  # 32
+              '../data\\uWaveGestureLibrary_X_TEST',  # 33
+              '../data\\uWaveGestureLibrary_Y_TEST',  # 34
+              '../data\\uWaveGestureLibrary_Z_TEST',  # 35
+              '../data\\ToeSegmentation2_TEST',  # 36
+              '../data\\DiatomSizeReduction_TEST',  # 37
               ]
 
 MAX_NB_WORDS_LIST = [17, # 0
@@ -84,6 +106,17 @@ MAX_NB_WORDS_LIST = [17, # 0
                      17, # 24
                      17, # 25
                      17, # 26
+                     17,  # 27
+                     17,  # 28
+                     17,  # 29
+                     17,  # 30
+                     17,  # 31
+                     17,  # 32
+                     17,  # 33
+                     17,  # 34
+                     17,  # 35
+                     17,  # 36
+                     17,  # 37
                      ]
 
 MAX_SEQUENCE_LENGTH_LIST = [176, # 0
@@ -113,6 +146,17 @@ MAX_SEQUENCE_LENGTH_LIST = [176, # 0
                             71, # 24
                             75, # 25
                             90, # 26
+                            235, # 27
+                            277, # 28
+                            286, # 29
+                            240, # 30
+                            240, # 31
+                            240, # 32
+                            290, # 33
+                            315, # 34
+                            315, # 35
+                            343, # 36
+                            345, # 37
                             ]
 
 NB_CLASSES_LIST = [37, # 0
@@ -142,4 +186,15 @@ NB_CLASSES_LIST = [37, # 0
                    6, # 24
                    2, # 25
                    10, # 26
+                   2,  # 27
+                   2,  # 28
+                   2,  # 29
+                   12,  # 30
+                   12,  # 31
+                   12,  # 32
+                   8,  # 33
+                   8,  # 34
+                   8,  # 35
+                   2,  # 36
+                   4,  # 37
                    ]

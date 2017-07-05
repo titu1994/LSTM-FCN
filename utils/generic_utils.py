@@ -179,6 +179,7 @@ def cutoff_choice(dataset_id, sequence_length):
                    '`pre` - cut the sequence from the beginning\n'
                    '`post`- cut the sequence from the end\n'
                    '`anything else` - stop execution\n'
+                   'To automate choice: add flag `cutoff` = choice as above\n'
                    'Choice = ')
 
     choice = str(choice).lower()
@@ -196,9 +197,9 @@ def cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length):
             X_test = X_test[:, :, cutoff:]
     else:
         if X_train is not None:
-            X_train = X_train[:, :, :cutoff]
+            X_train = X_train[:, :, :-cutoff]
         if X_test is not None:
-            X_test = X_test[:, :, :cutoff]
+            X_test = X_test[:, :, :-cutoff]
     print("New sequence length :", MAX_SEQUENCE_LENGTH_LIST[dataset_id])
     return X_train, X_test
 
@@ -227,4 +228,4 @@ if __name__ == "__main__":
     # print("Max number of classes : ", classes)
 
     #print()
-    plot_dataset(dataset_id=15, seed=1, limit=None, cutoff=None, normalize_timeseries=False)
+    plot_dataset(dataset_id=28, seed=1, limit=20, cutoff=None, normalize_timeseries=False)

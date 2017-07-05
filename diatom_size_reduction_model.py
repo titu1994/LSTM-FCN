@@ -5,7 +5,8 @@ from phased_lstm_keras.PhasedLSTM import PhasedLSTM
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention
 
-DATASET_INDEX = 6
+DATASET_INDEX = 37
+
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
@@ -22,15 +23,15 @@ def generate_model():
     x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
 
     x = Bidirectional(LSTM(128, trainable=TRAINABLE))(x)
-    #x = PhasedLSTM(512)(x)
+    #x = PhasedLSTM(128)(x)
 
-    x = Dense(8096, activation='linear')(x)
+    x = Dense(1024, activation='linear')(x)
     x = PReLU()(x)
-    x = Dropout(0.0)(x)
+    x = Dropout(0.2)(x)
 
-    x = Dense(8096, activation='linear')(x)
+    x = Dense(1024, activation='linear')(x)
     x = PReLU()(x)
-    x = Dropout(0.0)(x)
+    x = Dropout(0.2)(x)
 
     out = Dense(NB_CLASS, activation='softmax')(x)
 
@@ -55,9 +56,10 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='word_synonym', epochs=500, batch_size=64)
+    #train_model(model, DATASET_INDEX, dataset_prefix='diatomsizereduction', epochs=250, batch_size=64)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='word_synonym', batch_size=128)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='diatomsizereduction', batch_size=64)
 
-    visualise_attention(model, DATASET_INDEX, dataset_prefix='word_synonym', layer_name='attention_dense_1')
+    visualise_attention(model, DATASET_INDEX, dataset_prefix='diatomsizereduction', layer_name='attention_dense_1')
+
 

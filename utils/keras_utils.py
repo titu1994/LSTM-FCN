@@ -199,7 +199,7 @@ def get_activations(model, inputs, eval_functions, verbose=False):
 
 def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cutoff=None,
                         normalize_timeseries=False, print_attention=False):
-    X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
+    X_train, _, _, _, is_timeseries = load_dataset_at(dataset_id,
                                                      normalize_timeseries=normalize_timeseries)
     _, sequence_length = calculate_dataset_metrics(X_train)
 
@@ -213,7 +213,7 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
         if choice not in ['pre', 'post']:
             return
         else:
-            X_train , X_test = cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length)
+            X_train , _ = cutoff_sequence(X_train, _, choice, dataset_id, sequence_length)
 
     model.load_weights("./weights/%s_weights.h5" % dataset_prefix)
 
@@ -241,31 +241,8 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
     train_df = pd.DataFrame({'attention (%)': attention_vector_final},
                       index=range(attention_vector_final.shape[0]))
 
-    attention_vectors = []
-    for i in range(X_test.shape[0]):
-        if print_attention: print(X_test[i, :, :][np.newaxis, ...].shape)
-        attention_vector = np.mean(get_activations(model,
-                                                   X_test[i, :, :][np.newaxis, ...],
-                                                   eval_functions,
-                                                   verbose=print_attention)[0], axis=1).squeeze()
-
-        if print_attention: print('test attention =', attention_vector)
-        assert (np.sum(attention_vector) - 1.0) < 1e-5
-        attention_vectors.append(attention_vector)
-
-    attention_vectors = np.array(attention_vectors)
-    attention_vector_final = np.mean(attention_vectors, axis=0)
-
-    test_df = pd.DataFrame({'attention (%)': attention_vector_final},
-                            index=range(attention_vector_final.shape[0]))
-
-    train_df['attention (%)'].plot(kind='bar',
+    train_df.plot(kind='bar',
             title='Attention Mechanism (Train) as '
-            'a function of input'
-            ' dimensions.')
-
-    test_df['attention (%)'].plot(kind='bar',
-            title='Attention Mechanism (Test) as '
             'a function of input'
             ' dimensions.')
 
