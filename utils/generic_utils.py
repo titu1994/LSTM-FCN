@@ -179,8 +179,8 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
         rows = 2
         cols = 2
     else:
-        rows = 2
-        cols = 1
+        rows = 1
+        cols = 2
 
     fig, axs = plt.subplots(rows, cols)
 
@@ -192,7 +192,7 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
     test_df.plot(title='Test dataset',
                  subplots=False,
                  legend=None,
-                 ax=axs[1][0])
+                 ax=axs[0][1])
 
     if pass_data is not None and X_train_attention is not None:
         print(X_train_attention.shape)
@@ -203,7 +203,7 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
         train_attention_df.plot(title='Train Attention Sequence',
                       subplots=False,
                       legend=None,
-                      ax=axs[0][1])
+                      ax=axs[1][0])
 
     if pass_data is not None and X_test_attention is not None:
         print(X_test_attention.shape)

@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multiply, concatenate
+from keras.layers import Input, PReLU, Dense, LSTM, multiply, concatenate
 from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute
 from keras import backend as K
 from phased_lstm_keras.PhasedLSTM import PhasedLSTM
@@ -22,7 +22,7 @@ def generate_model():
     x = attention_block(ip, id=1)
     x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
 
-    x = LSTM(128)(x)
+    x = LSTM(64)(x)
 
     y = Permute((2, 1))(ip)
     y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
@@ -60,6 +60,8 @@ def generate_model():
 
     model.summary()
 
+    model.load_weights('weights/bird_chicken_weights - 9000 v3 64 lstm batch 128.h5')
+
     return model
 
 
@@ -75,11 +77,11 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='bird_chicken', epochs=2000, batch_size=32)
+    #train_model(model, DATASET_INDEX, dataset_prefix='bird_chicken', epochs=2000, batch_size=32)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='bird_chicken', batch_size=32)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='bird_chicken', batch_size=64)
 
-    # visualise_attention(model, DATASET_INDEX, dataset_prefix='bird_chicken', layer_name='attention_dense_1',
-    #                     normalize_timeseries=True, visualize_sequence=True)
+    #visualise_attention(model, DATASET_INDEX, dataset_prefix='bird_chicken', layer_name='attention_dense_1',
+    #                    normalize_timeseries=True, visualize_sequence=True)
 
 
