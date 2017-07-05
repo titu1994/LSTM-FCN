@@ -56,8 +56,6 @@ def generate_model():
             else:
                 set_trainable(layer, TRAINABLE)
 
-            print("Froze : ", layer.name)
-
     model.summary()
 
     # add load model code here to fine-tune

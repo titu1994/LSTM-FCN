@@ -1,5 +1,6 @@
 from keras.models import Model
 from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multiply, concatenate
+from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute
 from keras import backend as K
 from phased_lstm_keras.PhasedLSTM import PhasedLSTM
 
@@ -16,29 +17,46 @@ ATTENTION_CONCAT_AXIS = -1 # 1 = temporal, -1 = spatial
 TRAINABLE = True
 
 def generate_model():
-
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
-    a = attention_block(ip, id=1)
-    x = concatenate([ip, a], axis=ATTENTION_CONCAT_AXIS)
+    x = attention_block(ip, id=1)
+    x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
 
-    x = Bidirectional(LSTM(128, trainable=TRAINABLE))(x)
-    #x = PhasedLSTM(512)(x)
+    x = LSTM(128)(x)
 
-    # x = Dense(1024, activation='linear')(x)
-    # x = PReLU()(x)
-    # x = Dropout(0.2)(x)
+    y = Permute((2, 1))(ip)
+    y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
+    y = BatchNormalization()(y)
+    y = PReLU()(y)
 
-    # x = Dense(1024, activation='linear')(x)
-    # x = PReLU()(x)
-    x = Dropout(0.2)(x)
+    y = Conv1D(256, 5, padding='same', kernel_initializer='he_uniform')(y)
+    y = BatchNormalization()(y)
+    y = PReLU()(y)
+
+    y = Conv1D(128, 3, padding='same', kernel_initializer='he_uniform')(y)
+    y = BatchNormalization()(y)
+    y = PReLU()(y)
+
+    y = GlobalAveragePooling1D()(y)
+
+    x = concatenate([x, y])
 
     out = Dense(NB_CLASS, activation='softmax')(x)
 
     model = Model(ip, out)
 
-    for layer in model.layers[:-4]:
-        set_trainable(layer, TRAINABLE)
+    cnn_count = 0
+    for layer in model.layers:
+        if layer.__class__.__name__ in ['Conv1D',
+                                        'BatchNormalization',
+                                        'PReLU']:
+            if layer.__class__.__name__ == 'Conv1D':
+                cnn_count += 1
+
+            if cnn_count == 3:
+                break
+            else:
+                set_trainable(layer, TRAINABLE)
 
     model.summary()
 
@@ -53,49 +71,14 @@ def attention_block(inputs, id):
     x = multiply([inputs, x])
     return x
 
-
-def gridsearch_model_gen(lstm_cells=512, dense_neurons=1024, dropout=0.2):
-    K.clear_session()
-
-    ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
-
-    x = attention_block(ip, 1)
-    x = concatenate([ip, x], axis=-1)
-
-    x = Bidirectional(LSTM(lstm_cells, trainable=TRAINABLE))(x)
-
-    x = Dense(dense_neurons, activation='linear')(x)
-    x = PReLU()(x)
-    x = Dropout(dropout)(x)
-
-    x = Dense(dense_neurons, activation='linear')(x)
-    x = PReLU()(x)
-    x = Dropout(dropout)(x)
-
-    out = Dense(NB_CLASS, activation='softmax')(x)
-
-    model = Model(ip, out)
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-
-    return model
-
-
 if __name__ == "__main__":
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='arrow_head', epochs=150, batch_size=128)
+    #train_model(model, DATASET_INDEX, dataset_prefix='arrow_head', epochs=2000, batch_size=128)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='arrow_head', batch_size=128)
 
     visualise_attention(model, DATASET_INDEX, dataset_prefix='arrow_head', layer_name='attention_dense_1',
                         visualize_sequence=True)
-
-    # hyperparameter_search_over_model(gridsearch_model_gen, DATASET_INDEX,
-    #                                  param_grid={
-    #                                      'lstm_cells':[32, 64, 128, 256, 384, 512, 1024],
-    #                                      'dense_neurons': [128, 256, 512, 1024, 2048, 4096],
-    #                                      'dropout': [0.2, 0.5, 0.8],
-    #                                  })
-
 
 
