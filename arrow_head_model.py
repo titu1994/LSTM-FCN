@@ -13,7 +13,7 @@ MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
-ATTENTION_CONCAT_AXIS = -1 # 1 = temporal, -1 = spatial
+ATTENTION_CONCAT_AXIS = 1 # 1 = temporal, -1 = spatial
 TRAINABLE = True
 
 def generate_model():
@@ -22,7 +22,7 @@ def generate_model():
     x = attention_block(ip, id=1)
     x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
 
-    x = LSTM(128)(x)
+    x = LSTM(64)(x)
 
     y = Permute((2, 1))(ip)
     y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
@@ -60,6 +60,8 @@ def generate_model():
 
     model.summary()
 
+    # add load model code here to fine-tune
+
     return model
 
 
@@ -73,6 +75,7 @@ def attention_block(inputs, id):
 
 
 if __name__ == "__main__":
+    # Note : Average is 86%. 89.14% was via finetuning several times using smaller and smaller batch sizes.
     model = generate_model()
 
     #train_model(model, DATASET_INDEX, dataset_prefix='arrow_head', epochs=2000, batch_size=128)
