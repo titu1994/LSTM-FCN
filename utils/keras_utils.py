@@ -221,7 +221,6 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
     eval_functions = build_function(model, layer_name)
     attention_vectors = []
 
-
     for i in range(X_train.shape[0]):
         if print_attention: print(X_train[i, :, :][np.newaxis, ...].shape)
         activations = get_activations(model,
@@ -247,14 +246,18 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
         # plot input sequence part that is paid attention too in detail
         attention_vector_final = attention_vector_final.reshape((1, attention_vector_final.shape[0]))
 
+        X_train_attention = np.zeros_like(X_train)
+        X_test_attention = np.zeros_like(X_test)
+
         for i in range(X_train.shape[0]):
-            X_train[i, :, :] = attention_vector_final * X_train[i, :, :]
+            X_train_attention[i, :, :] = attention_vector_final * X_train[i, :, :]
 
         for i in range(X_test.shape[0]):
-            X_test[i, :, :] = attention_vector_final * X_test[i, :, :]
+            X_test_attention[i, :, :] = attention_vector_final * X_test[i, :, :]
 
         plot_dataset(dataset_id, seed=1, limit=None, cutoff=cutoff,
-                     normalize_timeseries=normalize_timeseries, pass_data=(X_train, X_test))
+                     normalize_timeseries=normalize_timeseries, pass_data=(X_train, X_test,
+                                                                           X_train_attention, X_test_attention))
 
     else:
         # plot only attention chart

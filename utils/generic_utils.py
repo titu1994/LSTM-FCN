@@ -136,10 +136,13 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
             if choice not in ['pre', 'post']:
                 return
             else:
-                X_train_attention, X_test_attention = cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length)
+                X_train, X_test = X_test(X_train, X_test, choice, dataset_id, sequence_length)
+
+        X_train_attention = None
+        X_test_attention = None
 
     else:
-        X_train, X_test = pass_data
+        X_train, X_test, X_train_attention, X_test_attention = pass_data
 
     if limit is None:
         train_size = X_train.shape[0]
@@ -150,12 +153,19 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
 
     train_idx = np.random.randint(0, X_train.shape[0], size=train_size)
     X_train = X_train[train_idx, 0, :]
+    X_train = X_train.transpose((1, 0))
+
+    if X_train_attention is not None:
+        X_train_attention = X_train_attention[train_idx, 0, :]
+        X_train_attention = X_train_attention.transpose((1, 0))
 
     test_idx = np.random.randint(0, X_test.shape[0], size=test_size)
     X_test = X_test[test_idx, 0, :]
-
-    X_train = X_train.transpose((1, 0))
     X_test = X_test.transpose((1, 0))
+
+    if X_test_attention is not None:
+        X_test_attention = X_test_attention[test_idx, 0, :]
+        X_test_attention = X_test_attention.transpose((1, 0))
 
     train_df = pd.DataFrame(X_train,
                             index=range(X_train.shape[0]),
@@ -174,6 +184,7 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
                  legend=None)
 
     if pass_data is not None and X_train_attention is not None:
+        print(X_train_attention.shape)
         train_attention_df = pd.DataFrame(X_train_attention,
                             index=range(X_train_attention.shape[0]),
                             columns=range(X_train_attention.shape[1]))
@@ -183,6 +194,7 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
                       legend=None)
 
     if pass_data is not None and X_test_attention is not None:
+        print(X_test_attention.shape)
         test_df = pd.DataFrame(X_test_attention,
                                index=range(X_test_attention.shape[0]),
                                columns=range(X_test_attention.shape[1]))
