@@ -55,7 +55,7 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
     y_test = to_categorical(y_test, len(np.unique(y_test)))
 
     if is_timeseries:
-        factor = 1. / np.cbrt(2)
+        factor = 1. / 2
     else:
         factor = 1. / np.sqrt(2)
 
