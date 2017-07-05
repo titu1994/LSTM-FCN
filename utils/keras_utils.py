@@ -256,8 +256,8 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
             X_test_attention[i, :, :] = attention_vector_final * X_test[i, :, :]
 
         plot_dataset(dataset_id, seed=1, limit=None, cutoff=cutoff,
-                     normalize_timeseries=normalize_timeseries, pass_data=(X_train, X_test,
-                                                                           X_train_attention, X_test_attention))
+                     normalize_timeseries=normalize_timeseries, plot_attention_data=(X_train, X_test,
+                                                                                     X_train_attention, X_test_attention))
 
     else:
         # plot only attention chart
