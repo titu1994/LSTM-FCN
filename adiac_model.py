@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Input, PReLU, Dense, Dropout, LSTM, Bidirectional, multiply, concatenate
+from keras.layers import Input, PReLU, Dense, LSTM, multiply, concatenate
 from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
@@ -12,7 +12,7 @@ MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
 ATTENTION_CONCAT_AXIS = 1 # 1 = temporal, -1 = spatial
-TRAINABLE = False
+TRAINABLE = True
 
 def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
@@ -54,7 +54,7 @@ def generate_model():
             if cnn_count == 3:
                 break
             else:
-                layer.trainable = TRAINABLE
+                set_trainable(layer, TRAINABLE)
 
             print("Froze : ", layer.name)
 
