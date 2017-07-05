@@ -71,6 +71,7 @@ def attention_block(inputs, id):
     x = multiply([inputs, x])
     return x
 
+
 if __name__ == "__main__":
     model = generate_model()
 
