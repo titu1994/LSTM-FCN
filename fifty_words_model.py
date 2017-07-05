@@ -59,7 +59,6 @@ def generate_model():
     model.summary()
 
     # add load model code here to fine-tune
-    model.load_weights('weights/fifty_words_weights - 7253 v3 128 lstm.h5')
 
     return model
 
@@ -75,7 +74,7 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='fifty_words', epochs=2000, batch_size=128)
+    #train_model(model, DATASET_INDEX, dataset_prefix='fifty_words', epochs=2000, batch_size=128)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='fifty_words', batch_size=128)
 
