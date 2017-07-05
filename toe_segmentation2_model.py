@@ -1,6 +1,6 @@
 from keras.models import Model
 from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multiply, concatenate
-from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute
+from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute, Activation
 from keras import backend as K
 from phased_lstm_keras.PhasedLSTM import PhasedLSTM
 
@@ -18,27 +18,23 @@ ATTENTION_CONCAT_AXIS = 1 # 1 = temporal, -1 = spatial
 TRAINABLE = True
 
 def generate_model():
-
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
-    x = attention_block(ip, id=1)
-    x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
-
-    x = LSTM(8)(x)
-    x = Dropout(0.60)(x)
+    x = LSTM(8)(ip)
+    x = Dropout(0.8)(x)
 
     y = Permute((2, 1))(ip)
     y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
     y = BatchNormalization()(y)
-    y = PReLU()(y)
+    y = Activation('relu')(y)
 
     y = Conv1D(256, 5, padding='same', kernel_initializer='he_uniform')(y)
     y = BatchNormalization()(y)
-    y = PReLU()(y)
+    y = Activation('relu')(y)
 
     y = Conv1D(128, 3, padding='same', kernel_initializer='he_uniform')(y)
     y = BatchNormalization()(y)
-    y = PReLU()(y)
+    y = Activation('relu')(y)
 
     y = GlobalAveragePooling1D()(y)
 
@@ -79,9 +75,9 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='toe_segmentation2', epochs=2000, batch_size=32)
+    train_model(model, DATASET_INDEX, dataset_prefix='toe_segmentation2', epochs=2000, batch_size=128)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='toe_segmentation2', batch_size=32)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='toe_segmentation2', batch_size=128)
 
     #visualise_attention(model, DATASET_INDEX, dataset_prefix='toe_segmentation2', layer_name='attention_dense_1')
 
