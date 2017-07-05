@@ -61,8 +61,8 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
 
     model_checkpoint = ModelCheckpoint("./weights/%s_weights.h5" % dataset_prefix, verbose=1,
                                        monitor='val_acc', save_best_only=True, save_weights_only=True)
-    reduce_lr = ReduceLROnPlateau(monitor='val_acc', patience=5, mode='max',
-                                  factor=factor, cooldown=5, min_lr=1e-6, verbose=2) # cube root of 2
+    reduce_lr = ReduceLROnPlateau(monitor='val_acc', patience=50, mode='max',
+                                  factor=factor, cooldown=0, min_lr=1e-6, verbose=2) # cube root of 2
     callback_list = [model_checkpoint, reduce_lr]
 
     optm = Adam(lr=1e-3)
