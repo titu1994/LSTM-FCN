@@ -48,7 +48,7 @@ def load_dataset_at(index, normalize_timeseries=False) -> (np.array, np.array):
         X_train = X_train[:, np.newaxis, :]
         # scale the values
         if normalize_timeseries:
-            X_train = (X_train - X_train.min(axis=0)) / (X_train.max(axis=0) - X_train.min(axis=0))
+            X_train = (X_train - X_train.mean()) / (X_train.std())
 
     print("Finished loading train dataset..")
 
@@ -89,7 +89,7 @@ def load_dataset_at(index, normalize_timeseries=False) -> (np.array, np.array):
         X_test = X_test[:, np.newaxis, :]
         # scale the values
         if normalize_timeseries:
-            X_test = (X_test - X_test.min(axis=0)) / (X_test.max(axis=0) - X_test.min(axis=0))
+            X_test = (X_test - X_test.mean()) / (X_test.std())
 
     print("Finished loading test dataset..")
 
@@ -228,4 +228,4 @@ if __name__ == "__main__":
     # print("Max number of classes : ", classes)
 
     #print()
-    plot_dataset(dataset_id=28, seed=1, limit=20, cutoff=None, normalize_timeseries=False)
+    plot_dataset(dataset_id=28, seed=1, limit=None, cutoff=None, normalize_timeseries=True)
