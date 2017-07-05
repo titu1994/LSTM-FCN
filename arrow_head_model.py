@@ -7,18 +7,20 @@ from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLAS
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, hyperparameter_search_over_model
 
 DATASET_INDEX = 1
-TRAINABLE = True
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
+
+ATTENTION_CONCAT_AXIS = -1 # 1 = temporal, -1 = spatial
+TRAINABLE = True
 
 def generate_model():
 
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
     a = attention_block(ip, id=1)
-    x = concatenate([ip, a], axis=-1)
+    x = concatenate([ip, a], axis=ATTENTION_CONCAT_AXIS)
 
     x = Bidirectional(LSTM(128, trainable=TRAINABLE))(x)
     #x = PhasedLSTM(512)(x)
@@ -85,7 +87,8 @@ if __name__ == "__main__":
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='arrow_head', batch_size=128)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='arrow_head', layer_name='attention_dense')
+    visualise_attention(model, DATASET_INDEX, dataset_prefix='arrow_head', layer_name='attention_dense_1',
+                        visualize_sequence=True)
 
     # hyperparameter_search_over_model(gridsearch_model_gen, DATASET_INDEX,
     #                                  param_grid={

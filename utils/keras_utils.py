@@ -221,12 +221,20 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
     eval_functions = build_function(model, layer_name)
     attention_vectors = []
 
+
     for i in range(X_train.shape[0]):
         if print_attention: print(X_train[i, :, :][np.newaxis, ...].shape)
-        attention_vector = np.mean(get_activations(model,
-                                                   X_train[i, :, :][np.newaxis, ...],
-                                                   eval_functions,
-                                                   verbose=print_attention)[0], axis=1).squeeze()
+        activations = get_activations(model,
+                                      X_train[i, :, :][np.newaxis, ...],
+                                      eval_functions,
+                                      verbose=print_attention)[0]
+
+        if activations.shape[-1] != 1: # temporal attention
+            axis = 1
+        else:
+            axis = -1 # spatial attention
+
+        attention_vector = np.mean(activations, axis=axis).squeeze()
 
         if print_attention: print('attention =', attention_vector)
         assert (np.sum(attention_vector) - 1.0) < 1e-5
