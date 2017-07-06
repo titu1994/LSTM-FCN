@@ -1,49 +1,70 @@
 from keras.models import Model
-from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Embedding, BatchNormalization
+from keras.layers import Input, PReLU, Dense, LSTM, multiply, concatenate, Dropout
+from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute, Activation
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
-from utils.keras_utils import train_model, evaluate_model, visualize_cam
+from utils.keras_utils import train_model, evaluate_model, set_trainable, visualize_cam
 
 DATASET_INDEX = 24
-OUTPUT_DIM = 1000
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
+TRAINABLE = True
+
 def generate_model():
+    ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
-    ip = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='int32')
+    x = LSTM(64)(ip)
+    x = Dropout(0.8)(x)
 
-    embedding = Embedding(input_dim=MAX_NB_WORDS, output_dim=OUTPUT_DIM,
-                          mask_zero=True, input_length=MAX_SEQUENCE_LENGTH)(ip)
+    y = Permute((2, 1))(ip)
+    y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
+    y = BatchNormalization()(y)
+    y = Activation('relu')(y)
 
-    x = LSTM(512, dropout=0.2, recurrent_dropout=0.2)(embedding)
+    y = Conv1D(256, 5, padding='same', kernel_initializer='he_uniform')(y)
+    y = BatchNormalization()(y)
+    y = Activation('relu')(y)
 
-    x = BatchNormalization()(x)
+    y = Conv1D(128, 3, padding='same', kernel_initializer='he_uniform')(y)
+    y = BatchNormalization()(y)
+    y = Activation('relu')(y)
 
-    x = Dense(1024, activation='linear')(x)
-    x = PReLU()(x)
-    x = Dropout(0.2)(x)
+    y = GlobalAveragePooling1D()(y)
 
-    x = Dense(1024, activation='linear')(x)
-    x = PReLU()(x)
-    x = Dropout(0.2)(x)
+    x = concatenate([x, y])
 
     out = Dense(NB_CLASS, activation='softmax')(x)
 
     model = Model(ip, out)
+
+    cnn_count = 0
+    for layer in model.layers:
+        if layer.__class__.__name__ in ['Conv1D',
+                                        'BatchNormalization',
+                                        'PReLU']:
+            if layer.__class__.__name__ == 'Conv1D':
+                cnn_count += 1
+
+            if cnn_count == 3:
+                break
+            else:
+                set_trainable(layer, TRAINABLE)
+
     model.summary()
 
+    # add load model code here to fine-tune
+
     return model
+
 
 if __name__ == "__main__":
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='proximal_phalanx_tw', epochs=100, batch_size=128,
-    #            val_subset=205)
+    train_model(model, DATASET_INDEX, dataset_prefix='proximal_phalanx_tw', epochs=2000, batch_size=128)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='proximal_phalanx_tw', batch_size=128,
-                  test_data_subset=205)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='proximal_phalanx_tw', batch_size=128)
 
-    visualize_cam(model, DATASET_INDEX, dataset_prefix='proximal_phalanx_tw', class_id=0)
+    #visualize_cam(model, DATASET_INDEX, dataset_prefix='proximal_phalanx_tw', class_id=0)
