@@ -183,24 +183,28 @@ def set_trainable(layer, value):
         set_trainable(layer.layer, value)
 
 
-def build_function(model, layer_name=None):
+def build_function(model, layer_names=None):
     inp = model.input
-    if layer_name is None:
+
+    if layer_names is not None and (type(layer_names) != list and type(layer_names) != tuple):
+        layer_names = [layer_names]
+
+    if layer_names is None:
         outputs = [layer.output for layer in model.layers] # all layer outputs
     else:
-        outputs = [layer.output for layer in model.layers if layer.name == layer_name]
+        outputs = [layer.output for layer in model.layers if layer.name in layer_names]
 
     funcs = [K.function([inp] + [K.learning_phase()], [out]) for out in outputs]  # evaluation functions
     return funcs
 
 
-def get_activations(model, inputs, eval_functions, verbose=False):
+def get_outputs(model, inputs, eval_functions, verbose=False):
     if verbose: print('----- activations -----')
-    activations = []
+    outputs = []
     layer_outputs = [func([inputs, 1.])[0] for func in eval_functions]
     for layer_activations in layer_outputs:
-        activations.append(layer_activations)
-    return activations
+        outputs.append(layer_activations)
+    return outputs
 
 
 def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cutoff=None,
@@ -228,10 +232,10 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
 
     for i in range(X_train.shape[0]):
         if print_attention: print(X_train[i, :, :][np.newaxis, ...].shape)
-        activations = get_activations(model,
-                                      X_train[i, :, :][np.newaxis, ...],
-                                      eval_functions,
-                                      verbose=print_attention)[0]
+        activations = get_outputs(model,
+                                  X_train[i, :, :][np.newaxis, ...],
+                                  eval_functions,
+                                  verbose=print_attention)[0]
 
         if activations.shape[-1] != 1: # temporal attention
             axis = 1
@@ -278,8 +282,55 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
         plt.show()
 
 
+def visualize_cam(model:Model, dataset_id, dataset_prefix, sequence_id,
+                  cutoff=None, normalize_timeseries=False):
+    X_train, y_train, _, _, is_timeseries = load_dataset_at(dataset_id,
+                                                           normalize_timeseries=normalize_timeseries)
+    _, sequence_length = calculate_dataset_metrics(X_train)
+
+    if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
+        if cutoff is None:
+            choice = cutoff_choice(dataset_id, sequence_length)
+        else:
+            assert cutoff in ['pre', 'post'], 'Cutoff parameter value must be either "pre" or "post"'
+            choice = cutoff
+
+        if choice not in ['pre', 'post']:
+            return
+        else:
+            X_train, _ = cutoff_sequence(X_train, _, choice, dataset_id, sequence_length)
+
+    model.load_weights("./weights/%s_weights.h5" % dataset_prefix)
+
+    class_weights = model.layers[-1].get_weights()[0]
+
+    conv_layers = [layer for layer in model.layers if layer.__class__.__name__ == 'Conv1D']
+
+    final_conv = conv_layers[-1].name
+    final_softmax = model.layers[-1].name
+    out_names = [final_conv, final_softmax]
+    sequence_input = X_train[sequence_id, :, :][np.newaxis, ...]
+
+    eval_functions = build_function(model, out_names)
+    conv_out, predictions = get_outputs(model, sequence_input, eval_functions)
+
+    conv_out = conv_out[0, :, :]
+    conv_out = conv_out.transpose((1, 0))
+
+    conv_channels = conv_out.shape[1]
+
+    conv_cam = np.zeros(conv_out.shape[-1], dtype=np.float32)
+    for i, w in enumerate(class_weights[:conv_channels, 1]):
+        conv_cam += w * conv_out[i, :]
+
+
+
+
+
 class MaskablePermute(Permute):
 
     def __init__(self, dims, **kwargs):
         super(MaskablePermute, self).__init__(dims, **kwargs)
         self.supports_masking = True
+
+

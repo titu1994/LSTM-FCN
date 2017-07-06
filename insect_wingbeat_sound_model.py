@@ -7,7 +7,6 @@ from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLAS
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, hyperparameter_search_over_model
 
 DATASET_INDEX = 3
-OUTPUT_DIM = 1000
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]

@@ -79,6 +79,7 @@ TEST_FILES = ['../data\\Adiac_TEST', # 0
               '../data\\DiatomSizeReduction_TEST',  # 37
               ]
 
+# Not used anymore
 MAX_NB_WORDS_LIST = [17, # 0
                      17, # 1
                      17, # 2
@@ -137,15 +138,15 @@ MAX_SEQUENCE_LENGTH_LIST = [176, # 0
                             512, # 15
                             24, # 16
                             70, # 17
-                            56, # 18
+                            65, # 18
                             71, # 19
                             71, # 20
                             71, # 21
                             71, # 22
                             71, # 23
                             71, # 24
-                            75, # 25
-                            90, # 26
+                            84, # 25
+                            99, # 26
                             235, # 27
                             277, # 28
                             286, # 29
