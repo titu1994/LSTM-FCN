@@ -3,7 +3,7 @@ from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multi
 from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute, Activation
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
-from utils.keras_utils import train_model, evaluate_model, set_trainable
+from utils.keras_utils import train_model, evaluate_model, set_trainable, visualize_cam
 
 DATASET_INDEX = 31
 
@@ -79,5 +79,6 @@ if __name__ == "__main__":
     evaluate_model(model, DATASET_INDEX, dataset_prefix='cricket_y', batch_size=128,
                    cutoff=None)
 
+    visualize_cam(model, DATASET_INDEX, dataset_prefix='cricket_y', class_id=0)
 
 

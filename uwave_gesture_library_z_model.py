@@ -3,7 +3,7 @@ from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multi
 from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
-from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention
+from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, visualize_cam
 
 DATASET_INDEX = 35
 
@@ -82,4 +82,4 @@ if __name__ == "__main__":
 
     visualise_attention(model, DATASET_INDEX, dataset_prefix='uwave_gesture_library_z', layer_name='attention_dense_1')
 
-
+    visualize_cam(model, DATASET_INDEX, dataset_prefix='uwave_gesture_library_z', class_id=0)

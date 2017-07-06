@@ -81,4 +81,4 @@ if __name__ == "__main__":
     visualise_attention(model, DATASET_INDEX, dataset_prefix='adiac', layer_name='attention_dense_1',
                         visualize_sequence=True)
 
-    visualize_cam(model, DATASET_INDEX, dataset_prefix='adiac', )
+    visualize_cam(model, DATASET_INDEX, dataset_prefix='adiac', class_id=0)

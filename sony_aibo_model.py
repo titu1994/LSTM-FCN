@@ -3,7 +3,7 @@ from keras.layers import Input, PReLU, Dense, Dropout, LSTM, concatenate, multip
 from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
-from utils.keras_utils import train_model, evaluate_model, set_trainable
+from utils.keras_utils import train_model, evaluate_model, set_trainable, visualize_cam
 
 DATASET_INDEX = 17
 
@@ -74,3 +74,5 @@ if __name__ == "__main__":
     #train_model(model, DATASET_INDEX, dataset_prefix='sony_aibo', epochs=2000, batch_size=64)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='sony_aibo', batch_size=128)
+
+    visualize_cam(model, DATASET_INDEX, dataset_prefix='sony_aibo', class_id=0)

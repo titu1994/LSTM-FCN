@@ -4,7 +4,7 @@ from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Per
 from keras import backend as K
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
-from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, hyperparameter_search_over_model
+from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, visualize_cam
 
 DATASET_INDEX = 14
 
@@ -81,4 +81,4 @@ if __name__ == "__main__":
 
     visualise_attention(model, DATASET_INDEX, dataset_prefix='beetle_fly', layer_name='attention_dense_1')
 
-
+    visualize_cam(model, DATASET_INDEX, dataset_prefix='beetle_fly', class_id=0)

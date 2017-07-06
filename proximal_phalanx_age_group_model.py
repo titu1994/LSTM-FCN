@@ -2,7 +2,7 @@ from keras.models import Model
 from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Embedding, BatchNormalization
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
-from utils.keras_utils import train_model, evaluate_model
+from utils.keras_utils import train_model, evaluate_model, visualize_cam
 
 DATASET_INDEX = 22
 OUTPUT_DIM = 1000
@@ -46,4 +46,4 @@ if __name__ == "__main__":
     evaluate_model(model, DATASET_INDEX, dataset_prefix='proximal_phalanx_age_group', batch_size=128,
                   test_data_subset=205)
 
-
+    visualize_cam(model, DATASET_INDEX, dataset_prefix='proximal_phalanx_age_group', class_id=0)
