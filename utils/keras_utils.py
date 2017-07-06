@@ -312,6 +312,7 @@ def visualize_cam(model:Model, dataset_id, dataset_prefix, class_id,
 
     if class_id > 0:
         class_id = class_id - 1
+
     y_train_ids = np.where(y_train[:, 0] == class_id)
     sequence_input = X_train[y_train_ids[0], ...]
     choice = np.random.choice(range(len(sequence_input)), 1)
@@ -322,13 +323,11 @@ def visualize_cam(model:Model, dataset_id, dataset_prefix, class_id,
 
     conv_out = conv_out[0, :, :]
     conv_out = conv_out.transpose((1, 0))
-
     conv_channels = conv_out.shape[0]
 
-    conv_cam = np.zeros(conv_out.shape[1], dtype=np.float32)
+    conv_cam = np.zeros(sequence_length, dtype=np.float32)
     for i, w in enumerate(class_weights[conv_channels:, class_id]):
         conv_cam += w * conv_out[i, :]
-
     conv_cam /= np.max(conv_cam)
 
     sequence_input = sequence_input.reshape((-1, 1))
@@ -340,19 +339,19 @@ def visualize_cam(model:Model, dataset_id, dataset_prefix, class_id,
 
     conv_cam_df = pd.DataFrame(conv_cam,
                                index=range(conv_cam.shape[0]),
-                               columns=range(conv_cam.shape[1]))
+                               columns=[1])
 
-    fig, axs = plt.subplots(2, 1, squeeze=False,
+    fig, axs = plt.subplots(3, 1, squeeze=False,
                             figsize=(6, 6))
 
     class_label = class_id + 1
 
-    sequence_df.plot(title='Sequence (class = %d, sample $%d)' % (class_label, choice),
+    sequence_df.plot(title='Sequence (class = %d)' % (class_label),
                      subplots=False,
                      legend=None,
                      ax=axs[0][0])
 
-    conv_cam_df.plot(title='Class Activation Map (class = %d, sample #%d)' % (class_label, choice),
+    conv_cam_df.plot(title='Convolution Class Activation Map (class = %d)' % (class_label),
                      subplots=False,
                      legend=None,
                      ax=axs[1][0])
