@@ -158,6 +158,8 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
     X_train = X_train[train_idx, 0, :]
     X_train = X_train.transpose((1, 0))
 
+    print(X_train.shape)
+
     if X_train_attention is not None:
         X_train_attention = X_train_attention[train_idx, 0, :]
         X_train_attention = X_train_attention.transpose((1, 0))
@@ -199,7 +201,6 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
                  ax=axs[0][1])
 
     if plot_attention_data is not None and X_train_attention is not None:
-        print(X_train_attention.shape)
         train_attention_df = pd.DataFrame(X_train_attention,
                             index=range(X_train_attention.shape[0]),
                             columns=range(X_train_attention.shape[1]))
@@ -210,7 +211,6 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
                       ax=axs[1][0])
 
     if plot_attention_data is not None and X_test_attention is not None:
-        print(X_test_attention.shape)
         test_df = pd.DataFrame(X_test_attention,
                                index=range(X_test_attention.shape[0]),
                                columns=range(X_test_attention.shape[1]))

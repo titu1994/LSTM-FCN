@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     #train_model(model, DATASET_INDEX, dataset_prefix='medical_images', epochs=2000, batch_size=64)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='medical_images', batch_size=128)
+    #evaluate_model(model, DATASET_INDEX, dataset_prefix='medical_images', batch_size=128)
 
-    #visualize_cam(model, DATASET_INDEX, 'medical_images', sequence_id=0)
+    visualize_cam(model, DATASET_INDEX, 'medical_images', sequence_id=0)
 

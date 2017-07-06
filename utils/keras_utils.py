@@ -309,6 +309,7 @@ def visualize_cam(model:Model, dataset_id, dataset_prefix, sequence_id,
     final_conv = conv_layers[-1].name
     final_softmax = model.layers[-1].name
     out_names = [final_conv, final_softmax]
+
     sequence_input = X_train[sequence_id, :, :][np.newaxis, ...]
 
     eval_functions = build_function(model, out_names)
@@ -323,9 +324,35 @@ def visualize_cam(model:Model, dataset_id, dataset_prefix, sequence_id,
     for i, w in enumerate(class_weights[:conv_channels, 1]):
         conv_cam += w * conv_out[i, :]
 
+    conv_cam /= np.max(conv_cam)
 
+    sequence_input = sequence_input.reshape((-1, 1))
+    conv_cam = conv_cam.reshape((-1, 1))
 
+    sequence_df = pd.DataFrame(sequence_input,
+                               index=range(sequence_input.shape[0]),
+                               columns=range(sequence_input.shape[1]))
 
+    conv_cam_df = pd.DataFrame(conv_cam,
+                               index=range(conv_cam.shape[0]),
+                               columns=range(conv_cam.shape[1]))
+
+    fig, axs = plt.subplots(2, 1, squeeze=False,
+                            figsize=(6, 6))
+
+    class_label = y_train[sequence_id] + 1
+
+    sequence_df.plot(title='Sequence (class = %d)' % (class_label),
+                     subplots=False,
+                     legend=None,
+                     ax=axs[0][0])
+
+    conv_cam_df.plot(title='Class Activation Map (class = %d)' % (class_label),
+                     subplots=False,
+                     legend=None,
+                     ax=axs[1][0])
+
+    plt.show()
 
 class MaskablePermute(Permute):
 
