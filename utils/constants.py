@@ -8,25 +8,25 @@ TRAIN_FILES = ['../data\\Adiac_TRAIN', # 0
                '../data\\WordsSynonyms_TRAIN',  # 6
                '../data\\50words_TRAIN',  # 7
                '../data\\Beef_TRAIN',  # 8
-               '../data\\DistalPhalanxOutlineAgeGroup_TEST',  # 9
-               '../data\\DistalPhalanxOutlineCorrect_TEST',  # 10
-               '../data\\DistalPhalanxTW_TEST',  # 11
-               '../data\\ECG200_TRAIN.csv',  # 12
-               '../data\\ECGFiveDays_train__4_true.csv',  # 13
+               '../data\\DistalPhalanxOutlineAgeGroup_TEST',  # 9 (inverted dataset)
+               '../data\\DistalPhalanxOutlineCorrect_TEST',  # 10 (inverted dataset)
+               '../data\\DistalPhalanxTW_TEST',  # 11 (inverted dataset)
+               '../data\\ECG200_TRAIN',  # 12
+               '../data\\ECGFiveDays_TRAIN',  # 13
                '../data\\BeetleFly_TRAIN',  # 14
                '../data\\BirdChicken_TRAIN',  # 15
-               '../data\\ItalyPowerDemand_train__4_2_true.csv', # 16
-               '../data\\SonyAIBORobotSurface_train__4_2_true.csv', # 17
-               '../data\\SonyAIBORobotSurfaceII_train__4_2_true.csv', # 18
+               '../data\\ItalyPowerDemand_TRAIN', # 16
+               '../data\\SonyAIBORobotSurface_TRAIN', # 17
+               '../data\\SonyAIBORobotSurfaceII_TRAIN', # 18
                '../data\\MiddlePhalanxOutlineAgeGroup_TEST', # 19
                '../data\\MiddlePhalanxOutlineCorrect_TEST', # 20
                '../data\\MiddlePhalanxTW_TEST', # 21
                '../data\\ProximalPhalanxOutlineAgeGroup_TRAIN', # 22
                '../data\\ProximalPhalanxOutlineCorrect_TRAIN', # 23
-               '../data\\ProximalPhalanxTW_TEST', # 24
-               '../data\\MoteStrain_train__4_2_true.csv', # 25
-               '../data\\MedicalImages_train__4_2_true.csv', # 26
-               '../data\\Strawberry_TEST',  # 27
+               '../data\\ProximalPhalanxTW_TEST', # 24 (inverted dataset)
+               '../data\\MoteStrain_TRAIN', # 25
+               '../data\\MedicalImages_TRAIN', # 26
+               '../data\\Strawberry_TEST',  # 27 (inverted dataset)
                '../data\\ToeSegmentation1_TRAIN',  # 28
                '../data\\Coffee_TRAIN',  # 29
                '../data\\Cricket_X_TRAIN',  # 30
@@ -48,24 +48,24 @@ TEST_FILES = ['../data\\Adiac_TEST', # 0
               '../data\\WordsSynonyms_TEST', # 6
               '../data\\50words_TEST', # 7
               '../data\\Beef_TEST', # 8
-              '../data\\DistalPhalanxOutlineAgeGroup_TRAIN', # 9
+              '../data\\DistalPhalanxOutlineAgeGroup_TRAIN', # 9 (inverted dataset)
               '../data\\DistalPhalanxOutlineCorrect_TRAIN', # 10 (inverted dataset)
-              '../data\\DistalPhalanxTW_test_TRAIN', # 11
-              '../data\\ECG200_TEST.csv', # 12
-              '../data\\ECGFiveDays_test__4_true.csv', # 13
+              '../data\\DistalPhalanxTW_TRAIN', # 11 (inverted dataset)
+              '../data\\ECG200_TEST', # 12
+              '../data\\ECGFiveDays_TEST', # 13
               '../data\\BeetleFly_TEST', # 14
               '../data\\BirdChicken_TEST', # 15
-              '../data\\ItalyPowerDemand_test__4_2_true.csv', # 16
-              '../data\\SonyAIBORobotSurface_test__4_2_true.csv', # 17
-              '../data\\SonyAIBORobotSurfaceII_test__4_2_true.csv', # 18
-              '../data\\MiddlePhalanxOutlineAgeGroup_TRAIN', # 19
-              '../data\\MiddlePhalanxOutlineCorrect_TRAIN', # 20
-              '../data\\MiddlePhalanxTW_TRAIN', # 21
+              '../data\\ItalyPowerDemand_TEST', # 16
+              '../data\\SonyAIBORobotSurface_TEST', # 17
+              '../data\\SonyAIBORobotSurfaceII_TEST', # 18
+              '../data\\MiddlePhalanxOutlineAgeGroup_TRAIN', # 19 (inverted dataset)
+              '../data\\MiddlePhalanxOutlineCorrect_TRAIN', # 20 (inverted dataset)
+              '../data\\MiddlePhalanxTW_TRAIN', # 21 (inverted dataset)
               '../data\\ProximalPhalanxOutlineAgeGroup_TEST', # 22
               '../data\\ProximalPhalanxOutlineCorrect_TEST', # 23
-              '../data\\ProximalPhalanxTW_TRAIN', # 24
-              '../data\\MoteStrain_test__4_2_true.csv', # 25
-              '../data\\MedicalImages_test__4_2_true.csv', # 26
+              '../data\\ProximalPhalanxTW_TRAIN', # 24 (inverted dataset)
+              '../data\\MoteStrain_TEST', # 25
+              '../data\\MedicalImages_TEST', # 26
               '../data\\Strawberry_TRAIN',  # 27
               '../data\\ToeSegmentation1_TEST',  # 28
               '../data\\Coffee_TEST',  # 29
@@ -79,6 +79,7 @@ TEST_FILES = ['../data\\Adiac_TEST', # 0
               '../data\\DiatomSizeReduction_TEST',  # 37
               ]
 
+# Not used anymore
 MAX_NB_WORDS_LIST = [17, # 0
                      17, # 1
                      17, # 2
@@ -123,29 +124,29 @@ MAX_SEQUENCE_LENGTH_LIST = [176, # 0
                             251, # 1
                             166, # 2
                             256, # 3
-                            319, # 4
+                            257, # 4
                             234, # 5
                             270, # 6
                             270, # 7
                             470, # 8
-                            80, # 9
-                            80, # 10
-                            80, # 11
+                            80,  # 9
+                            80,  # 10
+                            80,  # 11
                             96, # 12
-                            127, # 13
+                            136, # 13
                             512, # 14
                             512, # 15
-                            14, # 16
-                            61, # 17
-                            56, # 18
+                            24, # 16
+                            70, # 17
+                            65, # 18
                             80, # 19
                             80, # 20
                             80, # 21
                             80, # 22
                             80, # 23
                             80, # 24
-                            75, # 25
-                            90, # 26
+                            84, # 25
+                            99, # 26
                             235, # 27
                             277, # 28
                             286, # 29
