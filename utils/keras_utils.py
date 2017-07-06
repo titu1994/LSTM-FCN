@@ -1,5 +1,10 @@
 import os
 import numpy as np
+import pandas as pd
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+mpl.style.use('seaborn-paper')
 
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV
@@ -261,8 +266,6 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
 
     else:
         # plot only attention chart
-        import matplotlib.pyplot as plt
-        import pandas as pd
 
         train_df = pd.DataFrame({'attention (%)': attention_vector_final},
                           index=range(attention_vector_final.shape[0]))

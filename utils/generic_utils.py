@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
 import os
+import matplotlib as mpl
+import matplotlib.pylab as plt
+
+mpl.style.use('seaborn-paper')
 
 from utils.constants import TRAIN_FILES, TEST_FILES, MAX_SEQUENCE_LENGTH_LIST
 
@@ -112,7 +116,6 @@ def calculate_dataset_metrics(X_train):
 
 def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
                  normalize_timeseries=False, plot_attention_data=None):
-    import matplotlib.pylab as plt
     np.random.seed(seed)
 
     if plot_attention_data is None:
@@ -182,7 +185,8 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
         rows = 1
         cols = 2
 
-    fig, axs = plt.subplots(rows, cols)
+    fig, axs = plt.subplots(rows, cols, squeeze=False,
+                            figsize=(8, 6))
 
     train_df.plot(title='Train dataset',
                   subplots=False,
