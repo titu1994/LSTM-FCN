@@ -80,11 +80,10 @@ TRAIN_FILES = ['../data\\Adiac_TRAIN', # 0
                '../data\\Two_Patterns_TRAIN',  # 78
                '../data\\TwoLeadECG_TRAIN',  # 79
                '../data\\UWaveGestureLibraryAll_TRAIN',  # 80
-               '../data\\ShapesAll_TRAIN',  # 81
-               '../data\\wafer_TRAIN',  # 82
-               '../data\\Worms_TRAIN',  # 83
-               '../data\\WormsTwoClass_TRAIN',  # 84
-               '../data\\yoga_TRAIN',  # 85
+               '../data\\wafer_TRAIN',  # 81
+               '../data\\Worms_TRAIN',  # 82
+               '../data\\WormsTwoClass_TRAIN',  # 83
+               '../data\\yoga_TRAIN',  # 84
                ]
 
 TEST_FILES = ['../data\\Adiac_TEST', # 0
@@ -168,11 +167,10 @@ TEST_FILES = ['../data\\Adiac_TEST', # 0
               '../data\\Two_Patterns_TEST',  # 78
               '../data\\TwoLeadECG_TEST',  # 79
               '../data\\UWaveGestureLibraryAll_TEST',  # 80
-              '../data\\ShapesAll_TEST',  # 81
-              '../data\\wafer_TEST',  # 82
-              '../data\\Worms_TEST',  # 83
-              '../data\\WormsTwoClass_TEST',  # 84
-              '../data\\yoga_TEST',  # 85
+              '../data\\wafer_TEST',  # 81
+              '../data\\Worms_TEST',  # 82
+              '../data\\WormsTwoClass_TEST',  # 83
+              '../data\\yoga_TEST',  # 84
               ]
 
 MAX_SEQUENCE_LENGTH_LIST = [176, # 0
@@ -347,5 +345,4 @@ NB_CLASSES_LIST = [37, # 0
                    5, # 82
                    2, # 83
                    2, # 84
-
                    ]
