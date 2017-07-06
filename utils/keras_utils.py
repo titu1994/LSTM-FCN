@@ -282,7 +282,7 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
         plt.show()
 
 
-def visualize_cam(model:Model, dataset_id, dataset_prefix, sequence_id,
+def visualize_cam(model:Model, dataset_id, dataset_prefix, class_id,
                   cutoff=None, normalize_timeseries=False):
     X_train, y_train, _, _, is_timeseries = load_dataset_at(dataset_id,
                                                            normalize_timeseries=normalize_timeseries)
@@ -310,7 +310,11 @@ def visualize_cam(model:Model, dataset_id, dataset_prefix, sequence_id,
     final_softmax = model.layers[-1].name
     out_names = [final_conv, final_softmax]
 
-    sequence_input = X_train[sequence_id, :, :][np.newaxis, ...]
+    class_id = class_id - 1
+    y_train_ids = np.where(y_train[:, 0] == class_id)
+    sequence_input = X_train[y_train_ids[0], ...]
+    choice = np.random.choice(range(len(sequence_input)), 1)
+    sequence_input = sequence_input[choice, :, :]
 
     eval_functions = build_function(model, out_names)
     conv_out, predictions = get_outputs(model, sequence_input, eval_functions)
@@ -340,14 +344,14 @@ def visualize_cam(model:Model, dataset_id, dataset_prefix, sequence_id,
     fig, axs = plt.subplots(2, 1, squeeze=False,
                             figsize=(6, 6))
 
-    class_label = y_train[sequence_id] + 1
+    class_label = class_id + 1
 
-    sequence_df.plot(title='Sequence (class = %d)' % (class_label),
+    sequence_df.plot(title='Sequence (class = %d, sample = %d)' % (class_label, choice),
                      subplots=False,
                      legend=None,
                      ax=axs[0][0])
 
-    conv_cam_df.plot(title='Class Activation Map (class = %d)' % (class_label),
+    conv_cam_df.plot(title='Class Activation Map (class = %d, sample = %d)' % (class_label, choice),
                      subplots=False,
                      legend=None,
                      ax=axs[1][0])
