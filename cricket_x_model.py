@@ -3,7 +3,7 @@ from keras.layers import Input, PReLU, Dense, LSTM, multiply, concatenate, Dropo
 from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute, Activation
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
-from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention
+from utils.keras_utils import train_model, evaluate_model, set_trainable
 
 DATASET_INDEX = 30
 

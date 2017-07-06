@@ -1,6 +1,5 @@
 from keras.models import Model
 from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multiply, concatenate
-from phased_lstm_keras.PhasedLSTM import PhasedLSTM
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention
@@ -22,7 +21,6 @@ def generate_model():
     x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
 
     x = Bidirectional(LSTM(512, trainable=TRAINABLE))(x)
-    #x = PhasedLSTM(512)(x)
 
     x = Dense(1024, activation='linear')(x)
     x = PReLU()(x)

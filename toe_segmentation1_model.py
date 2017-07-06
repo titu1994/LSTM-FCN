@@ -1,7 +1,5 @@
 from keras.models import Model
-from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multiply, concatenate, \
-    Conv1D, GlobalAveragePooling1D, Activation
-from phased_lstm_keras.PhasedLSTM import PhasedLSTM
+from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multiply, concatenate
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention
@@ -24,7 +22,6 @@ def generate_model():
     c = concatenate([ip, a], axis=ATTENTION_CONCAT_AXIS)
 
     x = Bidirectional(LSTM(128, trainable=TRAINABLE))(c)
-    #x = PhasedLSTM(128)(x)
 
     x = Dense(1024, activation='linear')(x)
     x = PReLU()(x)
@@ -57,9 +54,9 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='toe_segmentation1', epochs=150, batch_size=64)
+    #train_model(model, DATASET_INDEX, dataset_prefix='toe_segmentation1', epochs=150, batch_size=64)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='toe_segmentation1', batch_size=128)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='toe_segmentation1', layer_name='attention_dense_1')
+    visualise_attention(model, DATASET_INDEX, dataset_prefix='toe_segmentation1', layer_name='attention_dense_1')
 

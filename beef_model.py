@@ -2,7 +2,6 @@ from keras.models import Model
 from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multiply, concatenate
 from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute
 from keras import backend as K
-from phased_lstm_keras.PhasedLSTM import PhasedLSTM
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, hyperparameter_search_over_model
@@ -75,7 +74,7 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='beef', epochs=300, batch_size=128)
+    #train_model(model, DATASET_INDEX, dataset_prefix='beef', epochs=300, batch_size=128)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='beef', batch_size=128)
 

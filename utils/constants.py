@@ -8,25 +8,25 @@ TRAIN_FILES = ['../data\\Adiac_TRAIN', # 0
                '../data\\WordsSynonyms_TRAIN',  # 6
                '../data\\50words_TRAIN',  # 7
                '../data\\Beef_TRAIN',  # 8
-               '../data\\DistalPhalanxOutlineAgeGroup_train__4_2_true.csv',  # 9
+               '../data\\DistalPhalanxOutlineAgeGroup_TRAIN',  # 9
                '../data\\DistalPhalanxOutlineCorrect_TEST',  # 10
-               '../data\\DistalPhalanxTW_train__4_2_true.csv',  # 11
-               '../data\\ECG200_train__4_2_true.csv',  # 12
-               '../data\\ECGFiveDays_train__4_true.csv',  # 13
+               '../data\\DistalPhalanxTW_TRAIN',  # 11
+               '../data\\ECG200_TRAIN',  # 12
+               '../data\\ECGFiveDays_TRAIN',  # 13
                '../data\\BeetleFly_TRAIN',  # 14
                '../data\\BirdChicken_TRAIN',  # 15
-               '../data\\ItalyPowerDemand_train__4_2_true.csv', # 16
-               '../data\\SonyAIBORobotSurface_train__4_2_true.csv', # 17
-               '../data\\SonyAIBORobotSurfaceII_train__4_2_true.csv', # 18
-               '../data\\MiddlePhalanxOutlineAgeGroup_train__4_2_true.csv', # 19
-               '../data\\MiddlePhalanxOutlineCorrect_train__4_2_true.csv', # 20
-               '../data\\MiddlePhalanxTW_train__4_2_true.csv', # 21
-               '../data\\ProximalPhalanxOutlineAgeGroup_train__4_2_true.csv', # 22
-               '../data\\ProximalPhalanxOutlineCorrect_train__4_2_true.csv', # 23
-               '../data\\ProximalPhalanxTW_train__4_2_true.csv', # 24
-               '../data\\MoteStrain_train__4_2_true.csv', # 25
-               '../data\\MedicalImages_train__4_2_true.csv', # 26
-               '../data\\Strawberry_TEST',  # 27
+               '../data\\ItalyPowerDemand_TRAIN', # 16
+               '../data\\SonyAIBORobotSurface_TRAIN', # 17
+               '../data\\SonyAIBORobotSurfaceII_TRAIN', # 18
+               '../data\\MiddlePhalanxOutlineAgeGroup_TRAIN', # 19
+               '../data\\MiddlePhalanxOutlineCorrect_TRAIN', # 20
+               '../data\\MiddlePhalanxTW_TRAIN', # 21
+               '../data\\ProximalPhalanxOutlineAgeGroup_TRAIN', # 22
+               '../data\\ProximalPhalanxOutlineCorrect_TRAIN', # 23
+               '../data\\ProximalPhalanxTW_TRAIN', # 24
+               '../data\\MoteStrain_TRAIN', # 25
+               '../data\\MedicalImages_TRAIN', # 26
+               '../data\\Strawberry_TEST',  # 27 (inverted dataset)
                '../data\\ToeSegmentation1_TRAIN',  # 28
                '../data\\Coffee_TRAIN',  # 29
                '../data\\Cricket_X_TRAIN',  # 30
@@ -48,24 +48,24 @@ TEST_FILES = ['../data\\Adiac_TEST', # 0
               '../data\\WordsSynonyms_TEST', # 6
               '../data\\50words_TEST', # 7
               '../data\\Beef_TEST', # 8
-              '../data\\DistalPhalanxOutlineAgeGroup_test__4_2_true.csv', # 9
+              '../data\\DistalPhalanxOutlineAgeGroup_TEST', # 9
               '../data\\DistalPhalanxOutlineCorrect_TRAIN', # 10 (inverted dataset)
-              '../data\\DistalPhalanxTW_test__4_2_true.csv', # 11
-              '../data\\ECG200_test__4_2_true.csv', # 12
-              '../data\\ECGFiveDays_test__4_true.csv', # 13
+              '../data\\DistalPhalanxTW_TEST', # 11
+              '../data\\ECG200_TEST', # 12
+              '../data\\ECGFiveDays_TEST', # 13
               '../data\\BeetleFly_TEST', # 14
               '../data\\BirdChicken_TEST', # 15
-              '../data\\ItalyPowerDemand_test__4_2_true.csv', # 16
-              '../data\\SonyAIBORobotSurface_test__4_2_true.csv', # 17
-              '../data\\SonyAIBORobotSurfaceII_test__4_2_true.csv', # 18
-              '../data\\MiddlePhalanxOutlineAgeGroup_test__4_2_true.csv', # 19
-              '../data\\MiddlePhalanxOutlineCorrect_test__4_2_true.csv', # 20
-              '../data\\MiddlePhalanxTW_test__4_2_true.csv', # 21
-              '../data\\ProximalPhalanxOutlineAgeGroup_test__4_2_true.csv', # 22
-              '../data\\ProximalPhalanxOutlineCorrect_test__4_2_true.csv', # 23
-              '../data\\ProximalPhalanxTW_test__4_2_true.csv', # 24
-              '../data\\MoteStrain_test__4_2_true.csv', # 25
-              '../data\\MedicalImages_test__4_2_true.csv', # 26
+              '../data\\ItalyPowerDemand_TEST', # 16
+              '../data\\SonyAIBORobotSurface_TEST', # 17
+              '../data\\SonyAIBORobotSurfaceII_TEST', # 18
+              '../data\\MiddlePhalanxOutlineAgeGroup_TEST', # 19
+              '../data\\MiddlePhalanxOutlineCorrect_TEST', # 20
+              '../data\\MiddlePhalanxTW_TEST', # 21
+              '../data\\ProximalPhalanxOutlineAgeGroup_TEST', # 22
+              '../data\\ProximalPhalanxOutlineCorrect_TEST', # 23
+              '../data\\ProximalPhalanxTW_TEST', # 24
+              '../data\\MoteStrain_TEST', # 25
+              '../data\\MedicalImages_TEST', # 26
               '../data\\Strawberry_TRAIN',  # 27
               '../data\\ToeSegmentation1_TEST',  # 28
               '../data\\Coffee_TEST',  # 29
