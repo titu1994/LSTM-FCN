@@ -1,6 +1,6 @@
 from keras.models import Model
-from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multiply, concatenate
-from keras import backend as K
+from keras.layers import Input, PReLU, Dense, LSTM, multiply, concatenate,Dropout
+from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute, Activation
 
 from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, visualize_cam
@@ -16,30 +16,49 @@ TRAINABLE = True
 
 
 def generate_model():
+    ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
-    ip = Input(shape=(1, MAX_SEQUENCE_LENGTH,))
+    x = LSTM(64)(ip)
+    x = Dropout(0.8)(x)
 
-    a = attention_block(ip, id=1)
-    x = concatenate([ip, a], axis=ATTENTION_CONCAT_AXIS)
+    y = Permute((2, 1))(ip)
+    y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
+    y = BatchNormalization()(y)
+    y = Activation('relu')(y)
 
-    x = Bidirectional(LSTM(512, trainable=TRAINABLE))(x)
+    y = Conv1D(256, 5, padding='same', kernel_initializer='he_uniform')(y)
+    y = BatchNormalization()(y)
+    y = Activation('relu')(y)
 
-    x = Dense(1024, activation='linear')(x)
-    x = PReLU()(x)
-    x = Dropout(0.2)(x)
+    y = Conv1D(128, 3, padding='same', kernel_initializer='he_uniform')(y)
+    y = BatchNormalization()(y)
+    y = Activation('relu')(y)
 
-    x = Dense(1024, activation='linear')(x)
-    x = PReLU()(x)
-    x = Dropout(0.2)(x)
+    y = GlobalAveragePooling1D()(y)
+
+    x = concatenate([x, y])
 
     out = Dense(NB_CLASS, activation='softmax')(x)
 
     model = Model(ip, out)
 
-    for layer in model.layers[:-4]:
-        set_trainable(layer, TRAINABLE)
+    cnn_count = 0
+    for layer in model.layers:
+        if layer.__class__.__name__ in ['Conv1D',
+                                        'BatchNormalization',
+                                        'PReLU']:
+            if layer.__class__.__name__ == 'Conv1D':
+                cnn_count += 1
+
+            if cnn_count == 3:
+                break
+            else:
+                set_trainable(layer, TRAINABLE)
 
     model.summary()
+
+    # add load model code here to fine-tune
+    #model.load_weights('weights/phalanx_outline_timesequence_weights - 80 v3 lstm64 batch 128 dropout 80 no attention.h5')
 
     return model
 
@@ -47,8 +66,7 @@ def generate_model():
 def attention_block(inputs, id):
     # input shape: (batch_size, time_step, input_dim)
     # input shape: (batch_size, max_sequence_length, lstm_output_dim)
-    input_dim = K.int_shape(inputs)[-1]
-    x = Dense(input_dim, activation='softmax', name='attention_dense_%d' % id)(inputs)
+    x = Dense(MAX_SEQUENCE_LENGTH, activation='softmax', name='attention_dense_%d' % id)(inputs)
     x = multiply([inputs, x])
     return x
 
@@ -56,12 +74,10 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='phalanx_outline_timesequence', epochs=150, batch_size=128,
-    #            val_subset=276)
+    train_model(model, DATASET_INDEX, dataset_prefix='phalanx_outline_timesequence', epochs=2000, batch_size=128)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='phalanx_outline_timesequence', batch_size=128,
-                  test_data_subset=276)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='phalanx_outline_timesequence', batch_size=128)
 
-    visualise_attention(model, DATASET_INDEX, 'phalanx_outline_timesequence', layer_name='attention_dense_1')
+    #visualise_attention(model, DATASET_INDEX, 'phalanx_outline_timesequence', layer_name='attention_dense_1')
 
-    visualize_cam(model, DATASET_INDEX, dataset_prefix='phalanx_outline_timesequence', class_id=0)
+    #visualize_cam(model, DATASET_INDEX, dataset_prefix='phalanx_outline_timesequence', class_id=0)

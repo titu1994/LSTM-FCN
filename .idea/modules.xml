@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/BoW-lstm-rnn.iml" filepath="$PROJECT_DIR$/.idea/BoW-lstm-rnn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/bow-lstmrnn.iml" filepath="$PROJECT_DIR$/.idea/bow-lstmrnn.iml" />
     </modules>
   </component>
 </project>
