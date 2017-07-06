@@ -18,9 +18,9 @@ TRAIN_FILES = ['../data\\Adiac_TRAIN', # 0
                '../data\\ItalyPowerDemand_TRAIN', # 16
                '../data\\SonyAIBORobotSurface_TRAIN', # 17
                '../data\\SonyAIBORobotSurfaceII_TRAIN', # 18
-               '../data\\MiddlePhalanxOutlineAgeGroup_TEST', # 19
-               '../data\\MiddlePhalanxOutlineCorrect_TEST', # 20
-               '../data\\MiddlePhalanxTW_TEST', # 21
+               '../data\\MiddlePhalanxOutlineAgeGroup_TRAIN', # 19
+               '../data\\MiddlePhalanxOutlineCorrect_TRAIN', # 20
+               '../data\\MiddlePhalanxTW_TRAIN', # 21
                '../data\\ProximalPhalanxOutlineAgeGroup_TRAIN', # 22
                '../data\\ProximalPhalanxOutlineCorrect_TRAIN', # 23
                '../data\\ProximalPhalanxTW_TEST', # 24 (inverted dataset)
@@ -58,9 +58,9 @@ TEST_FILES = ['../data\\Adiac_TEST', # 0
               '../data\\ItalyPowerDemand_TEST', # 16
               '../data\\SonyAIBORobotSurface_TEST', # 17
               '../data\\SonyAIBORobotSurfaceII_TEST', # 18
-              '../data\\MiddlePhalanxOutlineAgeGroup_TRAIN', # 19 (inverted dataset)
-              '../data\\MiddlePhalanxOutlineCorrect_TRAIN', # 20 (inverted dataset)
-              '../data\\MiddlePhalanxTW_TRAIN', # 21 (inverted dataset)
+              '../data\\MiddlePhalanxOutlineAgeGroup_TEST', # 19 (inverted dataset)
+              '../data\\MiddlePhalanxOutlineCorrect_TEST', # 20 (inverted dataset)
+              '../data\\MiddlePhalanxTW_TEST', # 21 (inverted dataset)
               '../data\\ProximalPhalanxOutlineAgeGroup_TEST', # 22
               '../data\\ProximalPhalanxOutlineCorrect_TEST', # 23
               '../data\\ProximalPhalanxTW_TRAIN', # 24 (inverted dataset)
