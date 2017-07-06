@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multiply, concatenate
+from keras.layers import Input, PReLU, Dense, Dropout, LSTM, Bidirectional, multiply, concatenate
 from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute, Activation
 
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
@@ -9,10 +9,10 @@ DATASET_INDEX = 11
 OUTPUT_DIM = 1000
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
-
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
 TRAINABLE = True
+
 
 def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
@@ -56,9 +56,10 @@ def generate_model():
 
     model.summary()
 
-    #model.load_weights("weights/phalanx_tw_weights - 7769.h5")
+    # model.load_weights("weights/phalanx_tw_weights - 7769.h5")
 
     return model
+
 
 if __name__ == "__main__":
     model = generate_model()
@@ -67,4 +68,4 @@ if __name__ == "__main__":
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='phalanx_tw', batch_size=128)
 
-    #visualize_cam(model, DATASET_INDEX, dataset_prefix='phalanx_tw', class_id=0)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='phalanx_tw', class_id=0)

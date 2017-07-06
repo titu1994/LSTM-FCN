@@ -5,14 +5,13 @@ from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Per
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualize_cam
 
-
 DATASET_INDEX = 20
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
-
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
 TRAINABLE = True
+
 
 def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
@@ -68,6 +67,4 @@ if __name__ == "__main__":
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='middle_phalanx_outline', batch_size=128)
 
-    #visualize_cam(model, DATASET_INDEX, dataset_prefix='middle_phalanx_outline', class_id=0)
-
-
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='middle_phalanx_outline', class_id=0)

@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multiply, concatenate
+from keras.layers import Input, PReLU, Dense, Dropout, LSTM, Bidirectional, multiply, concatenate
 from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute
 from keras import backend as K
 
@@ -9,11 +9,11 @@ from utils.keras_utils import train_model, evaluate_model, set_trainable, visual
 DATASET_INDEX = 2
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
-
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
-ATTENTION_CONCAT_AXIS = 1 # 1 = temporal, -1 = spatial
+ATTENTION_CONCAT_AXIS = 1  # 1 = temporal, -1 = spatial
 TRAINABLE = True
+
 
 def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
@@ -59,7 +59,7 @@ def generate_model():
 
     model.summary()
 
-    #model.load_weights('weights/chlorine_concentration_weights - 512 8833 temporal.h5')
+    # model.load_weights('weights/chlorine_concentration_weights - 512 8833 temporal.h5')
 
     return model
 
@@ -76,11 +76,12 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', epochs=2000, batch_size=32)
+    # train_model(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', epochs=2000, batch_size=32)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', batch_size=32,
-                  test_data_subset=3840)
+                   test_data_subset=3840)
 
-    visualise_attention(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', layer_name='attention_dense_1',visualize_sequence=True)
+    visualise_attention(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', layer_name='attention_dense_1',
+                        visualize_sequence=True)
 
     visualize_cam(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', class_id=0)

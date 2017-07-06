@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multiply, concatenate
+from keras.layers import Input, PReLU, Dense, Dropout, LSTM, Bidirectional, multiply, concatenate
 
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, visualize_cam
@@ -7,14 +7,13 @@ from utils.keras_utils import train_model, evaluate_model, set_trainable, visual
 DATASET_INDEX = 4
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
-
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
-ATTENTION_CONCAT_AXIS = 1 # 1 = temporal, -1 = spatial
+ATTENTION_CONCAT_AXIS = 1  # 1 = temporal, -1 = spatial
 TRAINABLE = True
 
-def generate_model():
 
+def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
     x = attention_block(ip, id=1)
@@ -53,11 +52,11 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='lighting7', epochs=150, batch_size=128,
+    # train_model(model, DATASET_INDEX, dataset_prefix='lighting7', epochs=150, batch_size=128,
     #            cutoff='pre')
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='lighting7', batch_size=64,
-                  test_data_subset=73, cutoff='pre')
+                   test_data_subset=73, cutoff='pre')
 
     visualise_attention(model, DATASET_INDEX, dataset_prefix='lighting7',
                         cutoff='pre', layer_name='attention_dense_1')

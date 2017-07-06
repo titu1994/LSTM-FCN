@@ -8,10 +8,10 @@ from utils.keras_utils import train_model, evaluate_model, set_trainable, visual
 DATASET_INDEX = 24
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
-
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
 TRAINABLE = True
+
 
 def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
@@ -67,4 +67,4 @@ if __name__ == "__main__":
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='proximal_phalanx_tw', batch_size=128)
 
-    #visualize_cam(model, DATASET_INDEX, dataset_prefix='proximal_phalanx_tw', class_id=0)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='proximal_phalanx_tw', class_id=0)

@@ -7,9 +7,7 @@ from utils.keras_utils import train_model, evaluate_model, set_trainable, visual
 
 DATASET_INDEX = 30
 
-
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
-
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
 TRAINABLE = True

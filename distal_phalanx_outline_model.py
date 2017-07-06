@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Input, PReLU, Dense, LSTM, multiply, concatenate,Dropout
+from keras.layers import Input, PReLU, Dense, LSTM, multiply, concatenate, Dropout
 from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute, Activation
 
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
@@ -8,10 +8,9 @@ from utils.keras_utils import train_model, evaluate_model, set_trainable, visual
 DATASET_INDEX = 10
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
-
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
-ATTENTION_CONCAT_AXIS = 1 # 1 = temporal, -1 = spatial
+ATTENTION_CONCAT_AXIS = 1  # 1 = temporal, -1 = spatial
 TRAINABLE = True
 
 
@@ -58,7 +57,7 @@ def generate_model():
     model.summary()
 
     # add load model code here to fine-tune
-    #model.load_weights('weights/phalanx_outline_timesequence_weights - 80 v3 lstm64 batch 128 dropout 80 no attention.h5')
+    # model.load_weights('weights/phalanx_outline_timesequence_weights - 80 v3 lstm64 batch 128 dropout 80 no attention.h5')
 
     return model
 
@@ -78,6 +77,6 @@ if __name__ == "__main__":
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='phalanx_outline_timesequence', batch_size=128)
 
-    #visualise_attention(model, DATASET_INDEX, 'phalanx_outline_timesequence', layer_name='attention_dense_1')
+    # visualise_attention(model, DATASET_INDEX, 'phalanx_outline_timesequence', layer_name='attention_dense_1')
 
-    #visualize_cam(model, DATASET_INDEX, dataset_prefix='phalanx_outline_timesequence', class_id=0)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='phalanx_outline_timesequence', class_id=0)

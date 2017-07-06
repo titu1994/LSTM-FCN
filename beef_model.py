@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.layers import Input, PReLU, Dense,Dropout, LSTM, Bidirectional, multiply, concatenate
+from keras.layers import Input, PReLU, Dense, Dropout, LSTM, Bidirectional, multiply, concatenate
 from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute
 from keras import backend as K
 
@@ -9,11 +9,11 @@ from utils.keras_utils import train_model, evaluate_model, set_trainable, visual
 DATASET_INDEX = 8
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
-
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
-ATTENTION_CONCAT_AXIS = 1 # 1 = temporal, -1 = spatial
+ATTENTION_CONCAT_AXIS = 1  # 1 = temporal, -1 = spatial
 TRAINABLE = True
+
 
 def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
@@ -74,11 +74,11 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='beef', epochs=300, batch_size=128)
+    # train_model(model, DATASET_INDEX, dataset_prefix='beef', epochs=300, batch_size=128)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='beef', batch_size=128)
 
-    visualise_attention(model, DATASET_INDEX, dataset_prefix='beef', layer_name='attention_dense_1',visualize_sequence=True)
+    visualise_attention(model, DATASET_INDEX, dataset_prefix='beef', layer_name='attention_dense_1',
+                        visualize_sequence=True)
 
     visualize_cam(model, DATASET_INDEX, dataset_prefix='beef', class_id=0)
-

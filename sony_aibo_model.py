@@ -8,10 +8,10 @@ from utils.keras_utils import train_model, evaluate_model, set_trainable, visual
 DATASET_INDEX = 17
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
-
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
 TRAINABLE = True
+
 
 def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
@@ -71,7 +71,7 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='sony_aibo', epochs=2000, batch_size=64)
+    # train_model(model, DATASET_INDEX, dataset_prefix='sony_aibo', epochs=2000, batch_size=64)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='sony_aibo', batch_size=128)
 

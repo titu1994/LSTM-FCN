@@ -9,11 +9,11 @@ from utils.keras_utils import train_model, evaluate_model, set_trainable, visual
 DATASET_INDEX = 15
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
-
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
-ATTENTION_CONCAT_AXIS = 1 # 1 = temporal, -1 = spatial
+ATTENTION_CONCAT_AXIS = 1  # 1 = temporal, -1 = spatial
 TRAINABLE = True
+
 
 def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
@@ -76,11 +76,9 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='bird_chicken', epochs=2000, batch_size=32)
+    # train_model(model, DATASET_INDEX, dataset_prefix='bird_chicken', epochs=2000, batch_size=32)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='bird_chicken', batch_size=64)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='bird_chicken', layer_name='attention_dense_1',
+    # visualise_attention(model, DATASET_INDEX, dataset_prefix='bird_chicken', layer_name='attention_dense_1',
     #                    normalize_timeseries=True, visualize_sequence=True)
-
-
