@@ -2,13 +2,13 @@ from keras.models import Model
 from keras.layers import Input, PReLU, Dense, Dropout, LSTM, concatenate, multiply, Activation
 from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute
 
-from utils.constants import MAX_NB_WORDS_LIST, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
+from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualize_cam
 
 DATASET_INDEX = 25
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
-MAX_NB_WORDS = MAX_NB_WORDS_LIST[DATASET_INDEX]
+
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
 TRAINABLE = True
