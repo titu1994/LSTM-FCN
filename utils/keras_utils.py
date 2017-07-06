@@ -328,7 +328,8 @@ def visualize_cam(model:Model, dataset_id, dataset_prefix, class_id,
     conv_cam = np.zeros(sequence_length, dtype=np.float32)
     for i, w in enumerate(class_weights[conv_channels:, class_id]):
         conv_cam += w * conv_out[i, :]
-    conv_cam /= np.max(conv_cam)
+
+    conv_cam /= conv_cam.max()
 
     sequence_input = sequence_input.reshape((-1, 1))
     conv_cam = conv_cam.reshape((-1, 1))
@@ -341,7 +342,7 @@ def visualize_cam(model:Model, dataset_id, dataset_prefix, class_id,
                                index=range(conv_cam.shape[0]),
                                columns=[1])
 
-    fig, axs = plt.subplots(3, 1, squeeze=False,
+    fig, axs = plt.subplots(2, 1, squeeze=False,
                             figsize=(6, 6))
 
     class_label = class_id + 1

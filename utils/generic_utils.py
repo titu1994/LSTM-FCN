@@ -95,7 +95,13 @@ def load_dataset_at(index, normalize_timeseries=False, verbose=True) -> (np.arra
         if normalize_timeseries:
             X_test = (X_test - X_test.mean()) / (X_test.std())
 
-    if verbose: print("Finished loading test dataset..")
+    if verbose:
+        print("Finished loading test dataset..")
+        print()
+        print("Number of train samples : ", X_train.shape[0], "Number of test samples : ", X_test.shape[0])
+        print("Number of classes : ", nb_classes)
+        print("Sequence length : ", X_train.shape[-1])
+
 
     return X_train, y_train, X_test, y_test, is_timeseries
 
