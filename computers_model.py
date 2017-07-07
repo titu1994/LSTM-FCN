@@ -56,8 +56,7 @@ def generate_model():
 
     model.summary()
 
-    # add load model code here to fine-tune
-    model.load_weights('weights/computers_weights - no attention 8 lstm dropout 8.h5')
+    # add load model code here to fine-tune\
 
     return model
 
@@ -65,7 +64,7 @@ def generate_model():
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='computers', epochs=2000, batch_size=128)
+    #train_model(model, DATASET_INDEX, dataset_prefix='computers', epochs=2000, batch_size=128)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='computers', batch_size=128)
 
