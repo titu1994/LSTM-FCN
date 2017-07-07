@@ -121,11 +121,11 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model_2()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='face_ucr', epochs=2000, batch_size=64)
+    #train_model(model, DATASET_INDEX, dataset_prefix='face_ucr', epochs=2000, batch_size=128)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='face_ucr', batch_size=128)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='face_ucr', layer_name='attention_dense_1',
-    #                    visualize_sequence=True)
+    visualise_attention(model, DATASET_INDEX, dataset_prefix='face_ucr', layer_name='attention_dense_1',
+                        visualize_sequence=True)
 
     # visualize_cam(model, DATASET_INDEX, dataset_prefix='face_ucr', class_id=17)
