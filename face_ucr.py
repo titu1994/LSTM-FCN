@@ -119,9 +119,9 @@ def attention_block(inputs, id):
 
 
 if __name__ == "__main__":
-    model = generate_model()
+    model = generate_model_2()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='face_ucr', epochs=2000, batch_size=128)
+    train_model(model, DATASET_INDEX, dataset_prefix='face_ucr', epochs=2000, batch_size=64)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='face_ucr', batch_size=128)
 
