@@ -5,7 +5,7 @@ from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Per
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, visualize_cam
 
-DATASET_INDEX = 46
+DATASET_INDEX = 47
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
@@ -121,11 +121,11 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='face_four', epochs=2000, batch_size=128)
+    train_model(model, DATASET_INDEX, dataset_prefix='face_ucr', epochs=2000, batch_size=128)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='face_four', batch_size=128)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='face_ucr', batch_size=128)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='face_four', layer_name='attention_dense_1',
+    #visualise_attention(model, DATASET_INDEX, dataset_prefix='face_ucr', layer_name='attention_dense_1',
     #                    visualize_sequence=True)
 
-    # visualize_cam(model, DATASET_INDEX, dataset_prefix='face_four', class_id=17)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='face_ucr', class_id=17)
