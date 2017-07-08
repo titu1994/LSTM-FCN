@@ -120,13 +120,13 @@ def attention_block(inputs, id):
 
 
 if __name__ == "__main__":
-    model = generate_model_2()
+    model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='NonInvasiveFatalECG_Thorax2', epochs=2000, batch_size=128)
+    #train_model(model, DATASET_INDEX, dataset_prefix='olive_oil', epochs=6000, batch_size=64)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='NonInvasiveFatalECG_Thorax2', batch_size=128)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='olive_oil', batch_size=128)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='NonInvasiveFatalECG_Thorax2', layer_name='attention_dense_1',
+    #visualise_attention(model, DATASET_INDEX, dataset_prefix='olive_oil', layer_name='attention_dense_1',
     #                    visualize_sequence=True)
 
-    # visualize_cam(model, DATASET_INDEX, dataset_prefix='NonInvasiveFatalECG_Thorax24', class_id=17)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='olive_oil', class_id=17)
