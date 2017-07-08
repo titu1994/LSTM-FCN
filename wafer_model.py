@@ -58,7 +58,7 @@ def generate_model():
     model.summary()
 
     # add load model code here to fine-tune
-    #model.load_weights('weights/phalanx_outline_timesequence_weights - 80 v3 lstm64 batch 128 dropout 80 no attention.h5')
+    model.load_weights('weights/wafer_weights--9987 v3 lstm 8 batch 64 no attention.h5')
 
     return model
 
