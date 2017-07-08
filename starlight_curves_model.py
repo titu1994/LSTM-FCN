@@ -5,7 +5,7 @@ from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Per
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, visualize_cam
 
-DATASET_INDEX = 83
+DATASET_INDEX = 73
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
@@ -56,7 +56,8 @@ def generate_model():
 
     model.summary()
 
-    model.load_weights("weights/worms_two_class_weights - v3 lstm 8 batch 64 dropout 80 no attention.h5")
+    # add load model code here to fine-tune
+
     return model
 
 
@@ -66,8 +67,7 @@ def generate_model_2():
     x = attention_block(ip, id=1)
     x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
 
-    x = LSTM(128)(x)
-    x = Dropout(0.8)(x)
+    x = LSTM(64)(x)
 
     y = Permute((2, 1))(ip)
     y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
@@ -104,7 +104,7 @@ def generate_model_2():
                 set_trainable(layer, TRAINABLE)
 
     model.summary()
-    model.load_weights("weights/two_patterns_weights - 9928 v3 lstm 8 batch 64 dropout 80 with attention finetuned.h5")
+
     # add load model code here to fine-tune
 
     return model
@@ -119,13 +119,13 @@ def attention_block(inputs, id):
 
 
 if __name__ == "__main__":
-    model = generate_model()
+    model = generate_model_2()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='worms_two_class', epochs=1000, batch_size=16)
+    #train_model(model, DATASET_INDEX, dataset_prefix='starlight', epochs=2000, batch_size=64)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='worms_two_class', batch_size=16)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='starlight', batch_size=64)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='cbf', layer_name='attention_dense_1',
+    #visualise_attention(model, DATASET_INDEX, dataset_prefix='starlight', layer_name='attention_dense_1',
     #                    visualize_sequence=True)
 
-    # visualize_cam(model, DATASET_INDEX, dataset_prefix='cbf', class_id=17)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='starlight', class_id=17)

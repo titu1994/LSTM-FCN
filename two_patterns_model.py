@@ -105,7 +105,7 @@ def generate_model_2():
                 set_trainable(layer, TRAINABLE)
 
     model.summary()
-    model.load_weights("weights/two_patterns_weights - 9928 v3 lstm 8 batch 64 dropout 80 with attention finetuned.h5")
+
     # add load model code here to fine-tune
 
     return model
@@ -122,11 +122,11 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model_2()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='two_patterns', epochs=2000, batch_size=32)
+    #train_model(model, DATASET_INDEX, dataset_prefix='two_patterns', epochs=2000, batch_size=32)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='two_patterns', batch_size=128)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='cbf', layer_name='attention_dense_1',
+    #visualise_attention(model, DATASET_INDEX, dataset_prefix='two_patterns', layer_name='attention_dense_1',
     #                    visualize_sequence=True)
 
-    # visualize_cam(model, DATASET_INDEX, dataset_prefix='cbf', class_id=17)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='two_patterns', class_id=17)

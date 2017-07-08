@@ -106,7 +106,7 @@ def generate_model_2():
 
     model.summary()
 
-    #model.load_weights("weights/uwaveall_weights - 9556 v3 lstm 64 batch 64.h5")
+    # add load model code here to fine-tune
 
     return model
 
@@ -122,11 +122,11 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='small_kitchen_appliance', epochs=2000, batch_size=128)
+    #train_model(model, DATASET_INDEX, dataset_prefix='small_kitchen_appliance', epochs=2000, batch_size=128)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='small_kitchen_appliance', batch_size=64)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='cbf', layer_name='attention_dense_1',
+    #visualise_attention(model, DATASET_INDEX, dataset_prefix='small_kitchen_appliance', layer_name='attention_dense_1',
     #                    visualize_sequence=True)
 
-    # visualize_cam(model, DATASET_INDEX, dataset_prefix='cbf', class_id=17)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='small_kitchen_appliance', class_id=17)

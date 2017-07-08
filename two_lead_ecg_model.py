@@ -5,7 +5,7 @@ from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Per
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, visualize_cam
 
-DATASET_INDEX = 73
+DATASET_INDEX = 79
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
@@ -56,8 +56,6 @@ def generate_model():
 
     model.summary()
 
-    model.load_weights("weights/starlight_weights - v3 9768 lstm 8 batch 32 no attention dropout 80.h5")
-
     # add load model code here to fine-tune
 
     return model
@@ -107,7 +105,7 @@ def generate_model_2():
 
     model.summary()
 
-    model.load_weights("weights/starlight_weights - v3 9768 lstm 8 batch 32 no attention dropout 80.h5")
+    # add load model code here to fine-tune
 
     return model
 
@@ -123,11 +121,11 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model_2()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='starlight', epochs=2000, batch_size=64)
+    #train_model(model, DATASET_INDEX, dataset_prefix='two_lead_ecg', epochs=2000, batch_size=64)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='starlight', batch_size=64)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='two_lead_ecg', batch_size=64)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='cbf', layer_name='attention_dense_1',
+    #visualise_attention(model, DATASET_INDEX, dataset_prefix='two_lead_ecg', layer_name='attention_dense_1',
     #                    visualize_sequence=True)
 
-    # visualize_cam(model, DATASET_INDEX, dataset_prefix='cbf', class_id=17)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='two_lead_ecg', class_id=17)

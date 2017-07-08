@@ -5,7 +5,7 @@ from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Per
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, visualize_cam
 
-DATASET_INDEX = 69
+DATASET_INDEX = 70
 
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
@@ -122,11 +122,11 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='screen_type', epochs=2000, batch_size=128)
+    #train_model(model, DATASET_INDEX, dataset_prefix='shapelet', epochs=5000, batch_size=32)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='screen_type', batch_size=128)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='shapelet', batch_size=128)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='cbf', layer_name='attention_dense_1',
+    #visualise_attention(model, DATASET_INDEX, dataset_prefix='shapelet', layer_name='attention_dense_1',
     #                    visualize_sequence=True)
 
-    # visualize_cam(model, DATASET_INDEX, dataset_prefix='cbf', class_id=17)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='shapelet', class_id=17)
