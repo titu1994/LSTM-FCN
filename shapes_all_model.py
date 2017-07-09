@@ -120,9 +120,13 @@ def attention_block(inputs, id):
 
 
 if __name__ == "__main__":
+    # Note, to acheive such a high score, modify keras_util.py in the following ways
+    # ReduceLROnPlateau - patience = 100, factor = sqroot(2), min_lr=1e-5
+    # epochs = 4000
+    # fine tuned multiple attempts
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='shapes_all', epochs=2000, batch_size=64)
+    train_model(model, DATASET_INDEX, dataset_prefix='shapes_all', epochs=4000, batch_size=64)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='shapes_all', batch_size=64)
 

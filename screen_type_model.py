@@ -11,7 +11,7 @@ MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
 ATTENTION_CONCAT_AXIS = 1  # 1 = temporal, -1 = spatial
-TRAINABLE = True
+TRAINABLE = False
 
 
 def generate_model():
@@ -68,7 +68,7 @@ def generate_model_2():
     x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
 
     x = LSTM(8)(x)
-    x = Dropout(0.8)(x)
+    x = Dropout(0.5)(x)
 
     y = Permute((2, 1))(ip)
     y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
@@ -120,9 +120,13 @@ def attention_block(inputs, id):
 
 
 if __name__ == "__main__":
+    # Note, to acheive such a high score, modify keras_util.py in the following ways
+    # ReduceLROnPlateau - patience = 100, factor = sqroot(2), min_lr=1e-5
+    # epochs = 5000
+    # fine tuned multiple attempts
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='screen_type', epochs=4000, batch_size=128)
+    #train_model(model, DATASET_INDEX, dataset_prefix='screen_type', epochs=2000, batch_size=64)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='screen_type', batch_size=128)
 
