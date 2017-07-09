@@ -17,7 +17,7 @@ TRAINABLE = True
 def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
-    x = LSTM(8)(ip)
+    x = LSTM(512)(ip)
     x = Dropout(0.8)(x)
 
     y = Permute((2, 1))(ip)
@@ -56,6 +56,7 @@ def generate_model():
 
     model.summary()
 
+    #model.load_weights("weights/shapelet_weights - 9822.h5")
     # add load model code here to fine-tune
 
     return model
@@ -68,7 +69,7 @@ def generate_model_2():
     x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
 
     x = LSTM(8)(x)
-    x = Dropout(0.8)(x)
+    #x = Dropout(0.8)(x) ####here
 
     y = Permute((2, 1))(ip)
     y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
@@ -106,7 +107,7 @@ def generate_model_2():
 
     model.summary()
 
-    # add load model code here to fine-tune
+    #model.load_weights("weights/uwaveall_weights - 9556 v3 lstm 64 batch 64.h5")
 
     return model
 
@@ -122,11 +123,11 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='shapelet', epochs=5000, batch_size=32)
+    train_model(model, DATASET_INDEX, dataset_prefix='shapelet', epochs=2000, batch_size=128)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='shapelet', batch_size=128)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='shapelet', layer_name='attention_dense_1',
+    #visualise_attention(model, DATASET_INDEX, dataset_prefix='cbf', layer_name='attention_dense_1',
     #                    visualize_sequence=True)
 
-    # visualize_cam(model, DATASET_INDEX, dataset_prefix='shapelet', class_id=17)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='cbf', class_id=17)

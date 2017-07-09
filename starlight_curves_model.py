@@ -56,6 +56,8 @@ def generate_model():
 
     model.summary()
 
+    model.load_weights("weights/starlight_weights - v3 9768 lstm 8 batch 32 no attention dropout 80.h5")
+
     # add load model code here to fine-tune
 
     return model
@@ -105,7 +107,7 @@ def generate_model_2():
 
     model.summary()
 
-    # add load model code here to fine-tune
+    model.load_weights("weights/starlight_weights - v3 9771 lstm 8 batch 64 finetuned.h5")
 
     return model
 
@@ -121,11 +123,11 @@ def attention_block(inputs, id):
 if __name__ == "__main__":
     model = generate_model_2()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='starlight', epochs=2000, batch_size=64)
+    train_model(model, DATASET_INDEX, dataset_prefix='starlight', epochs=2000, batch_size=64)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='starlight', batch_size=64)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='starlight', layer_name='attention_dense_1',
+    #visualise_attention(model, DATASET_INDEX, dataset_prefix='cbf', layer_name='attention_dense_1',
     #                    visualize_sequence=True)
 
-    # visualize_cam(model, DATASET_INDEX, dataset_prefix='starlight', class_id=17)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='cbf', class_id=17)
