@@ -3,3 +3,4 @@ data/*
 !data/model_dt.csv
 weights/*.h5
 .idea/
+utils/*.pyc
