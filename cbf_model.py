@@ -68,6 +68,7 @@ def generate_model_2():
     x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
 
     x = LSTM(8)(x)
+    x = Dropout(0.8)(x)
 
     y = Permute((2, 1))(ip)
     y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
@@ -128,4 +129,4 @@ if __name__ == "__main__":
     #visualise_attention(model, DATASET_INDEX, dataset_prefix='cbf', layer_name='attention_dense_1',
     #                    visualize_sequence=True)
 
-    # visualize_cam(model, DATASET_INDEX, dataset_prefix='cbf', class_id=17)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='cbf', class_id=0)

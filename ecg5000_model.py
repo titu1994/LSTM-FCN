@@ -67,7 +67,8 @@ def generate_model_2():
     x = attention_block(ip, id=1)
     x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
 
-    x = LSTM(256)(x)
+    x = LSTM(128)(x)
+    x = Dropout(0.8)(x)
 
     y = Permute((2, 1))(ip)
     y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
@@ -119,13 +120,13 @@ def attention_block(inputs, id):
 
 
 if __name__ == "__main__":
-    model = generate_model_2()
+    model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='ecg5000', epochs=2000, batch_size=128)
+    #train_model(model, DATASET_INDEX, dataset_prefix='ecg5000', epochs=2000, batch_size=128)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='ecg5000', batch_size=128)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='earthquakes', layer_name='attention_dense_1',
+    #visualise_attention(model, DATASET_INDEX, dataset_prefix='ecg5000', layer_name='attention_dense_1',
     #                    visualize_sequence=True)
 
-    # visualize_cam(model, DATASET_INDEX, dataset_prefix='earthquakes', class_id=17)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='ecg5000', class_id=17)

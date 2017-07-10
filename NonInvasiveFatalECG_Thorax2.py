@@ -120,9 +120,9 @@ def attention_block(inputs, id):
 
 
 if __name__ == "__main__":
-    model = generate_model_2()
+    model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='NonInvasiveFatalECG_Thorax2', epochs=2000, batch_size=128)
+    #train_model(model, DATASET_INDEX, dataset_prefix='NonInvasiveFatalECG_Thorax2', epochs=2000, batch_size=128)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='NonInvasiveFatalECG_Thorax2', batch_size=128)
 
