@@ -17,7 +17,7 @@ TRAINABLE = True
 def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
-    x = LSTM(8)(ip)
+    x = LSTM(128)(ip)
     x = Dropout(0.8)(x)
 
     y = Permute((2, 1))(ip)
@@ -56,7 +56,7 @@ def generate_model():
 
     model.summary()
 
-    # add load model code here to fine-tune
+    #model.load_weights("weights/beef_weights - 8667 v3 lstm 8 batch 128 no attention dropout 80.h5")
 
     return model
 
@@ -119,13 +119,13 @@ def attention_block(inputs, id):
 
 
 if __name__ == "__main__":
-    model = generate_model_2()
+    model = generate_model()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='face_ucr', epochs=2000, batch_size=128)
+    train_model(model, DATASET_INDEX, dataset_prefix='face_ucr', epochs=8000, batch_size=64)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='face_ucr', batch_size=128)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='face_ucr', batch_size=64)
 
-    visualise_attention(model, DATASET_INDEX, dataset_prefix='face_ucr', layer_name='attention_dense_1',
-                        visualize_sequence=True)
+    #visualise_attention(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', layer_name='attention_dense_1',
+    #                    visualize_sequence=True)
 
-    # visualize_cam(model, DATASET_INDEX, dataset_prefix='face_ucr', class_id=17)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', class_id=17)
