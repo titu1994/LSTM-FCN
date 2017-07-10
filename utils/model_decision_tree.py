@@ -64,7 +64,7 @@ df.drop(['ModelWithAttention'], axis=1, inplace=True)
 X = df.values
 y = label.values
 
-decision_tree = DecisionTreeClassifier(criterion='gini', max_depth=3,
+decision_tree = DecisionTreeClassifier(criterion='gini', max_depth=4,
                                        random_state=1024, presort=True)
 
 print("Training model")
