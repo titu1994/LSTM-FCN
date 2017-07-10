@@ -5,14 +5,7 @@ from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Per
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, visualize_cam
 
-DATASET_INDEX = 14
-
-MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
-NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
-
-ATTENTION_CONCAT_AXIS = 1  # 1 = temporal, -1 = spatial
-TRAINABLE = True
-
+ATTENTION_CONCAT_AXIS = 1
 
 def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
@@ -56,7 +49,7 @@ def generate_model():
 
     model.summary()
 
-    #model.load_weights("weights/beef_weights - 8667 v3 lstm 8 batch 128 no attention dropout 80.h5")
+    #model.load_weights("weights/uwave_gesture_library_all_weights - 9606 v3 lstm 128 batch 64 dropout 80 no attention.h5")
 
     return model
 
@@ -68,6 +61,7 @@ def generate_model_2():
     x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
 
     x = LSTM(8)(x)
+    x = Dropout(0.8)(x)
 
     y = Permute((2, 1))(ip)
     y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
@@ -103,7 +97,7 @@ def generate_model_2():
             else:
                 set_trainable(layer, TRAINABLE)
 
-    model.summary()
+    #model.summary()
 
     # add load model code here to fine-tune
 
@@ -119,11 +113,74 @@ def attention_block(inputs, id):
 
 
 if __name__ == "__main__":
-    model = generate_model()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='beetle_fly', epochs=8000, batch_size=64)
+    from keras import backend as K
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='beetle_fly', batch_size=64)
+    dataset_name_prefix = ["middle_phalanx_outline_age_group",
+                           "middle_phalanx_outline_correct",
+                           "middle_phalanx_tw",
+                           # "plane",
+                           #"proximal_phalanx_outline_age_group",
+                           #"ProximalPhalanxOutlineCorrect",
+                           #"proximal_phalanx_tw",
+                           "refrigeration_devices",
+                           "screen_type",
+                           "shapelet_sim",
+                           "shapes_all",
+                           "small_kitchen_appliances",
+                           "sony_aibo",
+                           "sony_aibo_2",
+                           "symbols",
+                           "synthetic_control",
+                           "toe_segmentation2",
+                           "wafer",
+                           "worms",
+                           "worms_two_class",
+                           "yoga"]
+
+    idsetnumber = [19,
+                   20,
+                   21,
+                   #67,
+                   #22,
+                   #23,
+                   #24,
+                   68,
+                   69,
+                   70,
+                   71,
+                   72,
+                   17,
+                   18,
+                   75,
+                   76,
+                   36,
+                   81,
+                   82,
+                   83,
+                   84]
+
+    for i in range(0, len(idsetnumber)):
+        setting_of_parameters = "_v3_lstm8_batch_32_dropout_80_with_attention"
+
+        global DATASET_INDEX
+        DATASET_INDEX = idsetnumber[i]
+
+        global MAX_SEQUENCE_LENGTH
+        MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
+        global NB_CLASS
+        NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
+
+        global TRAINABLE
+        TRAINABLE = True
+
+        K.clear_session()
+
+        model = generate_model_2()
+
+        train_model(model, DATASET_INDEX, dataset_prefix=dataset_name_prefix[i]+setting_of_parameters, epochs=3500, batch_size=32,)
+
+        #evaluate_model(model, DATASET_INDEX, dataset_prefix=dataset_name_prefix[i]+setting_of_parameters, batch_size=32)
 
     #visualise_attention(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', layer_name='attention_dense_1',
     #                    visualize_sequence=True)

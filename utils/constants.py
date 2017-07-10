@@ -23,7 +23,7 @@ TRAIN_FILES = ['../data\\Adiac_TRAIN', # 0
                '../data\\MiddlePhalanxTW_TRAIN', # 21
                '../data\\ProximalPhalanxOutlineAgeGroup_TRAIN', # 22
                '../data\\ProximalPhalanxOutlineCorrect_TRAIN', # 23
-               '../data\\ProximalPhalanxTW_TEST', # 24 (inverted dataset)
+               '../data\\ProximalPhalanxTW_TRAIN', # 24 (inverted dataset)
                '../data\\MoteStrain_TRAIN', # 25
                '../data\\MedicalImages_TRAIN', # 26
                '../data\\Strawberry_TEST',  # 27 (inverted dataset)
@@ -110,7 +110,7 @@ TEST_FILES = ['../data\\Adiac_TEST', # 0
               '../data\\MiddlePhalanxTW_TEST', # 21 (inverted dataset)
               '../data\\ProximalPhalanxOutlineAgeGroup_TEST', # 22
               '../data\\ProximalPhalanxOutlineCorrect_TEST', # 23
-              '../data\\ProximalPhalanxTW_TRAIN', # 24 (inverted dataset)
+              '../data\\ProximalPhalanxTW_TEST', # 24 (inverted dataset)
               '../data\\MoteStrain_TEST', # 25
               '../data\\MedicalImages_TEST', # 26
               '../data\\Strawberry_TRAIN',  # 27
