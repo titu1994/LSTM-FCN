@@ -1,6 +1,6 @@
 import pandas as pd
 import joblib
-
+import numpy as np
 
 from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
@@ -49,14 +49,21 @@ df = pd.read_csv(filepath, header=0, encoding='latin-1')
 # df['SequenceLengthGt512'] = df['SequenceLength'].map(lambda x: x > 512)
 
 # encode type of input data
-df['Type'] = df[['Type']].apply(LabelEncoder().fit_transform)
+label_encoder = LabelEncoder()
+unique_labels = np.unique(df['Type'].values)
+print("Unique Labels for Type : ", unique_labels)
+label_encoder.fit(unique_labels)
+
+df['Type'] = df[['Type']].apply(label_encoder.transform)
 
 # extract label
-
 label = df['ModelWithAttention']
 
 # drop original data for bucketized rules
 #df.drop(['Classes', 'NbTrain', 'NbTest', 'SequenceLength'], axis=1, inplace=True)
+
+# drop NbTest
+df.drop(['NbTest'], axis=1, inplace=True)
 
 # remove class label from train data
 df.drop(['ModelWithAttention'], axis=1, inplace=True)
@@ -64,8 +71,11 @@ df.drop(['ModelWithAttention'], axis=1, inplace=True)
 X = df.values
 y = label.values
 
-decision_tree = DecisionTreeClassifier(criterion='gini', max_depth=4,
-                                       random_state=1024, presort=True)
+print("Label counts : ", np.unique(y, return_counts=True))
+
+decision_tree = DecisionTreeClassifier(criterion='entropy', max_depth=3, min_samples_leaf=1,
+                                       min_samples_split=2, max_features=3,
+                                       random_state=1024, presort=True, class_weight=None)
 
 print("Training model")
 decision_tree.fit(X, y)
