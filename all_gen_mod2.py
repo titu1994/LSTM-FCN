@@ -10,7 +10,7 @@ ATTENTION_CONCAT_AXIS = 1
 def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
-    x = LSTM(128)(ip)
+    x = LSTM(8)(ip)
     x = Dropout(0.8)(x)
 
     y = Permute((2, 1))(ip)
@@ -116,52 +116,55 @@ if __name__ == "__main__":
 
     from keras import backend as K
 
-    dataset_name_prefix = ["middle_phalanx_outline_age_group",
-                           "middle_phalanx_outline_correct",
-                           "middle_phalanx_tw",
-                           # "plane",
-                           #"proximal_phalanx_outline_age_group",
-                           #"ProximalPhalanxOutlineCorrect",
-                           #"proximal_phalanx_tw",
-                           "refrigeration_devices",
-                           "screen_type",
-                           "shapelet_sim",
-                           "shapes_all",
-                           "small_kitchen_appliances",
-                           "sony_aibo",
-                           "sony_aibo_2",
-                           "symbols",
-                           "synthetic_control",
-                           "toe_segmentation2",
-                           "wafer",
-                           "worms",
-                           "worms_two_class",
-                           "yoga"]
+    dataset_name_prefix = [  # "middle_phalanx_outline_age_group",
+        # "middle_phalanx_outline_correct",
+        # "middle_phalanx_tw",
+        # "plane",
+        # "proximal_phalanx_outline_age_group",
+        # "ProximalPhalanxOutlineCorrect",
+        # "proximal_phalanx_tw",
+        # "refrigeration_devices",
+        # "screen_type",
+        "shapelet_sim",
+        "shapes_all",
+        "small_kitchen_appliances",
+        "sony_aibo",
+        "sony_aibo_2",
+        "symbols",
+        "synthetic_control",
+        "toe_segmentation2",
+        "wafer",
+        "worms",
+        "worms_two_class",
+        "yoga",
+        "mote_strain"]
 
-    idsetnumber = [19,
-                   20,
-                   21,
-                   #67,
-                   #22,
-                   #23,
-                   #24,
-                   68,
-                   69,
-                   70,
-                   71,
-                   72,
-                   17,
-                   18,
-                   75,
-                   76,
-                   36,
-                   81,
-                   82,
-                   83,
-                   84]
-
+    idsetnumber = [  # 19,
+        # 20,
+        # 21,
+        # 67,
+        # 22,
+        # 23,
+        # 24,
+        # 68,
+        # 69,
+        70,
+        71,
+        72,
+        17,
+        18,
+        75,
+        76,
+        36,
+        81,
+        82,
+        83,
+        84,
+        25]
+    dataset_name_prefix = ["cricket_X"]
+    idsetnumber = [30]
     for i in range(0, len(idsetnumber)):
-        setting_of_parameters = "_v3_lstm8_batch_32_dropout_80_with_attention"
+        setting_of_parameters = ""
 
         global DATASET_INDEX
         DATASET_INDEX = idsetnumber[i]
@@ -176,13 +179,14 @@ if __name__ == "__main__":
 
         K.clear_session()
 
-        model = generate_model_2()
+        model = generate_model()
 
-        train_model(model, DATASET_INDEX, dataset_prefix=dataset_name_prefix[i]+setting_of_parameters, epochs=3500, batch_size=32,)
+        #train_model(model, DATASET_INDEX, dataset_prefix=dataset_name_prefix[i]+setting_of_parameters, epochs=1000, batch_size=32,)
 
-        #evaluate_model(model, DATASET_INDEX, dataset_prefix=dataset_name_prefix[i]+setting_of_parameters, batch_size=32)
+        evaluate_model(model, DATASET_INDEX, dataset_prefix=dataset_name_prefix[i]+setting_of_parameters, batch_size=32)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', layer_name='attention_dense_1',
-    #                    visualize_sequence=True)
+        visualize_cam(model, DATASET_INDEX, dataset_prefix=dataset_name_prefix[i]+setting_of_parameters, class_id=10)
 
-    # visualize_cam(model, DATASET_INDEX, dataset_prefix='chlorine_concentration', class_id=17)
+        #visualise_attention(model, DATASET_INDEX, dataset_prefix=dataset_name_prefix[i]+setting_of_parameters, layer_name='attention_dense_1',
+        #                visualize_sequence=True)
+
