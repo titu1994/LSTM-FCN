@@ -119,6 +119,8 @@ def evaluate_model(model:Model, dataset_id, dataset_prefix, batch_size=128, test
     print()
     print("Final Accuracy : ", accuracy)
 
+    return accuracy
+
 
 def hyperparameter_search_over_model(model_gen, dataset_id, param_grid, cutoff=None,
                                      normalize_timeseries=False):
