@@ -124,11 +124,11 @@ if __name__ == "__main__":
         os.makedirs('weights/size_comparison/')
 
     dataset_name_prefix = [
-        'italy',
+
     ]
 
     idsetnumber = [
-        16,
+
     ]
 
 
@@ -161,7 +161,7 @@ if __name__ == "__main__":
 
                 train_model(model, DATASET_INDEX,
                             dataset_prefix=dataset_prefix,
-                            epochs=200, batch_size=128,)
+                            epochs=3000, batch_size=128,)
 
                 accuracy = evaluate_model(model, DATASET_INDEX, dataset_prefix,
                                           batch_size=128)
