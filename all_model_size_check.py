@@ -115,7 +115,7 @@ if __name__ == "__main__":
     import os
     import csv
 
-    f = open('utils/comparison_results.csv', mode='wb')
+    f = open('utils/comparison_results.csv', mode='w')
     csvwriter = csv.writer(f)
 
     csvwriter.writerow(['dataset_id', 'lstm_size', 'model_type', 'param_count', 'accuracy'])
@@ -124,11 +124,11 @@ if __name__ == "__main__":
         os.makedirs('weights/size_comparison/')
 
     dataset_name_prefix = [
-
+        'italy',
     ]
 
     idsetnumber = [
-
+        16,
     ]
 
 
@@ -136,9 +136,8 @@ if __name__ == "__main__":
     model_types = ['attention', 'no_attention']
 
     for dataset_name, dataset_id in zip(dataset_name_prefix, idsetnumber):
-        for lstm_size in lstm_sizes:
-            for model_type in model_types:
-
+        for model_type in model_types:
+            for lstm_size in lstm_sizes:
                 DATASET_INDEX = dataset_id
                 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 
@@ -162,7 +161,7 @@ if __name__ == "__main__":
 
                 train_model(model, DATASET_INDEX,
                             dataset_prefix=dataset_prefix,
-                            epochs=3000, batch_size=128,)
+                            epochs=200, batch_size=128,)
 
                 accuracy = evaluate_model(model, DATASET_INDEX, dataset_prefix,
                                           batch_size=128)
