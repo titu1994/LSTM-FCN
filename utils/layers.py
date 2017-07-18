@@ -359,10 +359,7 @@ class AttentionLSTM(Recurrent):
         rec_dp_mask = states[3]
         x_input = states[4]
 
-        #### attentional component
         # alignment model
-        # -- keeping weight matrices for x_attn and h_s separate has the advantage
-        # that the feature dimensions of the vectors can be different
         h_att = K.repeat(h_tm1, self.timestep_dim)
         att = _time_distributed_dense(x_input, self.attention_weights, self.attention_bias)
         attention_ = self.attention_activation(K.dot(h_att, self.attention_recurrent_weights) + att)
