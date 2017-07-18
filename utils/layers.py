@@ -374,7 +374,7 @@ class AttentionLSTM(Recurrent):
         alpha_r = K.repeat(alpha, self.input_dim)
         alpha_r = K.permute_dimensions(alpha_r, (0, 2, 1))
 
-        # make context vector  (soft attention after Bahdanau et al.)
+        # make context vector (soft attention after Bahdanau et al.)
         z_hat = x_input * alpha_r
         z_hat = K.sum(z_hat, axis=1)
 
@@ -409,18 +409,14 @@ class AttentionLSTM(Recurrent):
             else:
                 raise ValueError('Unknown `implementation` mode.')
 
-            i = self.recurrent_activation(x_i + K.dot(h_tm1 * rec_dp_mask[0]
-                                              + K.dot(z_hat, self.attention_i),
-                                                      self.recurrent_kernel_i))
-            f = self.recurrent_activation(x_f + K.dot(h_tm1 * rec_dp_mask[1]
-                                              + K.dot(z_hat, self.attention_f),
-                                                      self.recurrent_kernel_f))
-            c = f * c_tm1 + i * self.activation(x_c + K.dot(h_tm1 * rec_dp_mask[2]
-                                                    + K.dot(z_hat, self.attention_c),
-                                                            self.recurrent_kernel_c))
-            o = self.recurrent_activation(x_o + K.dot(h_tm1 * rec_dp_mask[3]
-                                              + K.dot(z_hat, self.attention_o),
-                                                      self.recurrent_kernel_o))
+            i = self.recurrent_activation(x_i + K.dot(h_tm1 * rec_dp_mask[0], self.recurrent_kernel_i)
+                                              + K.dot(z_hat, self.attention_i))
+            f = self.recurrent_activation(x_f + K.dot(h_tm1 * rec_dp_mask[1], self.recurrent_kernel_f)
+                                          + K.dot(z_hat, self.attention_f))
+            c = f * c_tm1 + i * self.activation(x_c + K.dot(h_tm1 * rec_dp_mask[2], self.recurrent_kernel_c)
+                                                + K.dot(z_hat, self.attention_c))
+            o = self.recurrent_activation(x_o + K.dot(h_tm1 * rec_dp_mask[3], self.recurrent_kernel_o)
+                                          + K.dot(z_hat, self.attention_o))
         h = o * self.activation(c)
         if 0 < self.dropout + self.recurrent_dropout:
             h._uses_learning_phase = True
