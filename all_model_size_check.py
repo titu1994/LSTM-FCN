@@ -4,6 +4,7 @@ from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Per
 
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, visualize_cam
+from utils.layers import AttentionLSTM
 
 ATTENTION_CONCAT_AXIS = 1
 
@@ -47,12 +48,58 @@ def generate_model(lstm_size):
             else:
                 set_trainable(layer, TRAINABLE)
 
-    #model.summary()
+    # model.summary()
+
+    return model
+
+def generate_model_2(lstm_size):
+    ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
+
+    x = AttentionLSTM(lstm_size)(ip)
+    x = Dropout(0.8)(x)
+
+    y = Permute((2, 1))(ip)
+    y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
+    y = BatchNormalization()(y)
+    y = Activation('relu')(y)
+
+    y = Conv1D(256, 5, padding='same', kernel_initializer='he_uniform')(y)
+    y = BatchNormalization()(y)
+    y = Activation('relu')(y)
+
+    y = Conv1D(128, 3, padding='same', kernel_initializer='he_uniform')(y)
+    y = BatchNormalization()(y)
+    y = Activation('relu')(y)
+
+    y = GlobalAveragePooling1D()(y)
+
+    x = concatenate([x, y])
+
+    out = Dense(NB_CLASS, activation='softmax')(x)
+
+    model = Model(ip, out)
+
+    cnn_count = 0
+    for layer in model.layers:
+        if layer.__class__.__name__ in ['Conv1D',
+                                        'BatchNormalization',
+                                        'PReLU']:
+            if layer.__class__.__name__ == 'Conv1D':
+                cnn_count += 1
+
+            if cnn_count == 3:
+                break
+            else:
+                set_trainable(layer, TRAINABLE)
+
+    # model.summary()
+
+    # add load model code here to fine-tune
 
     return model
 
 
-def generate_model_2(lstm_size):
+def generate_model_3(lstm_size):
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
     x = attention_block(ip, id=1)
@@ -95,7 +142,7 @@ def generate_model_2(lstm_size):
             else:
                 set_trainable(layer, TRAINABLE)
 
-    #model.summary()
+    # model.summary()
 
     # add load model code here to fine-tune
 
@@ -115,7 +162,7 @@ if __name__ == "__main__":
     import os
     import csv
 
-    f = open('utils/comparison_results.csv', mode='w')
+    f = open('utils/comparison_results_attentionlstm.csv', mode='w', newline='')
     csvwriter = csv.writer(f)
 
     csvwriter.writerow(['dataset_id', 'lstm_size', 'model_type', 'param_count', 'accuracy'])
@@ -124,16 +171,73 @@ if __name__ == "__main__":
         os.makedirs('weights/size_comparison/')
 
     dataset_name_prefix = [
-
+        'diatom_size_reduction',
+        'beetle_fly',
+        'bird_chicken',
+        'arrow_head',
+        'face_four',
+        'symbols',
+        'middle_phalanx_outline_age_group',
+        'worms',
+        'proximal_phalanx_outline_correct',
+        'yoga',
+        'shapelet_sim',
+      #  'cbf', #####wrongly done. it should be 39
+        'synthetic_control',
+        'two_patterns',
+        'sony_aibo_robot_surface',
+        'mote_strain',
+        'two_lead_ecg',
+        'olive_oil',
+        'sony_aibo_robot_surface2',
+        'beef',
+        'electric_devices',
+        'fordb',
+        'ham',
+        'gun_point',
+        'toe_segmentation1',
+        'toe_segmentation2',
+        'u_wave_gesture_library_y',
+        'cricket_z',
+        'cricket_x',
     ]
 
     idsetnumber = [
+        37,
+        14,
+        15,
+        1,
+        46,
+        75,
+        19,
+        82,
+        23,
+        84,
+        70,
+     #   30, #####wrongly done. it should be 39
+        76,
+        78,
+        17,
+        25,
+        79,
+        63,
+        18,
+        8,
+        44,
+        50,
+        52,
+        51,
+        28,
+        36,
+        34,
+        31,
+        30,
 
     ]
 
 
     lstm_sizes = [8, 64, 128]
-    model_types = ['attention', 'no_attention']
+    model_types = ['attention']
 
     for dataset_name, dataset_id in zip(dataset_name_prefix, idsetnumber):
         for model_type in model_types:
