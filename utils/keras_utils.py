@@ -185,16 +185,19 @@ def set_trainable(layer, value):
         set_trainable(layer.layer, value)
 
 
-def build_function(model, layer_names=None):
+def build_function(model, layer_names=None, outputs=None):
     inp = model.input
 
     if layer_names is not None and (type(layer_names) != list and type(layer_names) != tuple):
         layer_names = [layer_names]
 
-    if layer_names is None:
-        outputs = [layer.output for layer in model.layers] # all layer outputs
+    if outputs is None:
+        if layer_names is None:
+            outputs = [layer.output for layer in model.layers] # all layer outputs
+        else:
+            outputs = [layer.output for layer in model.layers if layer.name in layer_names]
     else:
-        outputs = [layer.output for layer in model.layers if layer.name in layer_names]
+        outputs = outputs
 
     funcs = [K.function([inp] + [K.learning_phase()], [out]) for out in outputs]  # evaluation functions
     return funcs
@@ -210,7 +213,7 @@ def get_outputs(model, inputs, eval_functions, verbose=False):
 
 
 def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cutoff=None,
-                        normalize_timeseries=False, print_attention=False, visualize_sequence=True):
+                        normalize_timeseries=False, visualize_sequence=True):
     X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
                                                      normalize_timeseries=normalize_timeseries)
     _, sequence_length = calculate_dataset_metrics(X_train)
@@ -233,11 +236,10 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
     attention_vectors = []
 
     for i in range(X_train.shape[0]):
-        if print_attention: print(X_train[i, :, :][np.newaxis, ...].shape)
         activations = get_outputs(model,
                                   X_train[i, :, :][np.newaxis, ...],
                                   eval_functions,
-                                  verbose=print_attention)[0]
+                                  verbose=False)[0]
 
         if activations.shape[-1] != 1: # temporal attention
             axis = 1
@@ -246,7 +248,6 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
 
         attention_vector = np.mean(activations, axis=axis).squeeze()
 
-        if print_attention: print('attention =', attention_vector)
         assert (np.sum(attention_vector) - 1.0) < 1e-5
         attention_vectors.append(attention_vector)
 
@@ -282,6 +283,91 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
                 ' dimensions.')
 
         plt.show()
+
+
+def visualize_context_vector(model:Model, dataset_id, dataset_prefix, cutoff=None,
+                             normalize_timeseries=False, visualize_sequence=True):
+    X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
+                                                     normalize_timeseries=normalize_timeseries)
+    _, sequence_length = calculate_dataset_metrics(X_train)
+
+    if sequence_length != MAX_SEQUENCE_LENGTH_LIST[dataset_id]:
+        if cutoff is None:
+            choice = cutoff_choice(dataset_id, sequence_length)
+        else:
+            assert cutoff in ['pre', 'post'], 'Cutoff parameter value must be either "pre" or "post"'
+            choice = cutoff
+
+        if choice not in ['pre', 'post']:
+            return
+        else:
+            X_train , X_test = cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length)
+
+    attn_lstm_layer = [(i, layer) for (i, layer) in enumerate(model.layers)
+                       if layer.__class__.__name__ == 'AttentionLSTM']
+
+    if len(attn_lstm_layer) == 0:
+        raise AttributeError('Provided model does not have an Attention layer')
+    else:
+        i, attn_lstm_layer = attn_lstm_layer[0] # use first attention lstm layer only
+
+    attn_lstm_layer.return_attention = True
+
+    model.layers[i] = attn_lstm_layer
+    model.load_weights("./weights/%s_weights.h5" % dataset_prefix)
+
+    attention_output = model.layers[i].call(model.input)
+
+    eval_functions = build_function(model, attn_lstm_layer.name, outputs=[attention_output])
+    attention_vectors = []
+
+    for i in range(X_train.shape[0]):
+        activations = get_outputs(model,
+                                  X_train[i, :, :][np.newaxis, ...],
+                                  eval_functions,
+                                  verbose=False)[0]
+
+        if activations.shape[-1] != 1: # temporal attention
+            axis = 1
+        else:
+            axis = -1 # spatial attention
+
+        attention_vector = np.mean(activations, axis=axis).squeeze()
+        attention_vectors.append(attention_vector)
+
+    attention_vectors = np.array(attention_vectors)
+    attention_vector_final = np.mean(attention_vectors, axis=0)
+
+    if visualize_sequence:
+        # plot input sequence part that is paid attention too in detail
+        attention_vector_final = attention_vector_final.reshape((1, attention_vector_final.shape[0]))
+
+        X_train_attention = np.zeros_like(X_train)
+        X_test_attention = np.zeros_like(X_test)
+
+        for i in range(X_train.shape[0]):
+            X_train_attention[i, :, :] = attention_vector_final * X_train[i, :, :]
+
+        for i in range(X_test.shape[0]):
+            X_test_attention[i, :, :] = attention_vector_final * X_test[i, :, :]
+
+        plot_dataset(dataset_id, seed=1, limit=None, cutoff=cutoff,
+                     normalize_timeseries=normalize_timeseries, plot_attention_data=(X_train, X_test,
+                                                                                     X_train_attention, X_test_attention))
+
+    else:
+        # plot only attention chart
+
+        train_df = pd.DataFrame({'attention (%)': attention_vector_final},
+                          index=range(attention_vector_final.shape[0]))
+
+        train_df.plot(kind='bar',
+                title='Attention Mechanism (Train) as '
+                'a function of input'
+                ' dimensions.')
+
+        plt.show()
+
 
 
 def visualize_cam(model:Model, dataset_id, dataset_prefix, class_id,

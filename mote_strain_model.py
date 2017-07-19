@@ -3,7 +3,7 @@ from keras.layers import Input, PReLU, Dense, Dropout, LSTM, concatenate, multip
 from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute
 
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
-from utils.keras_utils import train_model, evaluate_model, set_trainable, visualize_cam
+from utils.keras_utils import train_model, evaluate_model, set_trainable, visualize_cam, visualize_context_vector
 from utils.layers import AttentionLSTM
 
 DATASET_INDEX = 25
@@ -66,7 +66,7 @@ def generate_model():
 def generate_model_2():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
-    x = AttentionLSTM(8)(ip)
+    x = AttentionLSTM(64)(ip)
     x = Dropout(0.8)(x)
 
     y = Permute((2, 1))(ip)
@@ -117,4 +117,6 @@ if __name__ == "__main__":
 
     #evaluate_model(model, DATASET_INDEX, dataset_prefix='mote_strain', batch_size=128)
 
-    #visualize_cam(model, DATASET_INDEX, dataset_prefix='mote_strain_v4', class_id=0)
+    #visualize_cam(model, DATASET_INDEX, dataset_prefix='mote_strain', class_id=0)
+
+    visualize_context_vector(model, DATASET_INDEX, dataset_prefix='mote_strain')

@@ -376,6 +376,7 @@ class AttentionLSTM(Recurrent):
 
         # make context vector (soft attention after Bahdanau et al.)
         z_hat = x_input * alpha_r
+        context_sequence = z_hat
         z_hat = K.sum(z_hat, axis=1)
 
         if self.implementation == 2:
@@ -422,7 +423,7 @@ class AttentionLSTM(Recurrent):
             h._uses_learning_phase = True
 
         if self.return_attention:
-            return alpha, [h, c]
+            return context_sequence, [h, c]
         else:
             return h, [h, c]
 
