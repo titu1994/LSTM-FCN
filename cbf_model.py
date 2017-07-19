@@ -3,7 +3,8 @@ from keras.layers import Input, PReLU, Dense, LSTM, multiply, concatenate, Activ
 from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Permute, Dropout
 
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
-from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, visualize_cam
+from utils.keras_utils import train_model, evaluate_model, set_trainable, visualize_context_vector, visualize_cam
+from utils.layers import AttentionLSTM
 
 DATASET_INDEX = 39
 
@@ -64,10 +65,7 @@ def generate_model():
 def generate_model_2():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
-    x = attention_block(ip, id=1)
-    x = concatenate([ip, x], axis=ATTENTION_CONCAT_AXIS)
-
-    x = LSTM(8)(x)
+    x = AttentionLSTM(8)(ip)
     x = Dropout(0.8)(x)
 
     y = Permute((2, 1))(ip)
@@ -120,13 +118,13 @@ def attention_block(inputs, id):
 
 
 if __name__ == "__main__":
-    model = generate_model()
+    model = generate_model_2()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='cbf', epochs=2000, batch_size=128)
+    #train_model(model, DATASET_INDEX, dataset_prefix='cbf', epochs=2000, batch_size=32)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='cbf', batch_size=128)
+    #evaluate_model(model, DATASET_INDEX, dataset_prefix='cbf', batch_size=128)
 
-    #visualise_attention(model, DATASET_INDEX, dataset_prefix='cbf', layer_name='attention_dense_1',
-    #                    visualize_sequence=True)
+    visualize_context_vector(model, DATASET_INDEX, dataset_prefix='cbf',
+                             visualize_sequence=True, limit=None)
 
     # visualize_cam(model, DATASET_INDEX, dataset_prefix='cbf', class_id=0)

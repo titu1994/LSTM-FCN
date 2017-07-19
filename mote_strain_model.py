@@ -119,4 +119,4 @@ if __name__ == "__main__":
 
     #visualize_cam(model, DATASET_INDEX, dataset_prefix='mote_strain', class_id=0)
 
-    visualize_context_vector(model, DATASET_INDEX, dataset_prefix='mote_strain')
+    visualize_context_vector(model, DATASET_INDEX, dataset_prefix='mote_strain', limit=1)

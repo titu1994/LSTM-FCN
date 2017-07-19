@@ -212,7 +212,7 @@ def get_outputs(model, inputs, eval_functions, verbose=False):
     return outputs
 
 
-def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cutoff=None,
+def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cutoff=None, limit=None,
                         normalize_timeseries=False, visualize_sequence=True):
     X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
                                                      normalize_timeseries=normalize_timeseries)
@@ -267,9 +267,10 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
         for i in range(X_test.shape[0]):
             X_test_attention[i, :, :] = attention_vector_final * X_test[i, :, :]
 
-        plot_dataset(dataset_id, seed=1, limit=None, cutoff=cutoff,
-                     normalize_timeseries=normalize_timeseries, plot_attention_data=(X_train, X_test,
-                                                                                     X_train_attention, X_test_attention))
+        plot_dataset(dataset_id, seed=1, limit=limit, cutoff=cutoff,
+                     normalize_timeseries=normalize_timeseries, plot_data=(X_train, X_test,
+                                                                           X_train_attention, X_test_attention),
+                     type='Attention')
 
     else:
         # plot only attention chart
@@ -285,7 +286,7 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
         plt.show()
 
 
-def visualize_context_vector(model:Model, dataset_id, dataset_prefix, cutoff=None,
+def visualize_context_vector(model:Model, dataset_id, dataset_prefix, cutoff=None, limit=None,
                              normalize_timeseries=False, visualize_sequence=True):
     X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
                                                      normalize_timeseries=normalize_timeseries)
@@ -338,6 +339,8 @@ def visualize_context_vector(model:Model, dataset_id, dataset_prefix, cutoff=Non
     attention_vectors = np.array(attention_vectors)
     attention_vector_final = np.mean(attention_vectors, axis=0)
 
+    attention_vector_final = (attention_vector_final - attention_vector_final.mean()) / (attention_vector_final.std())
+
     if visualize_sequence:
         # plot input sequence part that is paid attention too in detail
         attention_vector_final = attention_vector_final.reshape((1, attention_vector_final.shape[0]))
@@ -351,9 +354,10 @@ def visualize_context_vector(model:Model, dataset_id, dataset_prefix, cutoff=Non
         for i in range(X_test.shape[0]):
             X_test_attention[i, :, :] = attention_vector_final * X_test[i, :, :]
 
-        plot_dataset(dataset_id, seed=1, limit=None, cutoff=cutoff,
-                     normalize_timeseries=normalize_timeseries, plot_attention_data=(X_train, X_test,
-                                                                                     X_train_attention, X_test_attention))
+        plot_dataset(dataset_id, seed=1, limit=limit, cutoff=cutoff,
+                     normalize_timeseries=normalize_timeseries, plot_data=(X_train, X_test,
+                                                                           X_train_attention, X_test_attention),
+                     type='Context')
 
     else:
         # plot only attention chart

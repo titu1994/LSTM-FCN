@@ -121,10 +121,10 @@ def calculate_dataset_metrics(X_train):
 
 
 def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
-                 normalize_timeseries=False, plot_attention_data=None):
+                 normalize_timeseries=False, plot_data=None, type='Context'):
     np.random.seed(seed)
 
-    if plot_attention_data is None:
+    if plot_data is None:
         X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
                                                                normalize_timeseries=normalize_timeseries)
 
@@ -151,7 +151,7 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
         X_test_attention = None
 
     else:
-        X_train, X_test, X_train_attention, X_test_attention = plot_attention_data
+        X_train, X_test, X_train_attention, X_test_attention = plot_data
 
     if limit is None:
         train_size = X_train.shape[0]
@@ -186,7 +186,7 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
                            index=range(X_test.shape[0]),
                            columns=range(X_test.shape[1]))
 
-    if plot_attention_data is not None:
+    if plot_data is not None:
         rows = 2
         cols = 2
     else:
@@ -206,22 +206,22 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
                  legend=None,
                  ax=axs[0][1])
 
-    if plot_attention_data is not None and X_train_attention is not None:
+    if plot_data is not None and X_train_attention is not None:
         train_attention_df = pd.DataFrame(X_train_attention,
                             index=range(X_train_attention.shape[0]),
                             columns=range(X_train_attention.shape[1]))
 
-        train_attention_df.plot(title='Train Attention Sequence',
+        train_attention_df.plot(title='Train %s Sequence' % (type),
                       subplots=False,
                       legend=None,
                       ax=axs[1][0])
 
-    if plot_attention_data is not None and X_test_attention is not None:
+    if plot_data is not None and X_test_attention is not None:
         test_df = pd.DataFrame(X_test_attention,
                                index=range(X_test_attention.shape[0]),
                                columns=range(X_test_attention.shape[1]))
 
-        test_df.plot(title='Test Attention Sequence',
+        test_df.plot(title='Test %s Sequence' % (type),
                      subplots=False,
                      legend=None,
                      ax=axs[1][1])
