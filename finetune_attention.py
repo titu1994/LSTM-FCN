@@ -176,7 +176,7 @@ if __name__ == "__main__":
     ]
 
     # 5 learning rates for 5 tests
-    learning_rates = [8e-4, 5e-4, 2e-4, 1e-4, 1e-4]
+    learning_rates = [1e-3, 5e-4, 2e-4, 1e-4, 1e-4]
     batch_sizes = [128, 128, 64, 64, 32]
 
     for dataset_name, dataset_id, lstm_size in zip(dataset_name_prefix, idsetnumber, lstm_sizes):
