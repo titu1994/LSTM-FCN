@@ -27,7 +27,7 @@ from utils.constants import MAX_SEQUENCE_LENGTH_LIST
 
 
 def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=128, val_subset=None,
-                cutoff=None, normalize_timeseries=False):
+                cutoff=None, normalize_timeseries=False, learning_rate=1e-3):
     X_train, y_train, X_test, y_test, is_timeseries = load_dataset_at(dataset_id,
                                                                       normalize_timeseries=normalize_timeseries)
     max_nb_words, sequence_length = calculate_dataset_metrics(X_train)
@@ -71,7 +71,7 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
                                   factor=factor, cooldown=0, min_lr=1e-4, verbose=2)
     callback_list = [model_checkpoint, reduce_lr]
 
-    optm = Adam(lr=1e-3)
+    optm = Adam(lr=learning_rate)
 
     model.compile(optimizer=optm, loss='categorical_crossentropy', metrics=['accuracy'])
 
