@@ -163,6 +163,9 @@ def attention_block(inputs, id):
 
 
 if __name__ == "__main__":
+    if not os.path.exists('weights/finetune_attention/'):
+        os.makedirs('weights/finetune_attention/')
+
     dataset_name_prefix = [
         # Add the 17 datasets here
     ]
