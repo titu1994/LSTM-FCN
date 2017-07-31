@@ -6,12 +6,6 @@ from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualise_attention, visualize_cam
 from utils.layers import AttentionLSTM
 
-from keras import backend as K
-
-import os
-import csv
-import shutil
-
 ATTENTION_CONCAT_AXIS = 1
 
 def generate_model(lstm_size):
@@ -164,55 +158,23 @@ def attention_block(inputs, id):
 
 
 if __name__ == "__main__":
+    from keras import backend as K
+    import os
+    import csv
 
-    f = open('utils/attention_finetuning_noattention-remainingsets.csv', mode='w', newline='')
+    f = open('utils/comparison_results_attentionlstm_remaining.csv', mode='w', newline='')
     csvwriter = csv.writer(f)
 
-    if not os.path.exists('weights/finetune_attention/'):
-        os.makedirs('weights/finetune_attention/')
+    csvwriter.writerow(['dataset_id', 'lstm_size', 'model_type', 'param_count', 'accuracy'])
 
-    csvwriter.writerow(['dataset_id', 'accuracy'])
+    if not os.path.exists("weights/size_comparison/"):
+        os.makedirs('weights/size_comparison/')
 
     dataset_name_prefix = [
-        # #"cbf",
-        # #"chlorine_concentration",
-        # #"cricket_x",
-        # ##"ecg_200",
-        # #"faces_ucr",
-        # #"ford_a",
-        # #"fordb",
-        # ##"lighting7",
-        # ##"meat",
-        # #"mote_strain",
-        # #"screen_type",
-        # #"shapelet_sim",
-        # ##"small_kitchen_appliances",
-        # ##"sony_aibo_robot_surface",
-        # #"synthetic_control",
-        # ##"two_lead_ecg",
-        # #"wafer"
-        # # Add the 17 datasets here
-        # #"cin_c_ecg_torso",
-        # #"cricket_z",
-        # #"ecg_five_days",
-        # "electric_devices",
-        # #"face_four",
-        # #"fish",
-        # "hand_outlines",
-        # #"inline_skate",
-        # #"italy_power_demand",
-        # #"lighting2",
-        # "starlight_curves",
-        # #"toe_segmentation2",
-        # "two_patterns",
-        # #"u_wave_gesture_library_all",
-        # #"words_synonyms",
-        # #"worms",
-        # #"worms_two_class"
         "adiac",
         "chlorine_concentration",
         "insect_wingbeat_sound",
-        "lighting7",  ######this had a cutoff, need to redo it again
+        "lighting7", ######this had a cutoff, need to redo it again
         "wine",
         "words_synonyms",
         "fifty_words",
@@ -270,40 +232,6 @@ if __name__ == "__main__":
     ]
 
     idsetnumber = [
-        # #39,
-        # #2,
-        # #30,
-        # #12,
-        # #47,
-        # #49,
-        # #50,
-        # #4,
-        # #60,
-        # #25,
-        # #69,
-        # #70,
-        # #72,
-        # ##17,
-        # #76,
-        # #79,
-        # #81,
-        # #40,
-        # #31,
-        # #13,
-        # 44,
-        # #46,
-        # #48,
-        # 53,
-        # #56,
-        # #16,
-        # #58,
-        # 73,
-        # #36,
-        # 78,
-        # #80,
-        # #6,
-        # #82,
-        # #83
         0,
         2,
         3,
@@ -364,159 +292,44 @@ if __name__ == "__main__":
 
     ]
 
-    lstm_sizes = [  # 8,
-        # # 128,
-        # # 8,
-        # ##8,
-        # # 64,
-        # # 64,
-        # # 8,
-        # ##8,
-        # # 64,
-        # # 64,
-        # # 8,
-        # # 64,
-        # ##8,
-        # ##8,
-        # # 64,
-        # ##64,
-        # # 8,
-        # # Add the 17 lstm sizes corresponding to the best scores obtained on the 17 models
-        # #64,
-        # #64,
-        # #64,
-        # 64,
-        # #8,
-        # #128,
-        # 128,
-        # #8,
-        # #64,
-        # #8,
-        # 128,
-        # #64,
-        # 64,
-        # #128,
-        # #64,
-        # #8,
-        # #8,
-        8,
-        8,
-        64,
-        8,
-        64,
-        128,
-        128,
-        64,
-        64,
-        64,
-        128,
-        8,
-        8,
-        64,
-        64,
-        64,
-        64,
-        8,
-        128,
-        128,
-        8,
-        128,
-        128,
-        64,
-        8,
-        128,
-        8,
-        8,
-        128,
-        8,
-        128,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        128,
-        64,
-        128,
-        8,
-        8,
 
-    ]
+    lstm_sizes = [8, 64, 128]
+    model_types = ['attention']
 
-    # 5 learning rates for 5 tests
-    # learning_rates = [1e-3, 5e-4, 2e-4, 1e-4, 1e-4]
-    # batch_sizes = [128, 128, 64, 64, 32]
+    for dataset_name, dataset_id in zip(dataset_name_prefix, idsetnumber):
+        for model_type in model_types:
+            for lstm_size in lstm_sizes:
+                DATASET_INDEX = dataset_id
+                MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 
-    # learning_rates = [1e-5, 5e-5, 2e-5, 1e-5, 1e-5]
-    # batch_sizes = [128, 128, 64, 64, 32]
+                global NB_CLASS
+                NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
-    learning_rates = [1e-3]
-    batch_sizes = [128]
+                global TRAINABLE
+                TRAINABLE = True
 
-    for dataset_name, dataset_id, lstm_size in zip(dataset_name_prefix, idsetnumber, lstm_sizes):
-        best_score = []
+                K.clear_session()
 
-        for learning_rate, batch_size in zip(learning_rates, batch_sizes):
-            DATASET_INDEX = dataset_id
-            MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
+                if model_type == 'attention':
+                    model = generate_model_2(lstm_size)
+                else:
+                    model = generate_model(lstm_size)
 
-            global NB_CLASS
-            NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
+                param_count = model.count_params()
 
-            global TRAINABLE
-            TRAINABLE = True
+                dataset_prefix = 'size_comparison/' + dataset_name + "_lstm_%d_model_type_%s" % \
+                                                                     (lstm_size, model_type)
 
-            K.clear_session()
+                train_model(model, DATASET_INDEX,
+                            dataset_prefix=dataset_prefix,
+                            epochs=3000, batch_size=128,)
 
-            model = generate_model(lstm_size)
+                accuracy = evaluate_model(model, DATASET_INDEX, dataset_prefix,
+                                          batch_size=128)
 
-            param_count = model.count_params()
+                row = [DATASET_INDEX, lstm_size, model_type, param_count, accuracy]
 
-            dataset_prefix = 'no_attention_no_finetuning/' + dataset_name
+                csvwriter.writerow(row)
 
-            prev_best_accuracy = -1
-            weights_path = "weights/" + dataset_prefix + "_weights.h5"
-            weights_copy_path = "weights/" + dataset_prefix + "_weights_best.h5"
-
-            if os.path.exists(weights_path):
-                #model.load_weights(weights_path)
-                print("Model weights loaded for dataset %d (%s)" % (dataset_id, dataset_name))
-
-                prev_best_accuracy = evaluate_model(model, DATASET_INDEX, dataset_prefix,
-                                                    batch_size=128)
-
-                # preserve old best weights in case next run yields poorer performance than now
-                shutil.copy(weights_path, weights_copy_path)
-
-            train_model(model, DATASET_INDEX,
-                        dataset_prefix=dataset_prefix,
-                        epochs=3000, batch_size=batch_size, learning_rate=learning_rate)
-
-            current_accuracy = evaluate_model(model, DATASET_INDEX, dataset_prefix,
-                                              batch_size=128)
-
-            if current_accuracy < prev_best_accuracy:
-                os.remove(weights_path) # delete failed fine tuning weights
-                os.rename(weights_copy_path, weights_path) # revert to previous best weights
-
-            best_score.append(current_accuracy)
-
-        csvwriter.writerow([dataset_id, str(max(best_score))])
-
+    f.close()
 
