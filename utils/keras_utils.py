@@ -213,8 +213,8 @@ def get_outputs(model, inputs, eval_functions, verbose=False):
 
 
 def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cutoff=None, limit=None,
-                        normalize_timeseries=False, visualize_sequence=True):
-    X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
+                        normalize_timeseries=False, visualize_sequence=True, visualize_classwise=False):
+    X_train, y_train, X_test, y_test, is_timeseries = load_dataset_at(dataset_id,
                                                      normalize_timeseries=normalize_timeseries)
     _, sequence_length = calculate_dataset_metrics(X_train)
 
@@ -268,9 +268,9 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
             X_test_attention[i, :, :] = attention_vector_final * X_test[i, :, :]
 
         plot_dataset(dataset_id, seed=1, limit=limit, cutoff=cutoff,
-                     normalize_timeseries=normalize_timeseries, plot_data=(X_train, X_test,
+                     normalize_timeseries=normalize_timeseries, plot_data=(X_train, y_train, X_test, y_test,
                                                                            X_train_attention, X_test_attention),
-                     type='Attention')
+                     type='Attention', plot_classwise=visualize_classwise)
 
     else:
         # plot only attention chart
@@ -287,8 +287,8 @@ def visualise_attention(model:Model, dataset_id, dataset_prefix, layer_name, cut
 
 
 def visualize_context_vector(model:Model, dataset_id, dataset_prefix, cutoff=None, limit=None,
-                             normalize_timeseries=False, visualize_sequence=True):
-    X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
+                             normalize_timeseries=False, visualize_sequence=True, visualize_classwise=False):
+    X_train, y_train, X_test, y_test, is_timeseries = load_dataset_at(dataset_id,
                                                      normalize_timeseries=normalize_timeseries)
     _, sequence_length = calculate_dataset_metrics(X_train)
 
@@ -355,9 +355,9 @@ def visualize_context_vector(model:Model, dataset_id, dataset_prefix, cutoff=Non
             X_test_attention[i, :, :] = attention_vector_final * X_test[i, :, :]
 
         plot_dataset(dataset_id, seed=1, limit=limit, cutoff=cutoff,
-                     normalize_timeseries=normalize_timeseries, plot_data=(X_train, X_test,
+                     normalize_timeseries=normalize_timeseries, plot_data=(X_train, y_train, X_test, y_test,
                                                                            X_train_attention, X_test_attention),
-                     type='Context')
+                     type='Context', plot_classwise=visualize_classwise)
 
     else:
         # plot only attention chart

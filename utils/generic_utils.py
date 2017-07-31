@@ -6,7 +6,7 @@ import matplotlib.pylab as plt
 
 mpl.style.use('seaborn-paper')
 
-from utils.constants import TRAIN_FILES, TEST_FILES, MAX_SEQUENCE_LENGTH_LIST
+from utils.constants import TRAIN_FILES, TEST_FILES, MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 
 
 def load_dataset_at(index, normalize_timeseries=False, verbose=True) -> (np.array, np.array):
@@ -121,11 +121,12 @@ def calculate_dataset_metrics(X_train):
 
 
 def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
-                 normalize_timeseries=False, plot_data=None, type='Context'):
+                 normalize_timeseries=False, plot_data=None,
+                 type='Context', plot_classwise=False):
     np.random.seed(seed)
 
     if plot_data is None:
-        X_train, _, X_test, _, is_timeseries = load_dataset_at(dataset_id,
+        X_train, y_train, X_test, y_test, is_timeseries = load_dataset_at(dataset_id,
                                                                normalize_timeseries=normalize_timeseries)
 
         if not is_timeseries:
@@ -151,32 +152,110 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
         X_test_attention = None
 
     else:
-        X_train, X_test, X_train_attention, X_test_attention = plot_data
+        X_train, y_train, X_test, y_test, X_train_attention, X_test_attention = plot_data
 
     if limit is None:
         train_size = X_train.shape[0]
         test_size = X_test.shape[0]
     else:
-        train_size = limit
-        test_size = limit
+        if not plot_classwise:
+            train_size = limit
+            test_size = limit
+        else:
+            train_size = NB_CLASSES_LIST[dataset_id] * limit
+            test_size = NB_CLASSES_LIST[dataset_id] * limit
 
-    train_idx = np.random.randint(0, X_train.shape[0], size=train_size)
-    X_train = X_train[train_idx, 0, :]
-    X_train = X_train.transpose((1, 0))
+    if not plot_classwise:
+        train_idx = np.random.randint(0, X_train.shape[0], size=train_size)
+        X_train = X_train[train_idx, 0, :]
+        X_train = X_train.transpose((1, 0))
+
+        if X_train_attention is not None:
+            X_train_attention = X_train_attention[train_idx, 0, :]
+            X_train_attention = X_train_attention.transpose((1, 0))
+    else:
+        classwise_train_list = []
+        for y_ in sorted(np.unique(y_train[:, 0])):
+            class_train_idx = np.where(y_train[:, 0] == y_)
+            classwise_train_list.append(class_train_idx[:])
+
+        classwise_sample_size_list = [len(x[0]) for x in classwise_train_list]
+        size = min(classwise_sample_size_list)
+        train_size = min([train_size, size]) // NB_CLASSES_LIST[dataset_id]
+
+        for i in range(len(classwise_train_list)):
+            classwise_train_idx = np.random.randint(0, len(classwise_train_list[i][0]), size=train_size)
+            classwise_train_list[i] = classwise_train_list[i][0][classwise_train_idx]
+
+        classwise_X_train_list = []
+        classwise_X_train_attention_list = []
+
+        for classwise_train_idx in classwise_train_list:
+            classwise_X = X_train[classwise_train_idx, 0, :]
+            classwise_X = classwise_X.transpose((1, 0))
+            classwise_X_train_list.append(classwise_X)
+
+            if X_train_attention is not None:
+                classwise_X_attn = X_train_attention[classwise_train_idx, 0, :]
+                classwise_X_attn = classwise_X_attn.transpose((1, 0))
+                classwise_X_train_attention_list.append(classwise_X_attn)
+
+        classwise_X_train_list = [np.asarray(x) for x in classwise_X_train_list]
+        classwise_X_train_attention_list = [np.asarray(x) for x in classwise_X_train_attention_list]
+
+        # classwise x train
+        X_train = np.concatenate(classwise_X_train_list, axis=-1)
+
+        # classwise x train attention
+        if X_train_attention is not None:
+            X_train_attention = np.concatenate(classwise_X_train_attention_list, axis=-1)
+
+    if not plot_classwise:
+        test_idx = np.random.randint(0, X_test.shape[0], size=test_size)
+        X_test = X_test[test_idx, 0, :]
+        X_test = X_test.transpose((1, 0))
+
+        if X_test_attention is not None:
+            X_test_attention = X_test_attention[test_idx, 0, :]
+            X_test_attention = X_test_attention.transpose((1, 0))
+    else:
+        classwise_test_list = []
+        for y_ in sorted(np.unique(y_test[:, 0])):
+            class_test_idx = np.where(y_test[:, 0] == y_)
+            classwise_test_list.append(class_test_idx[:])
+
+        classwise_sample_size_list = [len(x[0]) for x in classwise_test_list]
+        size = min(classwise_sample_size_list)
+        test_size = min([test_size, size]) // NB_CLASSES_LIST[dataset_id]
+
+        for i in range(len(classwise_test_list)):
+            classwise_test_idx = np.random.randint(0, len(classwise_test_list[i][0]), size=test_size)
+            classwise_test_list[i] = classwise_test_list[i][0][classwise_test_idx]
+
+        classwise_X_test_list = []
+        classwise_X_test_attention_list = []
+
+        for classwise_test_idx in classwise_test_list:
+            classwise_X = X_test[classwise_test_idx, 0, :]
+            classwise_X = classwise_X.transpose((1, 0))
+            classwise_X_test_list.append(classwise_X)
+
+            if X_test_attention is not None:
+                classwise_X_attn = X_test_attention[classwise_test_idx, 0, :]
+                classwise_X_attn = classwise_X_attn.transpose((1, 0))
+                classwise_X_test_attention_list.append(classwise_X_attn)
+
+        classwise_X_test_list = [np.asarray(x) for x in classwise_X_test_list]
+        classwise_X_test_attention_list = [np.asarray(x) for x in classwise_X_test_attention_list]
+
+        # classwise x test
+        X_test = np.concatenate(classwise_X_test_list, axis=-1)
+
+        # classwise x test attention
+        if X_test_attention is not None:
+            X_test_attention = np.concatenate(classwise_X_test_attention_list, axis=-1)
 
     print(X_train.shape)
-
-    if X_train_attention is not None:
-        X_train_attention = X_train_attention[train_idx, 0, :]
-        X_train_attention = X_train_attention.transpose((1, 0))
-
-    test_idx = np.random.randint(0, X_test.shape[0], size=test_size)
-    X_test = X_test[test_idx, 0, :]
-    X_test = X_test.transpose((1, 0))
-
-    if X_test_attention is not None:
-        X_test_attention = X_test_attention[test_idx, 0, :]
-        X_test_attention = X_test_attention.transpose((1, 0))
 
     train_df = pd.DataFrame(X_train,
                             index=range(X_train.shape[0]),
@@ -285,4 +364,5 @@ if __name__ == "__main__":
     # print("Max number of classes : ", classes)
 
     #print()
-    plot_dataset(dataset_id=59, seed=1, limit=None, cutoff=None, normalize_timeseries=False)
+    plot_dataset(dataset_id=39, seed=1, limit=1, cutoff=None, normalize_timeseries=False,
+                 plot_classwise=True)
