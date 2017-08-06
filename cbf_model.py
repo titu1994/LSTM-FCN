@@ -4,7 +4,7 @@ from keras.layers import Conv1D, BatchNormalization, GlobalAveragePooling1D, Per
 
 from utils.constants import MAX_SEQUENCE_LENGTH_LIST, NB_CLASSES_LIST
 from utils.keras_utils import train_model, evaluate_model, set_trainable, visualize_context_vector, visualize_cam
-from utils.layers import AttentionLSTM
+from utils.layer_utils import AttentionLSTM
 
 DATASET_INDEX = 39
 
