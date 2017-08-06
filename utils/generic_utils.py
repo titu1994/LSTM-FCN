@@ -274,34 +274,32 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
 
     fig, axs = plt.subplots(rows, cols, squeeze=False,
                             figsize=(8, 6))
-
-    train_df.plot(title='Train dataset',
-                  subplots=False,
+    axs[0][0].set_title('Train dataset', size=16)
+    train_df.plot(subplots=False,
                   legend=None,
-                  ax=axs[0][0])
+                  ax=axs[0][0],)
 
-    test_df.plot(title='Test dataset',
-                 subplots=False,
+    axs[0][1].set_title('Test dataset', size=16)
+    test_df.plot(subplots=False,
                  legend=None,
-                 ax=axs[0][1])
+                 ax=axs[0][1],)
 
     if plot_data is not None and X_train_attention is not None:
         train_attention_df = pd.DataFrame(X_train_attention,
                             index=range(X_train_attention.shape[0]),
                             columns=range(X_train_attention.shape[1]))
 
-        train_attention_df.plot(title='Train %s Sequence' % (type),
-                      subplots=False,
-                      legend=None,
-                      ax=axs[1][0])
+        axs[1][0].set_title('Train %s Sequence' % (type), size=16)
+        train_attention_df.plot(subplots=False,
+                                legend=None,
+                                ax=axs[1][0])
 
     if plot_data is not None and X_test_attention is not None:
         test_df = pd.DataFrame(X_test_attention,
                                index=range(X_test_attention.shape[0]),
                                columns=range(X_test_attention.shape[1]))
-
-        test_df.plot(title='Test %s Sequence' % (type),
-                     subplots=False,
+        axs[1][1].set_title('Test %s Sequence' % (type), size=16)
+        test_df.plot(subplots=False,
                      legend=None,
                      ax=axs[1][1])
 
