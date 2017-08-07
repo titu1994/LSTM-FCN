@@ -52,7 +52,7 @@ def load_dataset_at(index, normalize_timeseries=False, verbose=True) -> (np.arra
         X_train = X_train[:, np.newaxis, :]
         # scale the values
         if normalize_timeseries:
-            X_train = (X_train - X_train.mean()) / (X_train.std())
+            X_train = (X_train - X_train.mean(axis=0)) / (X_train.std(axis=0))
 
     if verbose: print("Finished loading train dataset..")
 
@@ -93,7 +93,7 @@ def load_dataset_at(index, normalize_timeseries=False, verbose=True) -> (np.arra
         X_test = X_test[:, np.newaxis, :]
         # scale the values
         if normalize_timeseries:
-            X_test = (X_test - X_test.mean()) / (X_test.std())
+            X_test = (X_test - X_test.mean(axis=0)) / (X_test.std(axis=0))
 
     if verbose:
         print("Finished loading test dataset..")
