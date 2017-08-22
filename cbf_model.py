@@ -11,7 +11,6 @@ DATASET_INDEX = 39
 MAX_SEQUENCE_LENGTH = MAX_SEQUENCE_LENGTH_LIST[DATASET_INDEX]
 NB_CLASS = NB_CLASSES_LIST[DATASET_INDEX]
 
-ATTENTION_CONCAT_AXIS = 1  # 1 = temporal, -1 = spatial
 TRAINABLE = True
 
 
@@ -41,19 +40,6 @@ def generate_model():
     out = Dense(NB_CLASS, activation='softmax')(x)
 
     model = Model(ip, out)
-
-    cnn_count = 0
-    for layer in model.layers:
-        if layer.__class__.__name__ in ['Conv1D',
-                                        'BatchNormalization',
-                                        'PReLU']:
-            if layer.__class__.__name__ == 'Conv1D':
-                cnn_count += 1
-
-            if cnn_count == 3:
-                break
-            else:
-                set_trainable(layer, TRAINABLE)
 
     model.summary()
 
@@ -89,19 +75,6 @@ def generate_model_2():
 
     model = Model(ip, out)
 
-    cnn_count = 0
-    for layer in model.layers:
-        if layer.__class__.__name__ in ['Conv1D',
-                                        'BatchNormalization',
-                                        'PReLU']:
-            if layer.__class__.__name__ == 'Conv1D':
-                cnn_count += 1
-
-            if cnn_count == 3:
-                break
-            else:
-                set_trainable(layer, TRAINABLE)
-
     model.summary()
 
     # add load model code here to fine-tune
@@ -109,22 +82,14 @@ def generate_model_2():
     return model
 
 
-def attention_block(inputs, id):
-    # input shape: (batch_size, time_step, input_dim)
-    # input shape: (batch_size, max_sequence_length, lstm_output_dim)
-    x = Dense(MAX_SEQUENCE_LENGTH, activation='softmax', name='attention_dense_%d' % id)(inputs)
-    x = multiply([inputs, x])
-    return x
-
-
 if __name__ == "__main__":
     model = generate_model_2()
 
     #train_model(model, DATASET_INDEX, dataset_prefix='cbf', epochs=2000, batch_size=32)
 
-    #evaluate_model(model, DATASET_INDEX, dataset_prefix='cbf', batch_size=128)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='cbf', batch_size=128)
 
-    visualize_context_vector(model, DATASET_INDEX, dataset_prefix='cbf',
-                             visualize_sequence=True, visualize_classwise=True, limit=1)
+    # visualize_context_vector(model, DATASET_INDEX, dataset_prefix='cbf', visualize_sequence=True,
+    #                         visualize_classwise=True, limit=1)
 
     # visualize_cam(model, DATASET_INDEX, dataset_prefix='cbf', class_id=0)
