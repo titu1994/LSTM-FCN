@@ -85,11 +85,11 @@ def generate_model_2():
 if __name__ == "__main__":
     model = generate_model_2()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='uwave_gesture_library_x', epochs=2000, batch_size=64)
+    #train_model(model, DATASET_INDEX, dataset_prefix='u_wave_gesture_library_x', epochs=2000, batch_size=64)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='uwave_gesture_library_x', batch_size=16)
+    evaluate_model(model, DATASET_INDEX, dataset_prefix='u_wave_gesture_library_x', batch_size=16)
 
-    # visualize_context_vector(model, DATASET_INDEX, dataset_prefix='uwave_gesture_library_x', visualize_sequence=True,
+    # visualize_context_vector(model, DATASET_INDEX, dataset_prefix='u_wave_gesture_library_x', visualize_sequence=True,
     #                          visualize_classwise=True, limit=1)
 
-    # visualize_cam(model, DATASET_INDEX, dataset_prefix='uwave_gesture_library_x', class_id=0)
+    # visualize_cam(model, DATASET_INDEX, dataset_prefix='u_wave_gesture_library_x', class_id=0)
