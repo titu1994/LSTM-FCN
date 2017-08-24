@@ -363,8 +363,8 @@ class AttentionLSTM(Recurrent):
         h_att = K.repeat(h_tm1, self.timestep_dim)
         att = _time_distributed_dense(x_input, self.attention_weights, self.attention_bias,
                                       output_dim=K.int_shape(self.attention_weights)[1])
-        attention_ = self.attention_activation(K.dot(h_att, self.attention_recurrent_weights) + att)
-        attention_ = K.squeeze(K.dot(attention_, self.attention_recurrent_bias), 2)
+        attention_ = self.attention_activation(K.dot(h_att, self.attention_recurrent_weights) + att) # energy
+        attention_ = K.squeeze(K.dot(attention_, self.attention_recurrent_bias), 2) # energy
 
         alpha = K.exp(attention_)
 
