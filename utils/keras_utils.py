@@ -328,18 +328,11 @@ def visualize_context_vector(model:Model, dataset_id, dataset_prefix, cutoff=Non
                                   eval_functions,
                                   verbose=False)[0]
 
-        if activations.shape[-1] != 1: # temporal attention
-            axis = 1
-        else:
-            axis = -1 # spatial attention
-
-        attention_vector = np.mean(activations, axis=axis).squeeze()
+        attention_vector = np.sum(activations, axis=1).squeeze()
         attention_vectors.append(attention_vector)
 
     attention_vectors = np.array(attention_vectors)
     attention_vector_final = np.mean(attention_vectors, axis=0)
-
-    attention_vector_final = (attention_vector_final - attention_vector_final.mean()) / (attention_vector_final.std())
 
     if visualize_sequence:
         # plot input sequence part that is paid attention too in detail
