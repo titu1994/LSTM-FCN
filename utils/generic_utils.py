@@ -164,8 +164,9 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
             train_size = limit
             test_size = limit
         else:
-            train_size = NB_CLASSES_LIST[dataset_id] * limit
-            test_size = NB_CLASSES_LIST[dataset_id] * limit
+            assert limit == 1, 'If plotting classwise, limit must be 1 so as to ensure number of samples per class = 1'
+            train_size = NB_CLASSES_LIST[dataset_id]
+            test_size = NB_CLASSES_LIST[dataset_id]
 
     if not plot_classwise:
         train_idx = np.random.randint(0, X_train.shape[0], size=train_size)
