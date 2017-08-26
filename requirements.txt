@@ -1,8 +1,8 @@
 tensorflow-gpu>=1.2.0
-keras
+keras>=2.0.4
 scipy
 numpy
 pandas
-scikit-learn>-0.18.2
+scikit-learn>=0.18.2
 h5py
 matplotlib
