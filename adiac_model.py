@@ -89,7 +89,7 @@ if __name__ == "__main__":
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='adiac', batch_size=128)
 
-    visualize_context_vector(model, DATASET_INDEX, dataset_prefix='adiac', visualize_sequence=True,
-                             visualize_classwise=True, limit=1)
+    # visualize_context_vector(model, DATASET_INDEX, dataset_prefix='adiac', visualize_sequence=True,
+    #                         visualize_classwise=True, limit=1)
 
     # visualize_cam(model, DATASET_INDEX, dataset_prefix='adiac', class_id=0)
