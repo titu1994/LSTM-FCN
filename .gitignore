@@ -1,6 +1,5 @@
 data/*
-!data/note.txt
-!data/model_dt.csv
+!data/note.md
 weights/*.h5
 weights/*/*.h5
 .idea/

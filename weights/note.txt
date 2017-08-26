@@ -1,1 +1,0 @@
-Will contain the trained models weights.
