@@ -1,6 +1,8 @@
 # LSTM FCN for Time Series Classification
 LSTM FCN models augment the fast classification performance of Temporal Convolutional layers with the precise classification of the Long Short Term Memory Recurrent Neural Networks.
 
+<img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/LSTM-FCN.png?raw=true" height=100% width=100%>
+
 # Installation 
 Download the repository and apply `pip install -r requirements.txt` to install the required libraries. 
 
@@ -48,6 +50,6 @@ visualize_cam(model, DATASET_INDEX, dataset_prefix='???????', class_id=0)
 ```
 
 # Results
-
+<img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/LSTM-FCN-scores.png?raw=true" height=100% width=100%>
 
 # Citation
