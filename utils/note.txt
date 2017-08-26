@@ -1,9 +1,0 @@
-Will contain utility scripts for data set loading, convertion, and static constants and so on.
-
-Difficult Datasets :
-
-1) Medical Image dataset - gets stuck at 66%. Fine tune to 67, then restart training to get to 71. Then fine tune again.
-2) Sony AIBO 1 - restart multiple times
-3) Distal phalanx age group - restart multiple times.
-4) Mote Strain - many restarts. Fine tune to 91%.
-5) Proximal phalanx - multiple restarts, multiple finetuning attempts.
