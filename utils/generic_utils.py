@@ -165,8 +165,8 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
             test_size = limit
         else:
             assert limit == 1, 'If plotting classwise, limit must be 1 so as to ensure number of samples per class = 1'
-            train_size = NB_CLASSES_LIST[dataset_id]
-            test_size = NB_CLASSES_LIST[dataset_id]
+            train_size = NB_CLASSES_LIST[dataset_id] * limit
+            test_size = NB_CLASSES_LIST[dataset_id] * limit
 
     if not plot_classwise:
         train_idx = np.random.randint(0, X_train.shape[0], size=train_size)
@@ -184,7 +184,7 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
 
         classwise_sample_size_list = [len(x[0]) for x in classwise_train_list]
         size = min(classwise_sample_size_list)
-        train_size = min([train_size, size]) // NB_CLASSES_LIST[dataset_id]
+        train_size = min([train_size // NB_CLASSES_LIST[dataset_id], size])
 
         for i in range(len(classwise_train_list)):
             classwise_train_idx = np.random.randint(0, len(classwise_train_list[i][0]), size=train_size)
@@ -229,7 +229,7 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
 
         classwise_sample_size_list = [len(x[0]) for x in classwise_test_list]
         size = min(classwise_sample_size_list)
-        test_size = min([test_size, size]) // NB_CLASSES_LIST[dataset_id]
+        test_size = min([test_size // NB_CLASSES_LIST[dataset_id], size])
 
         for i in range(len(classwise_test_list)):
             classwise_test_idx = np.random.randint(0, len(classwise_test_list[i][0]), size=test_size)
@@ -259,6 +259,7 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
             X_test_attention = np.concatenate(classwise_X_test_attention_list, axis=-1)
 
     print(X_train.shape)
+    print(X_test.shape)
 
     train_df = pd.DataFrame(X_train,
                             index=range(X_train.shape[0]),

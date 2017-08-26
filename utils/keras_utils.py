@@ -254,7 +254,7 @@ def visualize_context_vector(model:Model, dataset_id, dataset_prefix, cutoff=Non
                                   eval_functions,
                                   verbose=False)[0]
 
-        attention_vector = np.sum(activations, axis=1).squeeze()
+        attention_vector = np.mean(activations, axis=1).squeeze()
         attention_vectors.append(attention_vector)
 
     attention_vectors = np.array(attention_vectors)
