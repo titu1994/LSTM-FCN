@@ -85,7 +85,7 @@ def generate_model_2():
 if __name__ == "__main__":
     model = generate_model_2()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='shapes_all', epochs=4000, batch_size=64)
+    # train_model(model, DATASET_INDEX, dataset_prefix='shapes_all', epochs=4000, batch_size=64)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='shapes_all', batch_size=64)
 

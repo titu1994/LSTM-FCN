@@ -85,7 +85,7 @@ def generate_model_2():
 if __name__ == "__main__":
     model = generate_model_2()
 
-    train_model(model, DATASET_INDEX, dataset_prefix='starlight', epochs=2000, batch_size=64)
+    #train_model(model, DATASET_INDEX, dataset_prefix='starlight', epochs=2000, batch_size=64)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='starlight', batch_size=64)
 

@@ -17,7 +17,7 @@ TRAINABLE = True
 def generate_model():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
-    x = LSTM(512)(ip)
+    x = LSTM(8)(ip)
     x = Dropout(0.8)(x)
 
     y = Permute((2, 1))(ip)
@@ -51,7 +51,7 @@ def generate_model():
 def generate_model_2():
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
-    x = LSTM(8)(ip)
+    x = AttentionLSTM(8)(ip)
     x = Dropout(0.8)(x)
 
     y = Permute((2, 1))(ip)
@@ -83,9 +83,9 @@ def generate_model_2():
 
 
 if __name__ == "__main__":
-    model = generate_model()
+    model = generate_model_2()
 
-    #train_model(model, DATASET_INDEX, dataset_prefix='shapelet_sim', epochs=2000, batch_size=128)
+    # train_model(model, DATASET_INDEX, dataset_prefix='shapelet_sim', epochs=2000, batch_size=128)
 
     evaluate_model(model, DATASET_INDEX, dataset_prefix='shapelet_sim', batch_size=128)
 
