@@ -1,5 +1,5 @@
 # LSTM FCN for Time Series Classification
-LSTM FCN models augments the fast classification performance of Temporal Convolutional layers with the precise classification of the Long Short Term Memory Recurrent Neural Networks.
+LSTM FCN models, from the paper [LSTM Fully Convolutional Networks for Time Series Classification](https://arxiv.org/abs/1709.05206), augment the fast classification performance of Temporal Convolutional layers with the precise classification of Long Short Term Memory Recurrent Neural Networks.
 
 <img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/LSTM-FCN.png?raw=true" height=100% width=100%>
 
