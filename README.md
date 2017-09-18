@@ -54,7 +54,7 @@ visualize_cam(model, DATASET_INDEX, dataset_prefix='???????', class_id=0)
 
 # Citation
 ```
-@misc{1709.05206,
+@misc{Karim_Majumdar2017,
 Author = {Fazle Karim and Somshubra Majumdar and Houshang Darabi and Shun Chen},
 Title = {LSTM Fully Convolutional Networks for Time Series Classification},
 Year = {2017},
