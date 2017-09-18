@@ -53,3 +53,11 @@ visualize_cam(model, DATASET_INDEX, dataset_prefix='???????', class_id=0)
 <img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/LSTM-FCN-scores.png?raw=true" height=100% width=100%>
 
 # Citation
+```
+@misc{1709.05206,
+Author = {Fazle Karim and Somshubra Majumdar and Houshang Darabi and Shun Chen},
+Title = {LSTM Fully Convolutional Networks for Time Series Classification},
+Year = {2017},
+Eprint = {arXiv:1709.05206},
+}
+```
