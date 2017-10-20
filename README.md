@@ -10,7 +10,7 @@ Keras with the Tensorflow backend has been used for the development of the model
 
 The data can be obtained as a zip file from here - http://www.cs.ucr.edu/~eamonn/time_series_data/
 
-Extract that into some folder and it will give 85 different folders. Copy paste the util script extract_all_datasets.py and run it to get a single folder with all 85 dayasets extracted. Cut paste these files into the Data directory.
+Extract that into some folder and it will give 85 different folders. Copy paste the util script `extract_all_datasets.py` to this folder and run it to get a single folder `_data` with all 85 datasets extracted. Cut-paste these files into the `Data` directory.
 
 **Note** : The input to the Input layer of all models will be pre-shuffled to be in the shape (Batchsize, 1, Number of timesteps), and the input will be shuffled again before being applied to the CNNs (to obtain the correct shape (Batchsize, Number of timesteps, 1)). This is in contrast to the paper where the input is of the shape (Batchsize, Number of timesteps, 1) and the shuffle operation is applied before the LSTM to obtain the input shape (Batchsize, 1, Number of timesteps). These operations are equivalent.
 
