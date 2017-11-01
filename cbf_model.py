@@ -87,7 +87,7 @@ if __name__ == "__main__":
 
     #train_model(model, DATASET_INDEX, dataset_prefix='cbf', epochs=2000, batch_size=32)
 
-    evaluate_model(model, DATASET_INDEX, dataset_prefix='cbf', batch_size=128)
+    #evaluate_model(model, DATASET_INDEX, dataset_prefix='cbf', batch_size=128)
 
     visualize_context_vector(model, DATASET_INDEX, dataset_prefix='cbf', visualize_sequence=True,
                              visualize_classwise=True, limit=1)

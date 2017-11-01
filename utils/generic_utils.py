@@ -20,7 +20,7 @@ def load_dataset_at(index, normalize_timeseries=False, verbose=True) -> (np.arra
     else:
         raise FileNotFoundError('File %s not found!' % (TRAIN_FILES[index]))
 
-    is_timeseries = False if TRAIN_FILES[index][-3:] == 'csv' else True
+    is_timeseries = True # assume all input data is univariate time series
 
     # remove all columns which are completely empty
     df.dropna(axis=1, how='all', inplace=True)
@@ -258,16 +258,17 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
         if X_test_attention is not None:
             X_test_attention = np.concatenate(classwise_X_test_attention_list, axis=-1)
 
-    print(X_train.shape)
-    print(X_test.shape)
+    print('X_train shape : ', X_train.shape)
+    print('X_test shape : ', X_test.shape)
 
+    columns = ['Class %d' % (i + 1) for i in range(X_train.shape[1])]
     train_df = pd.DataFrame(X_train,
                             index=range(X_train.shape[0]),
-                            columns=range(X_train.shape[1]))
+                            columns=columns)
 
     test_df = pd.DataFrame(X_test,
                            index=range(X_test.shape[0]),
-                           columns=range(X_test.shape[1]))
+                           columns=columns)
 
     if plot_data is not None:
         rows = 2
@@ -277,34 +278,47 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
         cols = 2
 
     fig, axs = plt.subplots(rows, cols, squeeze=False,
-                            figsize=(8, 6))
+                           tight_layout=True, figsize=(8, 6))
     axs[0][0].set_title('Train dataset', size=16)
+    axs[0][0].set_xlabel('timestep')
+    axs[0][0].set_ylabel('value')
     train_df.plot(subplots=False,
-                  legend=None,
+                  legend='best',
                   ax=axs[0][0],)
 
     axs[0][1].set_title('Test dataset', size=16)
+    axs[0][1].set_xlabel('timestep')
+    axs[0][1].set_ylabel('value')
     test_df.plot(subplots=False,
-                 legend=None,
+                 legend='best',
                  ax=axs[0][1],)
 
     if plot_data is not None and X_train_attention is not None:
+        columns = ['Class %d' % (i + 1) for i in range(X_train_attention.shape[1])]
         train_attention_df = pd.DataFrame(X_train_attention,
                             index=range(X_train_attention.shape[0]),
-                            columns=range(X_train_attention.shape[1]))
+                            columns=columns)
 
         axs[1][0].set_title('Train %s Sequence' % (type), size=16)
+        axs[1][0].set_xlabel('timestep')
+        axs[1][0].set_ylabel('value')
+        #axs[1][0].set_ylim([X_train.min(), X_train.max()])
         train_attention_df.plot(subplots=False,
-                                legend=None,
+                                legend='best',
                                 ax=axs[1][0])
 
     if plot_data is not None and X_test_attention is not None:
+        columns = ['Class %d' % (i + 1) for i in range(X_test_attention.shape[1])]
         test_df = pd.DataFrame(X_test_attention,
                                index=range(X_test_attention.shape[0]),
-                               columns=range(X_test_attention.shape[1]))
+                               columns=columns)
+
         axs[1][1].set_title('Test %s Sequence' % (type), size=16)
+        axs[1][1].set_xlabel('timestep')
+        axs[1][1].set_ylabel('value')
+        #axs[1][1].set_ylim([X_test.min(), X_test.max()])
         test_df.plot(subplots=False,
-                     legend=None,
+                     legend='best',
                      ax=axs[1][1])
 
     plt.show()
