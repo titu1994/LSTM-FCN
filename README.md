@@ -6,7 +6,7 @@ LSTM FCN models, from the paper [LSTM Fully Convolutional Networks for Time Seri
 ## Multivariate LSTM-FCN for Time Series Classification
 General LSTM-FCNs are high performance models for univariate datasets. However, on multivariate datasets, we find that their performance is not optimal if applied directly. Therefore, we introduce **Multivariate LSTM-FCN (MLSTM-FCN)** for such datasets.
 
-Paper: [Multivariate LSTM-FCNs for Time Series Classification](https://arxiv.org/abs/1801.04503)
+Paper: [Multivariate LSTM-FCNs for Time Series Classification](https://arxiv.org/abs/1801.04503) <br>
 Repository: [MLSTM-FCN](https://github.com/titu1994/MLSTM-FCN)
 
 # Installation 
