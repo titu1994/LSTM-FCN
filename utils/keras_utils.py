@@ -66,8 +66,8 @@ def train_model(model:Model, dataset_id, dataset_prefix, epochs=50, batch_size=1
         factor = 1. / np.sqrt(2)
 
     model_checkpoint = ModelCheckpoint("./weights/%s_weights.h5" % dataset_prefix, verbose=1,
-                                       monitor='val_acc', save_best_only=True, save_weights_only=True)
-    reduce_lr = ReduceLROnPlateau(monitor='val_acc', patience=100, mode='max',
+                                       monitor='loss', save_best_only=True, save_weights_only=True)
+    reduce_lr = ReduceLROnPlateau(monitor='loss', patience=100, mode='auto',
                                   factor=factor, cooldown=0, min_lr=1e-4, verbose=2)
     callback_list = [model_checkpoint, reduce_lr]
 
