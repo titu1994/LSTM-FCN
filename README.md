@@ -60,7 +60,8 @@ visualize_cam(model, DATASET_INDEX, dataset_prefix='???????', class_id=0)
 ```
 
 # Results
-Results Based on Test Validation Checkpoint
+
+## Results Based on Test Validation Checkpoint
 <img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/LSTM-FCN-scores.png?raw=true" height=100% width=100%>
 
 ## Results Based on Minimum Training Loss
@@ -73,15 +74,15 @@ Results Based on Test Validation Checkpoint
 After applying a Dunn-Sidak Correction, we compare the p-value table to an alpha level of 0.00465. Results show ALSTM, LSTM, and the Ensemble Methods (COTE and EE) are statistically the same.
 <img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/P-Value-training_loss.jpeg?raw=true" height=100% width=100%>
 
-
-
-
 # Citation
 ```
-@misc{Karim_Majumdar2017,
-Author = {Fazle Karim and Somshubra Majumdar and Houshang Darabi and Shun Chen},
-Title = {LSTM Fully Convolutional Networks for Time Series Classification},
-Year = {2017},
-Eprint = {arXiv:1709.05206},
+@article{karim2018lstm,
+  title={LSTM fully convolutional networks for time series classification},
+  author={Karim, Fazle and Majumdar, Somshubra and Darabi, Houshang and Chen, Shun},
+  journal={IEEE Access},
+  volume={6},
+  pages={1662--1669},
+  year={2018},
+  publisher={IEEE}
 }
 ```
