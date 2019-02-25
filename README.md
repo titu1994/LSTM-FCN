@@ -6,7 +6,7 @@ LSTM FCN models, from the paper [LSTM Fully Convolutional Networks for Time Seri
 ## Multivariate LSTM-FCN for Time Series Classification
 General LSTM-FCNs are high performance models for univariate datasets. However, on multivariate datasets, we find that their performance is not optimal if applied directly. Therefore, we introduce **Multivariate LSTM-FCN (MLSTM-FCN)** for such datasets.
 
-Paper: [Multivariate LSTM-FCNs for Time Series Classification](https://arxiv.org/abs/1801.04503) <br>
+Paper: [Multivariate LSTM-FCNs for Time Series Classification](https://ieeexplore.ieee.org/document/8141873/) <br>
 Repository: [MLSTM-FCN](https://github.com/titu1994/MLSTM-FCN)
 
 # Installation 
@@ -60,7 +60,21 @@ visualize_cam(model, DATASET_INDEX, dataset_prefix='???????', class_id=0)
 ```
 
 # Results
+Results Based on Test Validation Checkpoint
 <img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/LSTM-FCN-scores.png?raw=true" height=100% width=100%>
+
+## Results Based on Minimum Training Loss
+<img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/LSTM-FCN-training_loss-scores.jpg?raw=true" height=100% width=100%>
+
+## Critical Difference Diagram
+<img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/CD-training_loss.jpg?raw=true" height=100% width=100%>
+
+## Wilcoxson Signed Rank Test - Statistical Test
+After applying a Dunn-Sidak Correction, we compare the p-value table to an alpha level of 0.00465. Results show ALSTM, LSTM, and the Ensemble Methods (COTE and EE) are statistically the same.
+<img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/P-Value-training_loss.jpg?raw=true" height=100% width=100%>
+
+
+
 
 # Citation
 ```
