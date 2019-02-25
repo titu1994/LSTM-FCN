@@ -64,7 +64,7 @@ Results Based on Test Validation Checkpoint
 <img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/LSTM-FCN-scores.png?raw=true" height=100% width=100%>
 
 ## Results Based on Minimum Training Loss
-<img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/LSTM-FCN-training_loss-scores.jpeg?raw=true" height=80% width=80%>
+<img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/LSTM-FCN-training_loss-scores.jpeg?raw=true" height=100% width=100%>
 
 ## Critical Difference Diagram
 <img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/CD-training_loss.jpeg?raw=true" height=100% width=100%>
