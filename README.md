@@ -64,14 +64,14 @@ Results Based on Test Validation Checkpoint
 <img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/LSTM-FCN-scores.png?raw=true" height=100% width=100%>
 
 ## Results Based on Minimum Training Loss
-<img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/LSTM-FCN-training_loss-scores.jpg?raw=true" height=100% width=100%>
+<img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/LSTM-FCN-training_loss-scores.jpeg?raw=true" height=100% width=100%>
 
 ## Critical Difference Diagram
-<img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/CD-training_loss.jpg?raw=true" height=100% width=100%>
+<img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/CD-training_loss.jpeg?raw=true" height=100% width=100%>
 
 ## Wilcoxson Signed Rank Test - Statistical Test
 After applying a Dunn-Sidak Correction, we compare the p-value table to an alpha level of 0.00465. Results show ALSTM, LSTM, and the Ensemble Methods (COTE and EE) are statistically the same.
-<img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/P-Value-training_loss.jpg?raw=true" height=100% width=100%>
+<img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/P-Value-training_loss.jpeg?raw=true" height=100% width=100%>
 
 
 
