@@ -1,12 +1,12 @@
 # LSTM FCN for Time Series Classification
-LSTM FCN models, from the paper [LSTM Fully Convolutional Networks for Time Series Classification](https://arxiv.org/abs/1709.05206), augment the fast classification performance of Temporal Convolutional layers with the precise classification of Long Short Term Memory Recurrent Neural Networks.
+LSTM FCN models, from the paper [LSTM Fully Convolutional Networks for Time Series Classification](https://ieeexplore.ieee.org/document/8141873/), augment the fast classification performance of Temporal Convolutional layers with the precise classification of Long Short Term Memory Recurrent Neural Networks.
 
 <img src="https://github.com/titu1994/LSTM-FCN/blob/master/images/LSTM-FCN.png?raw=true" height=100% width=100%>
 
 ## Multivariate LSTM-FCN for Time Series Classification
 General LSTM-FCNs are high performance models for univariate datasets. However, on multivariate datasets, we find that their performance is not optimal if applied directly. Therefore, we introduce **Multivariate LSTM-FCN (MLSTM-FCN)** for such datasets.
 
-Paper: [Multivariate LSTM-FCNs for Time Series Classification](https://ieeexplore.ieee.org/document/8141873/) <br>
+Paper: [Multivariate LSTM-FCNs for Time Series Classification](https://arxiv.org/abs/1801.04503) <br>
 Repository: [MLSTM-FCN](https://github.com/titu1994/MLSTM-FCN)
 
 # Installation 
