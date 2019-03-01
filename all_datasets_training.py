@@ -45,184 +45,7 @@ def generate_lstmfcn(MAX_SEQUENCE_LENGTH, NB_CLASS, NUM_CELLS=8):
     return model
 
 
-def generate_grufcn(MAX_SEQUENCE_LENGTH, NB_CLASS, NUM_CELLS=8):
-
-    ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
-
-    x = GRU(NUM_CELLS)(ip)
-    x = Dropout(0.8)(x)
-
-    y = Permute((2, 1))(ip)
-    y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = Conv1D(256, 5, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = Conv1D(128, 3, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = GlobalAveragePooling1D()(y)
-
-    x = concatenate([x, y])
-
-    out = Dense(NB_CLASS, activation='softmax')(x)
-
-    model = Model(ip, out)
-
-    model.summary()
-
-    # add load model code here to fine-tune
-
-    return model
-
-
-def generate_rnnfcn(MAX_SEQUENCE_LENGTH, NB_CLASS, NUM_CELLS=8):
-
-    ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
-
-    x = SimpleRNN(NUM_CELLS)(ip)
-    x = Dropout(0.8)(x)
-
-    y = Permute((2, 1))(ip)
-    y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = Conv1D(256, 5, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = Conv1D(128, 3, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = GlobalAveragePooling1D()(y)
-
-    x = concatenate([x, y])
-
-    out = Dense(NB_CLASS, activation='softmax')(x)
-
-    model = Model(ip, out)
-
-    model.summary()
-
-    # add load model code here to fine-tune
-
-    return model
-
-
-def generate_densefcn(MAX_SEQUENCE_LENGTH, NB_CLASS, NUM_CELLS=8):
-
-    ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
-
-    x = Flatten()(ip)
-    x = Dense(NUM_CELLS, activation='sigmoid')(x)
-    x = Dropout(0.8)(x)
-
-    y = Permute((2, 1))(ip)
-    y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = Conv1D(256, 5, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = Conv1D(128, 3, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = GlobalAveragePooling1D()(y)
-
-    x = concatenate([x, y])
-
-    out = Dense(NB_CLASS, activation='softmax')(x)
-
-    model = Model(ip, out)
-
-    model.summary()
-
-    # add load model code here to fine-tune
-
-    return model
-
-
 def generate_alstmfcn(MAX_SEQUENCE_LENGTH, NB_CLASS, NUM_CELLS=8):
-
-    ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
-
-    x = AttentionLSTM(NUM_CELLS)(ip)
-    x = Dropout(0.8)(x)
-
-    y = Permute((2, 1))(ip)
-    y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = Conv1D(256, 5, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = Conv1D(128, 3, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = GlobalAveragePooling1D()(y)
-
-    x = concatenate([x, y])
-
-    out = Dense(NB_CLASS, activation='softmax')(x)
-
-    model = Model(ip, out)
-
-    model.summary()
-
-    # add load model code here to fine-tune
-
-    return model
-
-
-def generate_ndlstmfcn(MAX_SEQUENCE_LENGTH, NB_CLASS, NUM_CELLS=8):
-
-    ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
-
-    x = Permute((2, 1))(ip)
-    x = CuDNNLSTM(NUM_CELLS)(x)
-    x = Dropout(0.8)(x)
-
-    y = Permute((2, 1))(ip)
-    y = Conv1D(128, 8, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = Conv1D(256, 5, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = Conv1D(128, 3, padding='same', kernel_initializer='he_uniform')(y)
-    y = BatchNormalization()(y)
-    y = Activation('relu')(y)
-
-    y = GlobalAveragePooling1D()(y)
-
-    x = concatenate([x, y])
-
-    out = Dense(NB_CLASS, activation='softmax')(x)
-
-    model = Model(ip, out)
-
-    model.summary()
-
-    # add load model code here to fine-tune
-
-    return model
-
-
-def generate_ndalstmfcn(MAX_SEQUENCE_LENGTH, NB_CLASS, NUM_CELLS=8):
 
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
 
@@ -397,11 +220,7 @@ if __name__ == "__main__":
 
     MODELS = [
         ('lstmfcn', generate_lstmfcn),
-        # ('alstmfcn', generate_alstmfcn),
-        # ('ndlstmfcn', generate_ndlstmfcn),
-        # ('grufcn', generate_grufcn),
-        # ('rnnfcn', generate_rnnfcn),
-        # ('densefcn', generate_densefcn),
+        ('alstmfcn', generate_alstmfcn),
     ]
 
     # Number of cells
@@ -445,6 +264,7 @@ if __name__ == "__main__":
 
                 print('*' * 20, "Training model for dataset %s" % (dname), '*' * 20)
 
+                # comment out the training code to only evaluate !
                 train_model(model, did, dataset_name_, epochs=2000, batch_size=128,
                             normalize_timeseries=normalize_dataset)
 
