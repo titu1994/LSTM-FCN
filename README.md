@@ -10,7 +10,7 @@ Paper: [Multivariate LSTM-FCNs for Time Series Classification](https://arxiv.org
 Repository: [MLSTM-FCN](https://github.com/titu1994/MLSTM-FCN)
 
 ## Ablation Study of LSTM-FCN for Time Series Classification
-Over the past year there have been several questions have been raised by the community about the details of the model such as :
+Over the past year there have been several questions that have been raised by the community about the details of the model such as :
 
  - Why we chose to augment a Fully Convolutional Network with an LSTM?
  - What is dimension shuffle actually doing?
@@ -18,7 +18,7 @@ Over the past year there have been several questions have been raised by the com
  - Why not replace the LSTM by another RNN such as GRU?
  - Whether there is any actual improvement to be obtained from this augmentation?
 
-We therefore perform a detailed ablation study, composing nearly 3,627 experiments that attempt to analyse and answer these questionsand  to provide a better understanding of the LSTM-FCN/ALSTM-FCN time series classification model and each of its sub-module.
+We therefore perform a detailed ablation study, composing nearly 3,627 experiments that attempt to analyse and answer these questions and to provide a better understanding of the LSTM-FCN/ALSTM-FCN time series classification model and each of its sub-module.
 
 The paper, titled **Insights into LSTM Fully Convolutional Networks for Time Series Classification** can be read for a thorough discussion and statistical analysis of the benefit of the Dimension Shuffled LSTM to the Fully Convolutional Network.
 
