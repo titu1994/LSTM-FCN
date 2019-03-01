@@ -4,3 +4,7 @@ weights/*.h5
 weights/*/*.h5
 .idea/
 utils/*.pyc
+layer_features
+cam_features
+lstm_features
+cnn_filters
