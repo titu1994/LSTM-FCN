@@ -18,7 +18,7 @@ Over the past year there have been several questions have been raised by the com
  - Why not replace the LSTM by another RNN such as GRU?
  - Whether there is any actual improvement to be obtained from this augmentation?
 
-We therefore perform a detailed ablation study, composing nearly 3,627 experiments that attempt to analyse and answer these questions.
+We therefore perform a detailed ablation study, composing nearly 3,627 experiments that attempt to analyse and answer these questionsand  to provide a better understanding of the LSTM-FCN/ALSTM-FCN time series classification model and each of its sub-module.
 
 The paper, titled **Insights into LSTM Fully Convolutional Networks for Time Series Classification** can be read for a thorough discussion and statistical analysis of the benefit of the Dimension Shuffled LSTM to the Fully Convolutional Network.
 
@@ -58,6 +58,16 @@ A few parameters must be set in advance :
 After this, once training begins, each model will trained according to specificiation and log files will be written to which describe all the parameters for convenience along with the training and testing set accuracy at the end of training.
 
 Weight files will automatically be saved in the correct directories and can be used for later analysis.
+
+#### Training Inner-loop
+To train the a model, uncomment the line below and execute the script. **Note** that '???????' will already be provided, so there is no need to replace it. It refers to the prefix of the saved weight file. Also, if weights are already provided, this operation will overwrite those weights.
+
+`train_model(model, did, dataset_name_, epochs=2000, batch_size=128,normalize_timeseries=normalize_dataset)`
+
+#### Evaluate Inner-loop
+To evaluate the performance of the model, simply execute the script with the below line uncommented.
+
+`evaluate_model(model, did, dataset_name_, batch_size=128,normalize_timeseries=normalize_dataset)`
 
 ## Evaluate 
 
