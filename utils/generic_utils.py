@@ -10,6 +10,25 @@ from utils.constants import TRAIN_FILES, TEST_FILES, MAX_SEQUENCE_LENGTH_LIST, N
 
 
 def load_dataset_at(index, normalize_timeseries=False, verbose=True) -> (np.array, np.array):
+    """
+    Loads a Univaraite UCR Dataset indexed by `utils.constants`.
+
+    Args:
+        index: Integer index, set inside `utils.constants` that refers to the
+            dataset.
+        normalize_timeseries: Bool / Integer. Determines whether to normalize
+            the timeseries.
+
+            If False, does not normalize the time series.
+            If True / int not equal to 2, performs standard sample-wise
+                z-normalization.
+            If 2: Performs full dataset z-normalization.
+        verbose: Whether to describe the dataset being loaded.
+
+    Returns:
+        A tuple of shape (X_train, y_train, X_test, y_test, is_timeseries).
+        For legacy reasons, is_timeseries is always True.
+    """
     assert index < len(TRAIN_FILES), "Index invalid. Could not load dataset at %d" % index
     if verbose: print("Loading train / test dataset : ", TRAIN_FILES[index], TEST_FILES[index])
 
@@ -126,6 +145,16 @@ def load_dataset_at(index, normalize_timeseries=False, verbose=True) -> (np.arra
 
 
 def calculate_dataset_metrics(X_train):
+    """
+    Calculates the dataset metrics used for model building and evaluation.
+
+    Args:
+        X_train: The training dataset.
+
+    Returns:
+        A tuple of (None, sequence_length). None is for legacy
+        purposes.
+    """
     is_timeseries = len(X_train.shape) == 3
     if is_timeseries:
         # timeseries dataset
@@ -142,10 +171,38 @@ def calculate_dataset_metrics(X_train):
 def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
                  normalize_timeseries=False, plot_data=None,
                  type='Context', plot_classwise=False):
+    """
+    Util method to plot a dataset under several possibilities.
+
+    Args:
+        dataset_id: Integer id, refering to the dataset set inside
+            `utils/constants.py`.
+        seed: Numpy Random seed.
+        limit: Number of data points to be visualized. Min of 1.
+        cutoff: Optional integer which slices of the first `cutoff` timesteps
+            from the input signal.
+        normalize_timeseries: Bool / Integer. Determines whether to normalize
+            the timeseries.
+
+            If False, does not normalize the time series.
+            If True / int not equal to 2, performs standard sample-wise
+                z-normalization.
+            If 2: Performs full dataset z-normalization.
+        plot_data: Additional data used for plotting in place of the
+            loaded train set. Can be the test set or some other val set.
+        type: Type of plot being built. Can be one of ['Context', any other string].
+            Context is a specific keyword, used for Context from Attention LSTM.
+            If any other string is provided, it is used in the title.
+        plot_classwise: Bool flag. Wheter to visualize the samples
+            seperated by class. When doing so, `limit` is multiplied by
+            the number of classes so it is better to set `limit` to 1 in
+            such cases
+    """
     np.random.seed(seed)
 
     if plot_data is None:
-        X_train, y_train, X_test, y_test, is_timeseries = load_dataset_at(dataset_id,
+        X_train, y_train, X_test, y_test, is_timeseries = load_dataset_at(
+                                                               dataset_id,
                                                                normalize_timeseries=normalize_timeseries)
 
         if not is_timeseries:
@@ -319,7 +376,6 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
         axs[1][0].set_title('Train %s Sequence' % (type), size=16)
         axs[1][0].set_xlabel('timestep')
         axs[1][0].set_ylabel('value')
-        #axs[1][0].set_ylim([X_train.min(), X_train.max()])
         train_attention_df.plot(subplots=False,
                                 legend='best',
                                 ax=axs[1][0])
@@ -333,7 +389,6 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
         axs[1][1].set_title('Test %s Sequence' % (type), size=16)
         axs[1][1].set_xlabel('timestep')
         axs[1][1].set_ylabel('value')
-        #axs[1][1].set_ylim([X_test.min(), X_test.max()])
         test_df.plot(subplots=False,
                      legend='best',
                      ax=axs[1][1])
@@ -342,6 +397,17 @@ def plot_dataset(dataset_id, seed=None, limit=None, cutoff=None,
 
 
 def cutoff_choice(dataset_id, sequence_length):
+    """
+    Helper to allow the user to select whether they want to cutoff timesteps or not,
+    and in what manner (pre or post).
+
+    Args:
+        dataset_id: Dataset ID
+        sequence_length: Length of the sequence originally.
+
+    Returns:
+        String choice of pre or post slicing.
+    """
     print("Original sequence length was :", sequence_length, "New sequence Length will be : ",
           MAX_SEQUENCE_LENGTH_LIST[dataset_id])
     choice = input('Options : \n'
@@ -356,6 +422,20 @@ def cutoff_choice(dataset_id, sequence_length):
 
 
 def cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length):
+    """
+    Slices of the first `cutoff` timesteps from the input signal.
+
+    Args:
+        X_train: Train sequences.
+        X_test: Test sequences.
+        choice: User's choice of slicing method.
+        dataset_id: Integer id of the dataset set inside `utils/constants.py`.
+        sequence_length: Original length of the sequence.
+
+    Returns:
+        A tuple of (X_train, X_test) after slicing off the requisit number of
+        timesteps.
+    """
     assert MAX_SEQUENCE_LENGTH_LIST[dataset_id] < sequence_length, "If sequence is to be cut, max sequence" \
                                                                    "length must be less than original sequence length."
     cutoff = sequence_length - MAX_SEQUENCE_LENGTH_LIST[dataset_id]
@@ -397,6 +477,5 @@ if __name__ == "__main__":
     # print("Sequence length list : ", seq_len_list)
     # print("Max number of classes : ", classes)
 
-    #print()
     plot_dataset(dataset_id=77, seed=1, limit=1, cutoff=None, normalize_timeseries=True,
                  plot_classwise=True)
