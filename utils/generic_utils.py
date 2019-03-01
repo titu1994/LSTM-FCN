@@ -15,8 +15,10 @@ def load_dataset_at(index, normalize_timeseries=False, verbose=True) -> (np.arra
 
     if os.path.exists(TRAIN_FILES[index]):
         df = pd.read_csv(TRAIN_FILES[index], header=None, encoding='latin-1')
+
     elif os.path.exists(TRAIN_FILES[index][1:]):
         df = pd.read_csv(TRAIN_FILES[index][1:], header=None, encoding='latin-1')
+
     else:
         raise FileNotFoundError('File %s not found!' % (TRAIN_FILES[index]))
 
@@ -52,14 +54,23 @@ def load_dataset_at(index, normalize_timeseries=False, verbose=True) -> (np.arra
         X_train = X_train[:, np.newaxis, :]
         # scale the values
         if normalize_timeseries:
-            X_train_mean = X_train.mean()
-            X_train_std = X_train.std()
-            X_train = (X_train - X_train_mean) / (X_train_std + 1e-8)
+            normalize_timeseries = int(normalize_timeseries)
+
+            if normalize_timeseries == 2:
+                X_train_mean = X_train.mean()
+                X_train_std = X_train.std()
+                X_train = (X_train - X_train_mean) / (X_train_std + 1e-8)
+
+            else:
+                X_train_mean = X_train.mean(axis=-1, keepdims=True)
+                X_train_std = X_train.std(axis=-1, keepdims=True)
+                X_train = (X_train - X_train_mean) / (X_train_std + 1e-8)
 
     if verbose: print("Finished loading train dataset..")
 
     if os.path.exists(TEST_FILES[index]):
         df = pd.read_csv(TEST_FILES[index], header=None, encoding='latin-1')
+
     elif os.path.exists(TEST_FILES[index][1:]):
         df = pd.read_csv(TEST_FILES[index][1:], header=None, encoding='latin-1')
     else:
@@ -95,7 +106,14 @@ def load_dataset_at(index, normalize_timeseries=False, verbose=True) -> (np.arra
         X_test = X_test[:, np.newaxis, :]
         # scale the values
         if normalize_timeseries:
-            X_test = (X_test - X_train_mean) / (X_train_std + 1e-8)
+            normalize_timeseries = int(normalize_timeseries)
+
+            if normalize_timeseries == 2:
+                X_test = (X_test - X_train_mean) / (X_train_std + 1e-8)
+            else:
+                X_test_mean = X_test.mean(axis=-1, keepdims=True)
+                X_test_std = X_test.std(axis=-1, keepdims=True)
+                X_test = (X_test - X_test_mean) / (X_test_std + 1e-8)
 
     if verbose:
         print("Finished loading test dataset..")
@@ -103,7 +121,6 @@ def load_dataset_at(index, normalize_timeseries=False, verbose=True) -> (np.arra
         print("Number of train samples : ", X_train.shape[0], "Number of test samples : ", X_test.shape[0])
         print("Number of classes : ", nb_classes)
         print("Sequence length : ", X_train.shape[-1])
-
 
     return X_train, y_train, X_test, y_test, is_timeseries
 
@@ -357,11 +374,12 @@ def cutoff_sequence(X_train, X_test, choice, dataset_id, sequence_length):
 
 
 if __name__ == "__main__":
-    # word_list = []
-    # seq_len_list = []
-    # classes = []
+    word_list = []
+    seq_len_list = []
+    classes = []
+
+    # for index in range(85, 128):
     #
-    # for index in range(6, 9):
     #     x, y, x_test, y_test, is_timeseries = load_dataset_at(index)
     #     nb_words, seq_len = calculate_dataset_metrics(x)
     #     print("-" * 80)
@@ -380,5 +398,5 @@ if __name__ == "__main__":
     # print("Max number of classes : ", classes)
 
     #print()
-    plot_dataset(dataset_id=39, seed=1, limit=1, cutoff=None, normalize_timeseries=False,
+    plot_dataset(dataset_id=77, seed=1, limit=1, cutoff=None, normalize_timeseries=True,
                  plot_classwise=True)
