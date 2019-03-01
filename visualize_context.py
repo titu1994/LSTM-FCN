@@ -12,6 +12,7 @@ import traceback
 import json
 from keras import backend as K
 
+
 def generate_attention_lstmfcn(MAX_SEQUENCE_LENGTH, NB_CLASS, NUM_CELLS=8):
 
     ip = Input(shape=(1, MAX_SEQUENCE_LENGTH))
