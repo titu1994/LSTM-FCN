@@ -6,3 +6,4 @@ pandas
 scikit-learn>=0.18.2
 h5py
 matplotlib
+joblib>=0.12

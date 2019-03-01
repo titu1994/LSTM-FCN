@@ -22,5 +22,13 @@
         </value>
       </option>
     </inspection_tool>
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="ERROR" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E261" />
+          <option value="E501" />
+        </list>
+      </option>
+    </inspection_tool>
   </profile>
 </component>
