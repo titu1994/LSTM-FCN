@@ -193,6 +193,31 @@ def evaluate_model(model: Model, dataset_id, dataset_prefix, batch_size=128, tes
     return accuracy
 
 
+def loss_model(model: Model, dataset_id, dataset_prefix, batch_size=128, train_data_subset=None,
+               cutoff=None, normalize_timeseries=False):
+    X_train, y_train, _, _, is_timeseries = load_dataset_at(dataset_id,
+                                                            normalize_timeseries=normalize_timeseries)
+
+    y_train = to_categorical(y_train, len(np.unique(y_train)))
+
+    optm = Adam(lr=1e-3)
+    model.compile(optimizer=optm, loss='categorical_crossentropy', metrics=['accuracy'])
+
+    model.load_weights("./weights/%s_weights.h5" % dataset_prefix)
+    print("Weights loaded from ", "./weights/%s_weights.h5" % dataset_prefix)
+
+    if train_data_subset is not None:
+        X_train = X_train[:train_data_subset]
+        y_train = y_train[:train_data_subset]
+
+    print("\nEvaluating : ")
+    loss, accuracy = model.evaluate(X_train, y_train, batch_size=batch_size)
+    print()
+    print("Final Loss : ", loss)
+
+    return loss
+
+
 def set_trainable(layer, value):
     """
     Sets the layers of the Model to be trainable or not.
